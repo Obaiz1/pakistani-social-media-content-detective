@@ -118,7 +118,11 @@ def load_dashboard_data() -> Loaded:
                 return Loaded(data, "remote", manifest["snapshot_date"], note)
             note += f"Published snapshot {manifest['snapshot_date']} is {age} days old and was ignored. "
         except Exception as exc:
-            note += f"Could not read the published snapshot ({type(exc).__name__}). "
+            status = getattr(getattr(exc, "response", None), "status_code", None)
+            hint = {401: "token invalid or expired", 403: "token lacks Contents: read",
+                    404: "token can't see the data repo (wrong/old token or repo not selected)"}.get(status, "")
+            note += (f"Could not read the published snapshot ({type(exc).__name__}"
+                     f"{f' {status}: {hint}' if status else ''}). ")
     key = get_secret("YOUTUBE_API_KEY")
     if key:
         try:

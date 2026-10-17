@@ -23,7 +23,7 @@
 | A5b | GitHub repo name + public/private? | **`pakistani-social-media-content-detective`, public** | CONFIRMED |
 | A1b | Target deadline? | Owner delegated ("use whatever"). No fixed deadline; work proceeds phase by phase | CONFIRMED (delegated) |
 | A5c | Python skill level? | Not stated; owner wants a high-quality, complete result. Claude owns engineering quality; code stays documented and readable | CONFIRMED (delegated) |
-| A6 | Deploy on Vercel when complete | Owner wants a Vercel deployment. **Conflict:** Streamlit needs a persistent server/websockets, and Vercel's serverless functions don't support that. Options under review, see Batch B | TBD (blocking for Phase 3) |
+| A6 | Hosting for the final deployment | Owner first asked for Vercel. Told that Streamlit can't run on Vercel serverless; owner chose **Option A: Streamlit Community Cloud**, free, deployed from the GitHub repo (2026-10-17). Vercel is dropped | CONFIRMED |
 
 ### Batch B — Business scope
 Not yet asked (Q6–Q11 in CLAUDE.md §4).
@@ -53,7 +53,8 @@ Format: `REQ-ID | Description / user story | Priority | Data dependency | Status
 | REQ-D-02 | Optionally collect public post metrics for other IG business accounts via Instagram Graph API Business Discovery | Could | Owner's IG Business account + FB Page + Meta app | PROPOSED | Works only if owner confirms access; otherwise documented as deferred | 7 |
 | REQ-D-03 | Label analysis as "Pakistan-related content"; audience segment views show "Unavailable" without permitted audience data | Must | — | PROPOSED | UI/report never claims a verified Pakistani audience | 10 |
 | REQ-DEL-01 | Streamlit dashboard + modular Python analytics + project report | Must | — | CONFIRMED | All three delivered at Phase 14 | 14 |
+| REQ-DEL-03 | Deploy the dashboard publicly on Streamlit Community Cloud from the GitHub repo; secrets via Streamlit secrets, never in the repo | Must | YouTube API key or pre-collected dataset | CONFIRMED | Public `*.streamlit.app` URL loads the dashboard | 14 |
 | REQ-DEL-02 | Version-controlled GitHub repository updated as the work progresses; no secrets committed | Must | — | CONFIRMED | Repo exists; `.env` git-ignored | 6 |
 
 ## Outstanding questions
-A6 (Vercel vs Streamlit hosting), then Batch B onward.
+Batch B: B1 main user, B2 content types/campaign tags, B3 timeframe, B4 report format. Then Batch C onward.

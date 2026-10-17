@@ -19,8 +19,10 @@
 - Batch A closed: YouTube API confirmed, 6–8 clothing brands, public repo confirmed, deadline/skill delegated, Vercel deployment requested.
 - Created the public GitHub repo `Obaiz1/pakistani-social-media-content-detective` and pushed `main`.
 
+- Hosting decided: Streamlit Community Cloud (ADR-007).
+
 ## Blockers
-- Hosting decision (Vercel vs Streamlit Community Cloud) needed before Phase 3.
+- YouTube API key not yet in `.env` (owner action; needed for the Phase 2 data audit).
 
 ## Next action
-Get Batch B answers.
+Get Batch B answers (main user, content types, timeframe, report format).

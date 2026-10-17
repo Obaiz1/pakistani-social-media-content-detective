@@ -31,7 +31,7 @@ TBD (candidates: student, evaluator, marketing analyst, brand owner)
 - 6–8 Pakistani clothing brands' official YouTube channels (CONFIRMED; exact list PROPOSED: Khaadi, Sapphire, Gul Ahmed, J., Alkaram Studio, Bonanza Satrangi, Nishat Linen, Limelight)
 - Data via YouTube Data API v3 (CONFIRMED primary source)
 - Instagram Graph API Business Discovery: deferred (Could)
-- Final public deployment (owner wants Vercel; approach TBD)
+- Final public deployment on **Streamlit Community Cloud** (CONFIRMED; Vercel dropped, see ADR-007)
 
 ## Out of scope (PROPOSED)
 - Web scraping of social platforms (owner's initial suggestion; not adopted, see DECISIONS ADR-002)

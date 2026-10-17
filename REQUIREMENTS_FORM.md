@@ -98,4 +98,4 @@ Format: `REQ-ID | Description / user story | Priority | Data dependency | Status
 | REQ-DEL-02 | Version-controlled GitHub repository updated as the work progresses; no secrets committed | Must | — | CONFIRMED | Repo exists; `.env` git-ignored | 6 |
 
 ## Outstanding questions
-None blocking. **Phase 1 gate: waiting for the owner's explicit requirements sign-off** (see PROJECT_SCOPE.md → "One-page scope summary").
+Phase 1 signed off. B4/C2/D3 are amended by ADR-011 (P1–P5). Open: approve Phase 3 + 4 docs; Python 3.12 via `uv`?

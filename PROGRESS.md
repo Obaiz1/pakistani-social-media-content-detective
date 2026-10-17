@@ -1,6 +1,6 @@
 # PROGRESS
 
-**Current phase:** 2 — Feasibility & data audit | Awaiting gate
+**Current phase:** 4 — Architecture | Draft awaiting approval
 
 ## Log
 ### 2026-10-17
@@ -29,8 +29,10 @@
 - Phase 1 signed off (owner: "next").
 - Phase 2 audit run (actual): 8 channels resolved, ~2,190–2,300 videos in 24 m, ~896 comments total, ~1,035 quota units. Results in docs/DATA_AUDIT.md.
 
+- Phase 2 gate approved (owner: "next"). Phase 3 doc + Phase 4 architecture drafted.
+
 ## Blockers
-- Phase 2 gate: owner approval needed for data-scope changes P1–P5 (docs/DATA_AUDIT.md §6).
+- Approval of Phase 3/4; Python 3.12 via uv decision.
 
 ## Next action
-Record the Phase 2 decision, then Phase 3 (solution comparison) → Phase 4 (architecture).
+Phase 5 planning → Authorize coding gate.

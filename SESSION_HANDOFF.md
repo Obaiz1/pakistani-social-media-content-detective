@@ -7,7 +7,7 @@
 ---
 
 ## Current state
-- **Phase:** 2 — Feasibility & data audit (audit DONE, waiting on the **Phase 2 gate**: approve proposed changes P1–P5 in docs/DATA_AUDIT.md §6)
+- **Phase:** 4 — Architecture DRAFTED (ARCHITECTURE_BLUEPRINT.md) + Phase 3 doc (docs/SOLUTION_OPTIONS.md). Waiting on the owner's approval of both + the Python 3.12/uv question. Phase 2 gate ✅ (P1–P5, ADR-011).
 - **Batch A:** ✅ done
 - **Batch B:** ✅ done (owner said "use default" for all remaining items)
 - **Batches C–F:** ✅ filled with documented DEFAULTS. Owner delegated: "abhe procced kro bad mae dekhte" (proceed now, revisit later)
@@ -48,6 +48,7 @@
 - [ ] Sign off on Phase 1 requirements (one-page summary).
 
 ## Last actions (newest first)
+00000. Owner said "next", treated as approval of P1–P5. Wrote the Phase 3 options doc and the full Phase 4 architecture draft (modules, schema, metrics incl. rel_er/likely_promoted, stats rules, NLP benchmark, recommendation cards, live-collect + 24 h cache deployment for the 30-day policy).
 0000. Ran the Phase 2 audit (~1,035 quota units). Found: J. search result was a fan channel (official = @jjunaidjamshedpk, UC5xbg6lBACA3HBdN8idiQvQ); ~99% of videos ≤180 s; only ~896 comments total (~20% of videos have any); ad-boosted views likely. Wrote docs/DATA_AUDIT.md with proposals P1–P5.
 000. Saved + tested 2 NVIDIA API keys; installed 3 NVIDIA skills; recorded ADR-009/010. Phase 1 sign-off still pending.
 00. Owner delegated the pending choices. Filled Batches C–F with defaults, wrote the one-page scope summary, and asked for Phase 1 sign-off.
@@ -61,6 +62,6 @@
 6. Scaffolded all project docs.
 
 ## Next step
-1. Get owner approval for the Phase 2 data scope (P1–P5 in docs/DATA_AUDIT.md §6), and record it in REQUIREMENTS_FORM/DECISIONS.
-2. Phase 3: compare solutions (notebook vs Streamlit vs full-stack). Streamlit is mostly decided already (ADR-001/007), so this is a short tradeoff doc. Then Phase 4 architecture (include the 30-day data refresh design).
+1. Get approval for Phase 3 + Phase 4 docs, and an answer on Python 3.12 via uv.
+2. Phase 5: feature backlog + acceptance tests + sprint plan in IMPLEMENTATION_ROADMAP.md → **Authorize coding** gate.
 3. Pinned channel IDs: Khaadi UCosHRi7jeBb0JGZfFlOHYUA · Sapphire UCvMjM0BkK7SzlYnPTi5CBUQ · Gul Ahmed UCsAIxl3qvpy1DofpwDEx6Ow · J. UC5xbg6lBACA3HBdN8idiQvQ · Alkaram UCG-I5rH3YEFu3VKUAtmxLIg · Bonanza UCDblU9Vxyi7kXxX0uf-cvyg · Nishat UCVQd-OGmpDTnXGfVR8eRrGQ · Limelight UCbvMxYDdZki0P95gCORO8oA

@@ -36,16 +36,19 @@
 - Repo-local git identity: `Obaiz1` / `196679709+Obaiz1@users.noreply.github.com` (keeps the owner's personal email off the public repo).
 - `.env` (git-ignored) holds `STITCH_API_KEY` (set) and `YOUTUBE_API_KEY` (set, tested 2026-10-17: `channels.list forHandle=@khaadi` returned `UCosHRi7jeBb0JGZfFlOHYUA`, 47.3K subs, 819 videos).
 - Stitch MCP registered with `claude mcp add stitch -s local` (stored in `~/.claude.json`). Check it with `claude mcp get stitch`.
-- **Before every push**, scan for secrets: `git diff --cached | grep -cE "AQ\.Ab8|AIza"` should print 0.
-- No other API keys needed for now. A Claude (Anthropic) API key is only optional, for Phase 12, and only after the owner approves a budget (see ADR-008).
+- **Before every push**, scan for secrets: `git diff --cached | grep -cE "AQ\.Ab8|AIzaSy|nvapi-"` should print 0.
+- `.env` also has `NVIDIA_API_KEY` + `NVIDIA_API_KEY_2` (same NVIDIA account; tested OK with `nvidia/nemotron-3-super-120b-a12b` at `https://integrate.api.nvidia.com/v1/chat/completions`, OpenAI-compatible). Several catalog models return 404/410 for this account. See ADR-009.
+- Project skills in `.claude/skills/`: `data-designer` (use for SYNTHETIC test data), `rag-blueprint` and `deepstream-import-vision-model` (installed but not used in MVP, see ADR-010). No NVIDIA GPU on this laptop; Docker 29.8 is available.
+- Claude Haiku is no longer needed (NVIDIA LLM is free).
 - Communicate with the owner in simple Roman Urdu + English technical terms, 3–5 questions per batch.
 
 ## Pending owner actions
 - [x] YouTube API key added to `.env` (pasted in chat, then saved by Claude; tested OK).
-- [ ] Optional: rotate the Stitch and YouTube keys (both were pasted in chat), and restrict the YouTube key to "YouTube Data API v3" in Google Cloud Console.
+- [ ] Optional: rotate the Stitch, YouTube and NVIDIA keys (all were pasted in chat), and restrict the YouTube key to "YouTube Data API v3" in Google Cloud Console.
 - [ ] Sign off on Phase 1 requirements (one-page summary).
 
 ## Last actions (newest first)
+000. Saved + tested 2 NVIDIA API keys; installed 3 NVIDIA skills; recorded ADR-009/010. Phase 1 sign-off still pending.
 00. Owner delegated the pending choices. Filled Batches C–F with defaults, wrote the one-page scope summary, and asked for Phase 1 sign-off.
 0a. Owner asked for sentiment model options. Gave a candidate list (ARCHITECTURE_BLUEPRINT.md → "Sentiment model candidates"). Waiting on the owner's choice: benchmark approach + who labels the eval set.
 0. Saved and tested the YouTube API key; answered the owner's question about other API keys (ADR-008).

@@ -59,7 +59,7 @@ Owner instruction for the remaining items: **"use default"** (2026-10-17).
 | D4 | Topics/hashtags | Frequency + TF-IDF first; BERTopic optional (Could) | DEFAULT |
 | D5 | Engagement prediction | **Could-have.** Target: log(views) or ER at a fixed age; chronological split; median baseline; MAE/RMSE. Deferred if it doesn't beat the baseline | DEFAULT |
 | D6 | AI output scope | Evidence-based recommendations first (what/where/when/why/n/limitations/A-B idea). LLM captions are optional later. Human approval is always required; no auto-posting | DEFAULT |
-| D7 | AI provider / budget | No paid AI for now (free local models). Claude Haiku is reconsidered in Phase 9/12 with budget approval. Internet is needed only for data collection; the dashboard runs on stored data | DEFAULT |
+| D7 | AI provider / budget | Free local Hugging Face models + **NVIDIA API Catalog LLM (free, owner-provided keys, ADR-009)**. No paid AI. Internet is needed only for data collection; the dashboard runs on stored data | DEFAULT |
 
 ### Batch E — Software and delivery
 | # | Question | Answer | Status |

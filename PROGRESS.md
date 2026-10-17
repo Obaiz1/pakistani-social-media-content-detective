@@ -1,6 +1,6 @@
 # PROGRESS
 
-**Current phase:** 13 — Dashboard & exports | Done
+**Current phase:** 14 — Test & deliver | Deployment pipeline built
 
 ## Log
 ### 2026-10-17
@@ -55,8 +55,10 @@
 - Review quality approved (owner: "next").
 - Phase 13 (actual, 2026-10-18): new page 'Report & exports': Excel workbook (About+caveats, Recommendations, 7 summary sheets), Recommendations CSV, 3-page PDF (cards, 5 median+CI charts drawn with fpdf2 primitives, sentiment, caveats). Only aggregates are exported (tests assert no video_id/title/text columns). Accessibility: chart colors #2a78d6/#e34948 pass the dataviz validator in light+dark (CVD ΔE 21.6, contrast ≥3:1); phone width 390 px renders cleanly. Fixed while reviewing the real PDF: Sentiment page ignored sidebar filters (now filtered like every page; numbers change accordingly), raw campaign keys in PDF, 'AB/TEST' label, 'between on Saturday' wording; fpdf2 multi_cell cursor bug. `uv run pytest` → 109 passed.
 
+- Phase 14: private data repo Obaiz1/pakistani-smcd-data, SSH deploy key (write) + Actions secrets YOUTUBE_API_KEY/DATA_REPO_DEPLOY_KEY set via gh, weekly workflow, remote loader (+ test), requirements.txt (no torch), product renamed (ADR-024/025). 110 tests pass.
+
 ## Blockers
-- None. Pending owner items: label verification; Streamlit Cloud account for deployment. Open: owner verification of the 250 draft labels.
+- Owner: read-only PAT for Streamlit secrets; Streamlit Cloud sign-in. Open: label verification. Open: owner verification of the 250 draft labels.
 
 ## Next action
 Phase 14 test & deliver.

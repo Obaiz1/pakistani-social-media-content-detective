@@ -78,11 +78,47 @@ def _synthetic_cached() -> Dataset:
     return synthetic_dataset()
 
 
+def fetch_remote_snapshot(repo: str, token: str, get=None) -> tuple[Dataset, dict]:
+    """Read the latest snapshot from the PRIVATE data repo (written weekly by .github/workflows/refresh-data.yml)."""
+    import io
+    import json
+
+    import requests
+
+    get = get or requests.get
+    headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github.raw+json",
+               "X-GitHub-Api-Version": "2022-11-28"}
+
+    def raw(name: str) -> bytes:
+        r = get(f"https://api.github.com/repos/{repo}/contents/{name}?ref=main", headers=headers, timeout=60)
+        r.raise_for_status()
+        return r.content
+
+    manifest = json.loads(raw("manifest.json"))
+    tables = {n: pd.read_parquet(io.BytesIO(raw(f"{n}.parquet"))) for n in ("channels", "videos", "comments")}
+    return Dataset(**tables), manifest
+
+
+@st.cache_data(ttl=6 * 3600, show_spinner=False)
+def _remote_cached(repo: str, _token: str) -> tuple[Dataset, dict]:
+    return fetch_remote_snapshot(repo, _token)
+
+
 def load_dashboard_data() -> Loaded:
     path, stale = latest_snapshot_dir()
     if path is not None:
         return Loaded(read_snapshot(path), "snapshot", path.name)
     note = f"Local snapshot {stale} is older than {MAX_SNAPSHOT_AGE_DAYS} days and was ignored. " if stale else ""
+    repo, token = get_secret("DATA_REPO"), get_secret("DATA_REPO_TOKEN")
+    if repo and token:
+        try:
+            data, manifest = _remote_cached(repo, token)
+            age = (datetime.now(timezone.utc).date() - date.fromisoformat(manifest["snapshot_date"])).days
+            if age < MAX_SNAPSHOT_AGE_DAYS:
+                return Loaded(data, "remote", manifest["snapshot_date"], note)
+            note += f"Published snapshot {manifest['snapshot_date']} is {age} days old and was ignored. "
+        except Exception as exc:
+            note += f"Could not read the published snapshot ({type(exc).__name__}). "
     key = get_secret("YOUTUBE_API_KEY")
     if key:
         try:

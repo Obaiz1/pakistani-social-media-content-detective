@@ -1,4 +1,4 @@
-# Pakistani Social Media Content Detective 🇵🇰
+# AI Social Media Content Detective 🇵🇰
 
 An evidence-based analytics project that answers: **"What YouTube content gets Pakistani clothing-brand audiences to engage?"** It covers 8 brands' official channels, using data from the YouTube Data API v3.
 

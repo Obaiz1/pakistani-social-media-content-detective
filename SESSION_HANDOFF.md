@@ -7,7 +7,7 @@
 ---
 
 ## Current state
-- **Phase:** 13 done (exports, accessibility). Review-quality gate ✅. Next = Phase 14: README (screenshots/GIF), deployment to Streamlit Community Cloud (needs owner's Streamlit account + secrets), final test pass, final report → **Final sign-off**. Optional: Stitch mockups in a NEW session (MCP tools only load at session start).
+- **Phase:** 14 in progress (deploy). Done: private data repo, deploy key, Actions secrets, workflow, remote loader, requirements.txt, rename (ADR-024/025). Waiting on the OWNER: (1) a fine-grained PAT, read-only Contents on Obaiz1/pakistani-smcd-data, for Streamlit secrets; (2) sign in at share.streamlit.io with GitHub to deploy.
 - **Batch A:** ✅ done
 - **Batch B:** ✅ done (owner said "use default" for all remaining items)
 - **Batches C–F:** ✅ filled with documented DEFAULTS. Owner delegated: "abhe procced kro bad mae dekhte" (proceed now, revisit later)
@@ -35,6 +35,7 @@
 - Run everything with `python -m uv run ...` (venv = `.venv`, Python 3.12.15). Windows 11, VS Code + Claude Code, system Python 3.14.4, git 2.45, gh CLI logged in as `Obaiz1`.
 - Repo-local git identity: `Obaiz1` / `196679709+Obaiz1@users.noreply.github.com` (keeps the owner's personal email off the public repo).
 - `.env` (git-ignored) holds `STITCH_API_KEY` (set) and `YOUTUBE_API_KEY` (set, tested 2026-10-17: `channels.list forHandle=@khaadi` returned `UCosHRi7jeBb0JGZfFlOHYUA`, 47.3K subs, 819 videos).
+- Deployment: secrets in the code repo = YOUTUBE_API_KEY, DATA_REPO_DEPLOY_KEY. Private data repo = Obaiz1/pakistani-smcd-data (deploy key 'refresh-data workflow (write)'). Workflow: .github/workflows/refresh-data.yml (`gh workflow run refresh-data`). Streamlit secrets needed: DATA_REPO="Obaiz1/pakistani-smcd-data", DATA_REPO_TOKEN=<read-only PAT>; optional YOUTUBE_API_KEY, NVIDIA_API_KEY.
 - Stitch MCP registered with `claude mcp add stitch -s local` (stored in `~/.claude.json`). Check it with `claude mcp get stitch`.
 - **Before every commit**, run `bash scripts/check_secrets.sh && git commit ...`. It compares the staged diff against the real `.env` values and exits 1 if anything leaks. (The old regex scan gave false positives.)
 - `.env` also has `NVIDIA_API_KEY` + `NVIDIA_API_KEY_2` (same NVIDIA account; tested OK with `nvidia/nemotron-3-super-120b-a12b` at `https://integrate.api.nvidia.com/v1/chat/completions`, OpenAI-compatible). Several catalog models return 404/410 for this account. See ADR-009.
@@ -48,6 +49,7 @@
 - [ ] Sign off on Phase 1 requirements (one-page summary).
 
 ## Last actions (newest first)
+0000000000000000. Owner chose deployment Option A and the name 'AI Social Media Content Detective'. Built the weekly refresh pipeline (private data repo + deploy key + workflow + remote loader). 110 tests pass.
 000000000000000. Phase 13 (actual, 2026-10-18): new page 'Report & exports': Excel workbook (About+caveats, Recommendations, 7 summary sheets), Recommendations CSV, 3-page PDF (cards, 5 median+CI charts drawn with fpdf2 primitives, sentiment, caveats). Only aggregates are exported (tests assert no video_id/title/text columns). Accessibility: chart colors #2a78d6/#e34948 pass the dataviz validator in light+dark (CVD ΔE 21.6, contrast ≥3:1); phone width 390 px renders cleanly. Fixed while reviewing the real PDF: Sentiment page ignored sidebar filters (now filtered like every page; numbers change accordingly), raw campaign keys in PDF, 'AB/TEST' label, 'between on Saturday' wording; fpdf2 multi_cell cursor bug.
 00000000000000. Owner asked to fix the weak cards (2026-10-17): findings that are significant but have a NEGLIGIBLE effect (|Cliff's δ| < 0.147) are no longer recommendation cards; they're listed under 'Weak signals: real but too small to act on'. Now 4 actionable cards: Next post = wedding/festive video, any day except Saturday, de-prioritise menswear; plus Try more wedding/festive, Use less menswear, Use less Saturday. 7 weak signals. 109 tests pass.
 0000000000000. Phase 12 (actual, real snapshot, reliable non-promoted videos): 11 cards = 1 'Next post' + 10 evidence cards. Next post: wedding/festive video (1.34 [1.18–1.47] vs 1.10 rest, small effect, adj p 0.001) in the morning 06–12 PKT (1.20 vs 1.07, negligible, adj p 0.042); de-prioritise menswear (n=50, small), Saturday (0.93 vs 1.12, small), sale/discount (negligible). Strength labels: 4 modest, 7 weak/negligible. NVIDIA rewrites accepted by the number lock: 4/11 (the rest fell back to templates). Fixed during review: cards compared to 1.0 (misleading 'use less' at +3%) → now vs other videos' median; awkward wording; number lock compared strings (06 vs 6) → now values.

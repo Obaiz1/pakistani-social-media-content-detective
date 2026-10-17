@@ -84,7 +84,7 @@ class _Report(FPDF):
         self.set_y(-12)
         self.set_font("Helvetica", size=8)
         self.set_text_color(110)
-        self.cell(0, 8, latin1(f"Pakistani Social Media Content Detective - page {self.page_no()}"), align="C")
+        self.cell(0, 8, latin1(f"AI Social Media Content Detective - page {self.page_no()}"), align="C")
 
 
 def _dot_ci_chart(pdf: FPDF, t: pd.DataFrame, title: str, reference: float | None, pct: bool) -> None:
@@ -140,7 +140,7 @@ def pdf_report(tables: dict[str, pd.DataFrame], cards: list[Card], meta: dict) -
     pdf.set_auto_page_break(auto=True, margin=16)
     pdf.add_page()
     pdf.set_font("Helvetica", "B", 16)
-    pdf.cell(0, 9, latin1("Pakistani Social Media Content Detective"), new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 9, latin1("AI Social Media Content Detective"), new_x="LMARGIN", new_y="NEXT")
     pdf.set_font("Helvetica", size=10)
     pdf.set_text_color(70)
     pdf.multi_cell(0, 5, latin1("What YouTube content gets Pakistani clothing-brand audiences to engage? "

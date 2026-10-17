@@ -4,8 +4,9 @@ from src.analytics.compare import compare_groups
 from src.ui import brand_label, get_data, median_ci_chart, sidebar_filters, source_banner
 
 loaded = get_data()
-st.title("Pakistani Social Media Content Detective 🇵🇰")
-st.caption("What YouTube content gets Pakistani clothing-brand audiences to engage?")
+st.title("AI Social Media Content Detective 🇵🇰")
+st.caption("What YouTube content gets Pakistani clothing-brand audiences to engage? "
+           "Evidence-based analytics + AI-assisted recommendations.")
 source_banner(loaded)
 
 videos = sidebar_filters(loaded.data.videos)

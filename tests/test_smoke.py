@@ -78,7 +78,7 @@ def test_app_entry_navigates_to_overview(synthetic_loaded):
     at.session_state["loaded"] = synthetic_loaded
     at.run()
     assert not at.exception, at.exception
-    assert at.title[0].value.startswith("Pakistani Social Media Content Detective")
+    assert at.title[0].value.startswith("AI Social Media Content Detective")
     assert len(at.metric) == 4
 
 
@@ -88,3 +88,34 @@ def test_filters_never_include_low_reliability(synthetic_loaded):
     at.run()
     assert not at.exception
     assert any("Always excluded" in c.value for c in at.sidebar.caption)
+
+
+def test_remote_snapshot_reader_uses_auth_and_reads_all_tables(tmp_path):
+    import io
+    import json
+    from scripts.publish_snapshot import publish
+
+    data = synthetic_dataset()
+    snap = tmp_path / "2026-10-17"
+    snap.mkdir()
+    for name in ("channels", "videos", "comments"):
+        getattr(data, name).to_parquet(snap / f"{name}.parquet", index=False)
+    out = tmp_path / "publish"
+    meta = publish(snap, out)
+    assert meta["comment_text_included"] is False
+    assert "text" not in pd.read_parquet(out / "comments.parquet").columns   # comment text never published
+
+    calls = []
+
+    class Resp:
+        def __init__(self, content): self.content = content
+        def raise_for_status(self): pass
+
+    def fake_get(url, headers, timeout):
+        calls.append((url, headers["Authorization"]))
+        name = url.split("/contents/")[1].split("?")[0]
+        return Resp((out / name).read_bytes())
+
+    ds, manifest = app_data.fetch_remote_snapshot("Obaiz1/data", "tok", get=fake_get)
+    assert manifest["snapshot_date"] == "2026-10-17" and len(ds.videos) == len(data.videos)
+    assert all(auth == "Bearer tok" for _, auth in calls) and len(calls) == 4

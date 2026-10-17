@@ -25,7 +25,8 @@ def source_banner(loaded: Loaded) -> None:
         st.warning("**SYNTHETIC DEMO DATA.** Generated for testing with fictional brands. "
                    "These are **not** real measurements. " + loaded.note)
     else:
-        label = "local snapshot" if loaded.source == "snapshot" else "live API collection (cached 24 h)"
+        label = {"snapshot": "local snapshot", "remote": "weekly published snapshot",
+                 "live": "live API collection (cached 24 h)"}.get(loaded.source, loaded.source)
         st.info(f"Real YouTube Data API data · {label} · snapshot **{loaded.snapshot_date}** · "
                 "public metrics of 8 Pakistani clothing brands' official channels. " + loaded.note)
 

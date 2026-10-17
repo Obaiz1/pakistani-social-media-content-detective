@@ -2,7 +2,7 @@
 
 import streamlit as st
 
-st.set_page_config(page_title="Pakistani Social Media Content Detective", page_icon="🇵🇰", layout="wide")
+st.set_page_config(page_title="AI Social Media Content Detective", page_icon="🇵🇰", layout="wide")
 
 pages = st.navigation([
     st.Page("views/overview.py", title="Overview", icon="🏠", default=True),

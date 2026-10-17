@@ -1,0 +1,66 @@
+# Weekly data refresh (ADR-024): collect -> sentiment -> publish to the PRIVATE data repo.
+# Keeps only the latest snapshot (force-pushed single commit), so stored API data is always < 30 days old.
+# Secrets in this repo: YOUTUBE_API_KEY, DATA_REPO_DEPLOY_KEY (SSH deploy key with write access to the data repo only).
+name: refresh-data
+
+on:
+  schedule:
+    - cron: "0 1 * * 1"        # Mondays 01:00 UTC (06:00 PKT)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      DATA_REPO: Obaiz1/pakistani-smcd-data
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv + dependencies (incl. NLP group)
+        run: |
+          pip install uv
+          uv sync --group nlp
+
+      - name: Cache Hugging Face models
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-${{ hashFiles('scripts/score_sentiment.py') }}
+
+      - name: Collect YouTube snapshot
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: uv run python scripts/collect.py
+
+      - name: Score comment sentiment (XLM-R, ADR-017)
+        run: uv run --group nlp python scripts/score_sentiment.py
+
+      - name: Prepare publish folder (comment text removed)
+        run: uv run python scripts/publish_snapshot.py publish
+
+      - name: Push to private data repo (latest snapshot only)
+        env:
+          DEPLOY_KEY: ${{ secrets.DATA_REPO_DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh && printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/deploy && chmod 600 ~/.ssh/deploy
+          ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
+          cd publish
+          git init -q -b main
+          git config user.name "refresh-data bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -q -m "snapshot $(python -c 'import json;print(json.load(open("manifest.json"))["snapshot_date"])')"
+          GIT_SSH_COMMAND="ssh -i ~/.ssh/deploy -o IdentitiesOnly=yes" git push -q --force "git@github.com:${DATA_REPO}.git" main
+          rm -f ~/.ssh/deploy

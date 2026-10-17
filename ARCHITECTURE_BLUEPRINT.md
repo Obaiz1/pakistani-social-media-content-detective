@@ -27,7 +27,17 @@ TBD (depends on available columns — Batch C)
 TBD
 
 ## ML / NLP evaluation design
-TBD
+### Sentiment model candidates (PROPOSED 2026-10-17; none has been benchmarked yet)
+| Language | Candidate | Notes |
+|---|---|---|
+| English | `cardiffnlp/twitter-roberta-base-sentiment-latest` | Trained on social-media text; 3 classes |
+| English (baseline) | VADER (rule-based) | Fast, simple baseline |
+| Multilingual | `cardiffnlp/twitter-xlm-roberta-base-sentiment` | Fine-tuned on 8 languages incl. Hindi, **not Urdu**; Urdu needs testing |
+| Roman Urdu | `Khubaib01/roman-urdu-sentiment-xlm-r` | XLM-R fine-tuned, 3 classes, MIT; benchmark claims are self-reported |
+| Urdu script | Urdu-specific fine-tuned XLM-R/mBERT on Hugging Face (to be shortlisted in Phase 9) | Some are binary-only |
+| Any (LLM zero-shot) | Claude Haiku via API (optional, paid) | Handles code-mixed Roman Urdu well; needs budget approval (ADR-008) |
+
+Plan: language detection routes each text to the right model, then we benchmark the candidates on a **hand-labeled evaluation set** (~200–300 real comments) using macro-F1 + a confusion matrix. Only the measured winner per language gets used, and no accuracy is claimed without this test.
 
 ## Deployment
 TBD

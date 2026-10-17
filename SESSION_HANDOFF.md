@@ -46,6 +46,7 @@
 - [ ] Answer Batch C (C1–C5).
 
 ## Last actions (newest first)
+0a. Owner asked for sentiment model options. Gave a candidate list (ARCHITECTURE_BLUEPRINT.md → "Sentiment model candidates"). Waiting on the owner's choice: benchmark approach + who labels the eval set.
 0. Saved and tested the YouTube API key; answered the owner's question about other API keys (ADR-008).
 1. Created this handoff file; added a "read SESSION_HANDOFF.md first" note to `CLAUDE.md`.
 2. Recorded Batch B defaults (B1–B4) and asked Batch C.

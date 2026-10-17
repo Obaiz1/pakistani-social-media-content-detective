@@ -15,6 +15,7 @@ venv/
 data/raw/
 data/processed/
 data/labels/
+data/cache/
 *.parquet
 *.sqlite
 

@@ -42,9 +42,18 @@ def latest_snapshot_dir(today: date | None = None):
     return None, None
 
 
+def merge_thumbnails(videos: pd.DataFrame, thumbs: pd.DataFrame | None) -> pd.DataFrame:
+    """Attach thumbnail features as thumb_* columns (optional table; absent on older snapshots)."""
+    if thumbs is None or thumbs.empty:
+        return videos
+    t = thumbs.set_index("video_id").add_prefix("thumb_")
+    return videos.drop(columns=[c for c in videos if c.startswith("thumb_")]).join(t, on="video_id")
+
+
 def read_snapshot(path) -> Dataset:
+    thumbs = pd.read_parquet(path / "thumbnails.parquet") if (path / "thumbnails.parquet").exists() else None
     return Dataset(channels=pd.read_parquet(path / "channels.parquet"),
-                   videos=pd.read_parquet(path / "videos.parquet"),
+                   videos=merge_thumbnails(pd.read_parquet(path / "videos.parquet"), thumbs),
                    comments=pd.read_parquet(path / "comments.parquet"))
 
 
@@ -96,6 +105,8 @@ def fetch_remote_snapshot(repo: str, token: str, get=None) -> tuple[Dataset, dic
 
     manifest = json.loads(raw("manifest.json"))
     tables = {n: pd.read_parquet(io.BytesIO(raw(f"{n}.parquet"))) for n in ("channels", "videos", "comments")}
+    if manifest.get("has_thumbnails"):
+        tables["videos"] = merge_thumbnails(tables["videos"], pd.read_parquet(io.BytesIO(raw("thumbnails.parquet"))))
     return Dataset(**tables), manifest
 
 

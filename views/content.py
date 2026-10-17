@@ -54,6 +54,24 @@ if "topic_label" in videos and videos["topic_label"].notna().any():
             st.caption(f"Kruskal-Wallis p = {summary.attrs['kruskal_p']:.3g}. "
                        f"{int((videos['topic_id'] == -1).sum())} videos had no clear theme.")
 
+if "thumb_person" in videos and videos["thumb_person"].notna().sum() >= 100:
+    st.subheader("Thumbnails")
+    st.caption("Vision-LLM labels (NVIDIA Nemotron, spot-checked against manual labels; see Data & Method) and colour "
+               "statistics computed from the public thumbnail. Images are analysed in memory and never stored.")
+    tv = videos[videos["thumb_person"].notna()].copy()
+    yes_no = lambda col, yes, no: tv[col].map({True: yes, False: no})  # noqa: E731
+    tv["t_face"] = yes_no("thumb_face_visible", "Face visible", "No face visible")
+    tv["t_text"] = yes_no("thumb_text_overlay", "Text overlay", "No text overlay")
+    tv["t_close"] = yes_no("thumb_product_closeup", "Product close-up", "Not a close-up")
+    tv["t_color"] = pd.qcut(tv["thumb_colorfulness"], 3, labels=["Muted colours", "Medium colours", "Vivid colours"]).astype(str)
+    for title, col in (("Face in thumbnail", "t_face"), ("Text overlay", "t_text"), ("Product close-up", "t_close"),
+                       ("Colourfulness (tertiles)", "t_color")):
+        summary = compare_groups(tv, col, "rel_er")
+        if not summary.empty:
+            st.plotly_chart(median_ci_chart(summary, f"Relative engagement: {title.lower()} (median, 95% CI)",
+                                            "Relative engagement (1.0 = brand median)", pct=False, reference=1.0),
+                            width="stretch")
+
 videos["hashtag_band"] = pd.cut(videos["hashtag_count"], [-1, 0, 2, 5, 1_000],
                                 labels=["0", "1–2", "3–5", "6+"]).astype(str)
 section("Hashtag count", "hashtag_band", order=["0", "1–2", "3–5", "6+"])

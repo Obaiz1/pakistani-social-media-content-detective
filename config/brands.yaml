@@ -1,0 +1,36 @@
+# Official YouTube channels, pinned by channel ID (verified in the Phase 2 audit, docs/DATA_AUDIT.md).
+# Never resolve brands through search at runtime: search returned a fan channel for J.
+brands:
+  - brand_id: khaadi
+    display_name: Khaadi
+    channel_id: UCosHRi7jeBb0JGZfFlOHYUA
+    handle: "@khaadi"
+  - brand_id: sapphire
+    display_name: Sapphire
+    channel_id: UCvMjM0BkK7SzlYnPTi5CBUQ
+    handle: "@sapphirepakistan"
+  - brand_id: gul_ahmed
+    display_name: Gul Ahmed
+    channel_id: UCsAIxl3qvpy1DofpwDEx6Ow
+    handle: "@gulahmedofficial"
+  - brand_id: junaid_jamshed
+    display_name: J. (Junaid Jamshed)
+    channel_id: UC5xbg6lBACA3HBdN8idiQvQ
+    handle: "@jjunaidjamshedpk"
+  - brand_id: alkaram
+    display_name: Alkaram
+    channel_id: UCG-I5rH3YEFu3VKUAtmxLIg
+    handle: "@officialalkaram"
+  - brand_id: bonanza_satrangi
+    display_name: Bonanza Satrangi
+    channel_id: UCDblU9Vxyi7kXxX0uf-cvyg
+    handle: "@bonanza-satrangi"
+    exclude_from_sentiment: true   # comments disabled on almost every video (ADR-011, P5)
+  - brand_id: nishat_linen
+    display_name: Nishat Linen
+    channel_id: UCVQd-OGmpDTnXGfVR8eRrGQ
+    handle: "@nishatlinenofficial"
+  - brand_id: limelight
+    display_name: Limelight
+    channel_id: UCbvMxYDdZki0P95gCORO8oA
+    handle: "@limelightofficial"

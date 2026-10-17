@@ -1,0 +1,14 @@
+# Campaign tag -> keywords matched against title + description.
+# Latin keywords match case-insensitively on word boundaries; Urdu-script keywords match as substrings.
+# A video can have several tags; videos with none get "other".
+campaign_tags:
+  eid: [eid, "eid ul", eidi, عید]
+  ramadan: [ramadan, ramzan, رمضان]
+  sale: [sale, discount, "flat off", "% off", clearance, سیل]
+  new_arrivals: [new arrival, new arrivals, new collection, just in, launch, launching, drop]
+  lawn_summer: [lawn, summer, garmi, لان]
+  winter: [winter, khaddar, karandi, shawl, sardi, سردی]
+  wedding_festive: [wedding, festive, shaadi, shadi, bridal, mehndi, formal, شادی]
+  independence: [azadi, "14 august", independence, آزادی]
+  kids: [kids, children, bachay]
+  men: [men, menswear, kurta, "shalwar kameez"]

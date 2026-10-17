@@ -1,6 +1,6 @@
 # IMPLEMENTATION_ROADMAP
 
-**Current phase:** 6 — Build runnable foundation (S1 done, smoke test passed)
+**Current phase:** 7 — Data pipeline done (S2). Next: Phase 8 analytics MVP
 
 | Phase | Name | Concrete output | Gate | Status |
 |---|---|---|---|---|
@@ -11,7 +11,7 @@
 | 4 | Design complete architecture | Diagram, modules, schema, flows, metrics, evaluation | **Approve architecture** | Completed (owner: "next") |
 | 5 | Plan execution | Backlog, acceptance tests, file structure, tasks | **Authorize coding** | Completed (owner: "next", 2026-10-17) |
 | 6 | Build runnable foundation | Environment, skeleton, app entry, tests, demo fixture | Smoke test | Completed (5/5 tests pass; server health ok) |
-| 7 | Implement data pipeline | Import, validation, mapping, cleaning, dedup | Data pipeline tests | Not started |
+| 7 | Implement data pipeline | Import, validation, mapping, cleaning, dedup | Data pipeline tests | Completed (46 tests pass; real run 2,204 videos) |
 | 8 | Build analytics MVP | Engagement, platform/content comparisons, filters, charts | **Demo/approve MVP** | Not started |
 | 9 | Add multilingual NLP | Urdu/Roman Urdu/English, hashtags, topics, evaluated sentiment | NLP tests/evaluation | Not started |
 | 10 | Timing & engagement patterns | Weekday/hour heatmaps, authorized segment views | Insight validation | Not started |

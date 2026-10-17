@@ -7,12 +7,12 @@
 ---
 
 ## Current state
-- **Phase:** 6 ✅ done (S1). Next = Phase 7 / Sprint S2 (data pipeline F-03..F-10). Coding authorized.
+- **Phase:** 7 ✅ done (S2). Next = Phase 8 / Sprint S3 (analytics F-11, dashboard F-12, live mode F-13) → **Demo/approve MVP** gate.
 - **Batch A:** ✅ done
 - **Batch B:** ✅ done (owner said "use default" for all remaining items)
 - **Batches C–F:** ✅ filled with documented DEFAULTS. Owner delegated: "abhe procced kro bad mae dekhte" (proceed now, revisit later)
 - **Phase 1 gate:** ✅ owner replied "next" to the sign-off request (treated as approval)
-- **Code written:** foundation only: `app.py` (placeholder page on SYNTHETIC data), `src/data_sources.py`, `scripts/make_synthetic_fixture.py`, `tests/test_smoke.py` (5 tests)
+- **Code written:** pipeline in `src/` (config, ingestion/youtube.py, processing/{normalize,features,metrics}.py, validation/schemas.py, pipeline.py), `scripts/collect.py`, 46 tests. Latest real snapshot: `data/processed/2026-10-17/` (git-ignored; refresh/delete within 30 days → by 2026-11-16).
 
 ## Key confirmed decisions (details in DECISIONS.md)
 | Topic | Decision |
@@ -48,6 +48,7 @@
 - [ ] Sign off on Phase 1 requirements (one-page summary).
 
 ## Last actions (newest first)
+00000000. Phase 7 real run 2026-10-17 (actual): `uv run python scripts/collect.py` → exit 0, channels=8, videos=2,204, comments=781 from 444 videos, quota=655 units. Per-brand video counts match the Phase 2 audit exactly (0.0% diff; Nishat=615 confirms full paging). 0 duplicate videos/comments, 0 author columns, 0 hidden likes. Duration buckets: 0-15s 728, 16-30s 939, 31-60s 444, 61-180s 88, >180s 5. likely_promoted=242 (11%). low_reliability=131. Comment scripts: latin 654, emoji/none 122, **Urdu script only 5** (Urdu-script sentiment benchmark n will be tiny). 781 < ~888 audit commentCount because commentCount includes replies; we fetch top-level only. First run crashed on `RemoteDisconnected`; fixed: client retries network errors (tests added).
 0000000. Owner said "next", treated as Authorize coding. Phase 6 done: installed uv 0.13.1 (`python -m pip install --user uv`; call it as `python -m uv`, since `uv` isn't on PATH), Python 3.12.15 via uv, `uv sync`, generated the SYNTHETIC fixture (8 fictional brands, 357 videos, 239 comments), `uv run pytest` → 5 passed, Streamlit headless health check ok.
 000000. Owner said "next", treated as approval of Phase 3/4 + the uv/3.12 default. Wrote the Phase 5 backlog (F-01..F-26 with acceptance tests) and sprint plan S1–S7.
 00000. Owner said "next", treated as approval of P1–P5. Wrote the Phase 3 options doc and the full Phase 4 architecture draft (modules, schema, metrics incl. rel_er/likely_promoted, stats rules, NLP benchmark, recommendation cards, live-collect + 24 h cache deployment for the 30-day policy).
@@ -64,5 +65,5 @@
 6. Scaffolded all project docs.
 
 ## Next step
-1. Phase 7 / S2: F-03 brands.yaml (pinned IDs below) → F-04 YouTube client (full paging!) → F-05 comments → F-06 Pandera → F-07 features → F-08 campaign tags → F-09 metrics → F-10 collector CLI + real run. Each one gets tests with hand-computed expectations.
+1. Phase 8 / S3: F-11 `src/analytics/compare.py` (median + bootstrap CI + n, Kruskal/Mann-Whitney, Cliff's δ, BH, n≥20) → F-12 dashboard pages (Overview, Brands, Content, Data & Method) reading the latest snapshot, or the synthetic fixture if none → F-13 live mode (Streamlit secrets + 24 h cache). Then demo to the owner (gate).
 3. Pinned channel IDs: Khaadi UCosHRi7jeBb0JGZfFlOHYUA · Sapphire UCvMjM0BkK7SzlYnPTi5CBUQ · Gul Ahmed UCsAIxl3qvpy1DofpwDEx6Ow · J. UC5xbg6lBACA3HBdN8idiQvQ · Alkaram UCG-I5rH3YEFu3VKUAtmxLIg · Bonanza UCDblU9Vxyi7kXxX0uf-cvyg · Nishat UCVQd-OGmpDTnXGfVR8eRrGQ · Limelight UCbvMxYDdZki0P95gCORO8oA

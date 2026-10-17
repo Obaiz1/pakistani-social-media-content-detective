@@ -1,6 +1,6 @@
 # PROGRESS
 
-**Current phase:** 6 — Runnable foundation | Completed
+**Current phase:** 7 — Data pipeline | Completed
 
 ## Log
 ### 2026-10-17
@@ -36,8 +36,10 @@
 - Coding authorized (owner: "next").
 - Phase 6 (actual results): `python -m pip install --user uv` → uv 0.13.1; `uv python install 3.12` → cpython-3.12.15; `uv sync` OK; fixture: channels 8, videos 357, comments 239 rows; `uv run pytest -q` → **5 passed in 3.97s** (first run 1 failed: AppTest path is relative to the test file, fixed to `../app.py`); `streamlit run` headless → `/_stcore/health` = ok, page HTTP 200.
 
+- Phase 7: implemented F-03..F-10. `uv run pytest` → **46 passed**. First real run crashed (`requests.ConnectionError: RemoteDisconnected`), since network errors weren't retried; fixed + 2 tests. Phase 7 real run 2026-10-17 (actual): `uv run python scripts/collect.py` → exit 0, channels=8, videos=2,204, comments=781 from 444 videos, quota=655 units. Per-brand video counts match the Phase 2 audit exactly (0.0% diff; Nishat=615 confirms full paging). 0 duplicate videos/comments, 0 author columns, 0 hidden likes. Duration buckets: 0-15s 728, 16-30s 939, 31-60s 444, 61-180s 88, >180s 5. likely_promoted=242 (11%). low_reliability=131. Comment scripts: latin 654, emoji/none 122, **Urdu script only 5** (Urdu-script sentiment benchmark n will be tiny). 781 < ~888 audit commentCount because commentCount includes replies; we fetch top-level only.
+
 ## Blockers
 - None.
 
 ## Next action
-Phase 7 data pipeline (F-03..F-10).
+Phase 8 analytics MVP (F-11..F-13) → Demo gate.

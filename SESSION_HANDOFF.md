@@ -36,7 +36,7 @@
 - Repo-local git identity: `Obaiz1` / `196679709+Obaiz1@users.noreply.github.com` (keeps the owner's personal email off the public repo).
 - `.env` (git-ignored) holds `STITCH_API_KEY` (set) and `YOUTUBE_API_KEY` (set, tested 2026-10-17: `channels.list forHandle=@khaadi` returned `UCosHRi7jeBb0JGZfFlOHYUA`, 47.3K subs, 819 videos).
 - Stitch MCP registered with `claude mcp add stitch -s local` (stored in `~/.claude.json`). Check it with `claude mcp get stitch`.
-- **Before every push**, scan for secrets: `git diff --cached | grep -cE "AQ\.Ab8|AIzaSy|nvapi-"` should print 0.
+- **Before every commit**, run `bash scripts/check_secrets.sh && git commit ...`. It compares the staged diff against the real `.env` values and exits 1 if anything leaks. (The old regex scan gave false positives.)
 - `.env` also has `NVIDIA_API_KEY` + `NVIDIA_API_KEY_2` (same NVIDIA account; tested OK with `nvidia/nemotron-3-super-120b-a12b` at `https://integrate.api.nvidia.com/v1/chat/completions`, OpenAI-compatible). Several catalog models return 404/410 for this account. See ADR-009.
 - Project skills in `.claude/skills/`: `data-designer` (use for SYNTHETIC test data), `rag-blueprint` and `deepstream-import-vision-model` (installed but not used in MVP, see ADR-010). No NVIDIA GPU on this laptop; Docker 29.8 is available.
 - Claude Haiku is no longer needed (NVIDIA LLM is free).

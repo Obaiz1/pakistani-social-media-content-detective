@@ -1,6 +1,6 @@
 # IMPLEMENTATION_ROADMAP
 
-**Current phase:** 0 — Understand the real problem
+**Current phase:** 4 — Design complete architecture (draft awaiting approval)
 
 | Phase | Name | Concrete output | Gate | Status |
 |---|---|---|---|---|

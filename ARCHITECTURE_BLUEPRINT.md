@@ -1,6 +1,6 @@
 # ARCHITECTURE_BLUEPRINT
 
-**Status:** Phase 4 DRAFT, awaiting approval (gate). Inputs: REQUIREMENTS_FORM.md, docs/DATA_AUDIT.md (P1–P5 approved), DECISIONS.md.
+**Status:** Phase 4 APPROVED (owner replied "next", 2026-10-17). Inputs: REQUIREMENTS_FORM.md, docs/DATA_AUDIT.md (P1–P5 approved), DECISIONS.md.
 
 ## 1. System overview
 

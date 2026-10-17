@@ -1,6 +1,6 @@
 # PROGRESS
 
-**Current phase:** 4 — Architecture | Draft awaiting approval
+**Current phase:** 5 — Plan execution | Awaiting Authorize coding
 
 ## Log
 ### 2026-10-17
@@ -31,8 +31,10 @@
 
 - Phase 2 gate approved (owner: "next"). Phase 3 doc + Phase 4 architecture drafted.
 
+- Phase 3/4 approved (owner: "next"); Phase 5 plan drafted.
+
 ## Blockers
-- Approval of Phase 3/4; Python 3.12 via uv decision.
+- Authorize coding gate.
 
 ## Next action
 Phase 5 planning → Authorize coding gate.

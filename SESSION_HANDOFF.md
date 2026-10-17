@@ -7,12 +7,12 @@
 ---
 
 ## Current state
-- **Phase:** 10 built (timing). Model choice ✅ (ADR-017 = XLM-R, Option A). Benchmark labels still PROVISIONAL until the owner verifies `data/labels/labels_v1.csv`. Next = Phase 11 (optional engagement prediction).
+- **Phase:** 11 done: prediction evaluated and DEFERRED (ADR-019). Next = Phase 12 recommendation engine (F-20 evidence cards, F-21 optional NVIDIA wording with number-lock) → **Review quality** gate. Benchmark labels still PROVISIONAL (owner verification pending).
 - **Batch A:** ✅ done
 - **Batch B:** ✅ done (owner said "use default" for all remaining items)
 - **Batches C–F:** ✅ filled with documented DEFAULTS. Owner delegated: "abhe procced kro bad mae dekhte" (proceed now, revisit later)
 - **Phase 1 gate:** ✅ owner replied "next" to the sign-off request (treated as approval)
-- **Code written:** pipeline, analytics, 6-page dashboard (Overview, Brands, Content, Posting time, Sentiment, Data & Method), NLP (`src/nlp/{langid,sentiment,benchmark}.py`, `scripts/{draft_labels_v1,run_sentiment_benchmark,score_sentiment}.py`), 91 tests. NLP deps live in the `nlp` group (`--group nlp`). Snapshot `data/processed/2026-10-17/` (comments now have language + sentiment_label; refresh/delete by 2026-11-16). Labels/predictions/LLM cache in `data/labels/` (git-ignored: real comment text).
+- **Code written:** pipeline, analytics, 6-page dashboard (Overview, Brands, Content, Posting time, Sentiment, Data & Method), NLP (`src/nlp/{langid,sentiment,benchmark}.py`, `scripts/{draft_labels_v1,run_sentiment_benchmark,score_sentiment}.py`), 96 tests. NLP deps live in the `nlp` group (`--group nlp`). Snapshot `data/processed/2026-10-17/` (comments now have language + sentiment_label; refresh/delete by 2026-11-16). Labels/predictions/LLM cache in `data/labels/` (git-ignored: real comment text).
 
 ## Key confirmed decisions (details in DECISIONS.md)
 | Topic | Decision |
@@ -48,6 +48,7 @@
 - [ ] Sign off on Phase 1 requirements (one-page summary).
 
 ## Last actions (newest first)
+000000000000. Phase 11 (actual): target log(ER), chronological split, train 1,476 (2024-10-18→2026-04-17), test 369 newest (2026-04-17→2026-10-03), 42 pre-publication features. MAE(log): global median 0.609, brand median 0.699, ridge 0.679, gradient boosting 0.682. vs global median: ridge +0.069 [+0.007, +0.137], GB +0.073 [+0.018, +0.126], i.e. models are significantly WORSE than the simplest baseline → prediction DEFERRED. Global median beating brand medians implies brand ER levels drifted over time. scikit-learn moved to main deps. Fixed my own weak test (baseline-uses-train-only) and a biased verdict (it only compared against the weaker baseline).
 00000000000. Owner chose sentiment Option A (XLM-R). Phase 10 (actual, reliable non-promoted n=1,845, rel_er): time bands: Morning 06–12 median 1.20 (CI 1.10–1.31, adj p 0.042, negligible δ 0.08); Evening 16–20 1.04 (adj p 0.030, negligible, below rest); Night n=27, CI 0.95–2.59 (not significant). Weekday: Saturday 0.93 (CI 0.82–1.02, adj p 0.006, small δ −0.15), the only significant day; Kruskal p 0.016. Heatmap highs (descriptive): Wed morning 1.41 (n=66), Mon afternoon 1.38 (n=119); low: Sat afternoon 0.72 (n=54). Brands rarely post at night or on Sat/Sun mornings.
 0000000000. Phase 9 (actual): language ID accuracy 0.872 (EN P/R 0.91/0.92, RU 0.94/0.82). Sentiment macro-F1 on 250 PROVISIONAL labels: Nemotron-3-Super 0.869, XLM-R twitter 0.819, routed 0.786, RU-XLM-R 0.763, RoBERTa-EN 0.721, VADER 0.602. Nemotron − XLM-R = +0.051, CI [-0.007, +0.116] → not significant. Scored 781 real comments with XLM-R: 382 pos / 255 neu / 144 neg; language EN 448, RU 158, other 146, mixed 24, Urdu script 5. Net sentiment by brand: Alkaram +0.50, Khaadi +0.45, Nishat +0.43, Limelight +0.40, Sapphire +0.19, Gul Ahmed +0.12, J. +0.05 (n=21, wide CI). Bugs fixed: NVIDIA client didn't retry ReadTimeout; benchmark tests skip without sklearn.
 000000000. Phase 8 built: compare.py (median + bootstrap CI, Mann-Whitney + Cliff's δ, BH, Kruskal, n≥20), 4 dashboard pages, data-source priority (fresh snapshot → live API with 24 h cache → SYNTHETIC with banner). Found + fixed: Bonanza null ER (ADR-015), Plotly row order, deprecated use_container_width. Screenshots via a headless-Edge CDP script (scratchpad/shot.py; restart Streamlit after src/ edits). Preliminary real-data findings (snapshot 2026-10-17; reliable, non-promoted videos n=1,845; metric rel_er; BH-adjusted): Wedding/festive median 1.34 (CI 1.21–1.48, adj p 0.001, small effect δ≈0.16), the only campaign clearly above typical. Sale/discount 0.94 (adj p 0.015) and untagged 1.00 (adj p 0.002) are below the rest. 0–15 s videos 1.05 vs the rest (adj p 0.006, negligible effect). 0 hashtags 1.22 (adj p 0.002) vs 6+ hashtags 1.03 (adj p 0.003), both negligible effects. Title script/emoji: insufficient n for non-Latin/emoji groups. Brand median ER: Nishat > Khaadi > Sapphire > Limelight > Bonanza > J. > Alkaram > Gul Ahmed.
@@ -68,6 +69,6 @@
 6. Scaffolded all project docs.
 
 ## Next step
-1. Phase 11 (Could): F-19 engagement prediction. Chronological split (train older, test newest ~20%), target log(views) or rel_er; features = brand, duration bucket, campaign tags, hashtag count, weekday/band; baseline = brand median; MAE/RMSE. Defer if it doesn't beat the baseline.
+1. Phase 12: `src/recommendations/engine.py` turns SIGNIFICANT findings (compare_groups significant & n≥20; timing marginals; sentiment) into cards with what/where/when/why/n/limitations/A-B test; a Recommendations page; optional NVIDIA wording whose numbers must equal the card's (else fall back to the template). Note: effects are mostly negligible/small, and cards must say so.
 2. Still open for the owner: verify the 250 labels.
 3. Pinned channel IDs: Khaadi UCosHRi7jeBb0JGZfFlOHYUA · Sapphire UCvMjM0BkK7SzlYnPTi5CBUQ · Gul Ahmed UCsAIxl3qvpy1DofpwDEx6Ow · J. UC5xbg6lBACA3HBdN8idiQvQ · Alkaram UCG-I5rH3YEFu3VKUAtmxLIg · Bonanza UCDblU9Vxyi7kXxX0uf-cvyg · Nishat UCVQd-OGmpDTnXGfVR8eRrGQ · Limelight UCbvMxYDdZki0P95gCORO8oA

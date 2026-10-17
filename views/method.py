@@ -63,6 +63,19 @@ if bench_path.exists():
 else:
     st.caption("Benchmark not run yet.")
 
+st.subheader("Engagement prediction (deferred)")
+ml_path = ROOT / "docs" / "ml_evaluation.json"
+if ml_path.exists():
+    ml = json.loads(ml_path.read_text(encoding="utf-8"))
+    res = pd.DataFrame(ml["results"]).T[["mae_log", "rmse_log", "median_factor_error"]]
+    res.columns = ["MAE (log)", "RMSE (log)", "Typical miss (×)"]
+    st.dataframe(res.style.format("{:.3f}"), width="stretch")
+    st.caption(f"Chronological test on the {ml['n_test']} newest videos ({ml['test_period'][0]} → {ml['test_period'][1]}), "
+               f"trained on {ml['n_train']} older ones, pre-publication features only. "
+               + ("A model beat the stronger baseline." if ml["verdict_beats_baseline"] else
+                  "**No model beat a single typical value**, so prediction is deferred and the dashboard makes no "
+                  "per-video forecasts. Brand engagement levels also drifted over time."))
+
 st.subheader("Limitations")
 st.markdown(
     "- Results describe **Pakistan-related brand content**, not a verified Pakistani audience.\n"

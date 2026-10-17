@@ -1,6 +1,6 @@
 # PROGRESS
 
-**Current phase:** 10 — Timing | Built
+**Current phase:** 11 — Predictive ML | Evaluated, deferred
 
 ## Log
 ### 2026-10-17
@@ -46,8 +46,10 @@
 - Owner chose sentiment Option A (XLM-R), ADR-017 confirmed.
 - Phase 10 (actual, reliable non-promoted n=1,845, rel_er): time bands: Morning 06–12 median 1.20 (CI 1.10–1.31, adj p 0.042, negligible δ 0.08); Evening 16–20 1.04 (adj p 0.030, negligible, below rest); Night n=27, CI 0.95–2.59 (not significant). Weekday: Saturday 0.93 (CI 0.82–1.02, adj p 0.006, small δ −0.15), the only significant day; Kruskal p 0.016. Heatmap highs (descriptive): Wed morning 1.41 (n=66), Mon afternoon 1.38 (n=119); low: Sat afternoon 0.72 (n=54). Brands rarely post at night or on Sat/Sun mornings. Heatmap text overlap + grid artifacts found in a screenshot and fixed. `uv run pytest` → 91 passed.
 
+- Phase 11 (actual): target log(ER), chronological split, train 1,476 (2024-10-18→2026-04-17), test 369 newest (2026-04-17→2026-10-03), 42 pre-publication features. MAE(log): global median 0.609, brand median 0.699, ridge 0.679, gradient boosting 0.682. vs global median: ridge +0.069 [+0.007, +0.137], GB +0.073 [+0.018, +0.126], i.e. models are significantly WORSE than the simplest baseline → prediction DEFERRED. Global median beating brand medians implies brand ER levels drifted over time. `uv run pytest` → 96 passed.
+
 ## Blockers
 - None blocking. Open: owner verification of the 250 draft labels.
 
 ## Next action
-Phase 11 optional ML (F-19).
+Phase 12 recommendation engine (F-20/F-21) → Review quality gate.

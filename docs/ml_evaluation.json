@@ -1,0 +1,56 @@
+{
+ "n_train": 1476,
+ "n_test": 369,
+ "train_period": [
+  "2024-10-18",
+  "2026-04-17"
+ ],
+ "test_period": [
+  "2026-04-17",
+  "2026-10-03"
+ ],
+ "n_features": 42,
+ "results": {
+  "baseline: global median": {
+   "mae_log": 0.609234046999304,
+   "rmse_log": 0.9608780350461151,
+   "median_factor_error": 1.484142062570561
+  },
+  "baseline: brand median": {
+   "mae_log": 0.6992247103625291,
+   "rmse_log": 1.0427082119816145,
+   "median_factor_error": 1.4806168581803534
+  },
+  "ridge": {
+   "mae_log": 0.6787126140014705,
+   "rmse_log": 0.9747931105480301,
+   "median_factor_error": 1.5770696295947577,
+   "mae_diff_vs_brand": -0.020512096361058493,
+   "mae_diff_vs_brand_ci": [
+    -0.045196444879330014,
+    0.0050673129425535595
+   ],
+   "mae_diff_vs_global": 0.06947856700216666,
+   "mae_diff_vs_global_ci": [
+    0.007225876885350623,
+    0.1366967092055649
+   ]
+  },
+  "gradient boosting": {
+   "mae_log": 0.6823347301549991,
+   "rmse_log": 0.9598425837939933,
+   "median_factor_error": 1.5835531730467391,
+   "mae_diff_vs_brand": -0.01688998020752985,
+   "mae_diff_vs_brand_ci": [
+    -0.05104111377935946,
+    0.019186379195827954
+   ],
+   "mae_diff_vs_global": 0.0731006831556953,
+   "mae_diff_vs_global_ci": [
+    0.01769174732451681,
+    0.12639037247242385
+   ]
+  }
+ },
+ "verdict_beats_baseline": false
+}

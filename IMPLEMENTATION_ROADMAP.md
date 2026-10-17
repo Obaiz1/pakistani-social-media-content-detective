@@ -1,6 +1,6 @@
 # IMPLEMENTATION_ROADMAP
 
-**Current phase:** 7 — Data pipeline done (S2). Next: Phase 8 analytics MVP
+**Current phase:** 8 — Analytics MVP built, awaiting **Demo/approve MVP** gate
 
 | Phase | Name | Concrete output | Gate | Status |
 |---|---|---|---|---|
@@ -12,7 +12,7 @@
 | 5 | Plan execution | Backlog, acceptance tests, file structure, tasks | **Authorize coding** | Completed (owner: "next", 2026-10-17) |
 | 6 | Build runnable foundation | Environment, skeleton, app entry, tests, demo fixture | Smoke test | Completed (5/5 tests pass; server health ok) |
 | 7 | Implement data pipeline | Import, validation, mapping, cleaning, dedup | Data pipeline tests | Completed (46 tests pass; real run 2,204 videos) |
-| 8 | Build analytics MVP | Engagement, platform/content comparisons, filters, charts | **Demo/approve MVP** | Not started |
+| 8 | Build analytics MVP | Engagement, platform/content comparisons, filters, charts | **Demo/approve MVP** | Built (63 tests pass; rendered + visually checked); awaiting owner approval |
 | 9 | Add multilingual NLP | Urdu/Roman Urdu/English, hashtags, topics, evaluated sentiment | NLP tests/evaluation | Not started |
 | 10 | Timing & engagement patterns | Weekday/hour heatmaps, authorized segment views | Insight validation | Not started |
 | 11 | Investigate predictive ML | Leakage-safe baseline vs model; defer if infeasible | Model evaluation | Not started |

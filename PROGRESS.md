@@ -1,6 +1,6 @@
 # PROGRESS
 
-**Current phase:** 7 — Data pipeline | Completed
+**Current phase:** 8 — Analytics MVP | Built, awaiting demo approval
 
 ## Log
 ### 2026-10-17
@@ -38,8 +38,10 @@
 
 - Phase 7: implemented F-03..F-10. `uv run pytest` → **46 passed**. First real run crashed (`requests.ConnectionError: RemoteDisconnected`), since network errors weren't retried; fixed + 2 tests. Phase 7 real run 2026-10-17 (actual): `uv run python scripts/collect.py` → exit 0, channels=8, videos=2,204, comments=781 from 444 videos, quota=655 units. Per-brand video counts match the Phase 2 audit exactly (0.0% diff; Nishat=615 confirms full paging). 0 duplicate videos/comments, 0 author columns, 0 hidden likes. Duration buckets: 0-15s 728, 16-30s 939, 31-60s 444, 61-180s 88, >180s 5. likely_promoted=242 (11%). low_reliability=131. Comment scripts: latin 654, emoji/none 122, **Urdu script only 5** (Urdu-script sentiment benchmark n will be tiny). 781 < ~888 audit commentCount because commentCount includes replies; we fetch top-level only.
 
+- Phase 8 (actual): `uv run pytest` → **63 passed**. All 4 pages render on the real snapshot (AppTest, no exceptions) and in headless Edge (screenshots checked). Fixes found while verifying: Bonanza 107/109 null ER → ADR-015; Plotly category order; insufficient groups sorted last; deprecated `use_container_width`. Preliminary real-data findings (snapshot 2026-10-17; reliable, non-promoted videos n=1,845; metric rel_er; BH-adjusted): Wedding/festive median 1.34 (CI 1.21–1.48, adj p 0.001, small effect δ≈0.16), the only campaign clearly above typical. Sale/discount 0.94 (adj p 0.015) and untagged 1.00 (adj p 0.002) are below the rest. 0–15 s videos 1.05 vs the rest (adj p 0.006, negligible effect). 0 hashtags 1.22 (adj p 0.002) vs 6+ hashtags 1.03 (adj p 0.003), both negligible effects. Title script/emoji: insufficient n for non-Latin/emoji groups. Brand median ER: Nishat > Khaadi > Sapphire > Limelight > Bonanza > J. > Alkaram > Gul Ahmed.
+
 ## Blockers
-- None.
+- Demo/approve MVP gate (owner).
 
 ## Next action
-Phase 8 analytics MVP (F-11..F-13) → Demo gate.
+Owner MVP review → Phase 9 NLP.

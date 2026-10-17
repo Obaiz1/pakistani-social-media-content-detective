@@ -7,12 +7,12 @@
 ---
 
 ## Current state
-- **Phase:** 7 ✅ done (S2). Next = Phase 8 / Sprint S3 (analytics F-11, dashboard F-12, live mode F-13) → **Demo/approve MVP** gate.
+- **Phase:** 8 built (S3), waiting on the **Demo/approve MVP** gate (owner). After approval → Phase 9 NLP (F-14..F-17).
 - **Batch A:** ✅ done
 - **Batch B:** ✅ done (owner said "use default" for all remaining items)
 - **Batches C–F:** ✅ filled with documented DEFAULTS. Owner delegated: "abhe procced kro bad mae dekhte" (proceed now, revisit later)
 - **Phase 1 gate:** ✅ owner replied "next" to the sign-off request (treated as approval)
-- **Code written:** pipeline in `src/` (config, ingestion/youtube.py, processing/{normalize,features,metrics}.py, validation/schemas.py, pipeline.py), `scripts/collect.py`, 46 tests. Latest real snapshot: `data/processed/2026-10-17/` (git-ignored; refresh/delete within 30 days → by 2026-11-16).
+- **Code written:** pipeline (`src/` ingestion/processing/validation/pipeline), analytics (`src/analytics/compare.py`), dashboard (`app.py` + `views/{overview,brands,content,method}.py`, `src/ui.py`, `src/app_data.py`), 63 tests. Latest real snapshot: `data/processed/2026-10-17/` (git-ignored; refresh/delete by 2026-11-16). Run: `python -m uv run streamlit run app.py`.
 
 ## Key confirmed decisions (details in DECISIONS.md)
 | Topic | Decision |
@@ -48,6 +48,7 @@
 - [ ] Sign off on Phase 1 requirements (one-page summary).
 
 ## Last actions (newest first)
+000000000. Phase 8 built: compare.py (median + bootstrap CI, Mann-Whitney + Cliff's δ, BH, Kruskal, n≥20), 4 dashboard pages, data-source priority (fresh snapshot → live API with 24 h cache → SYNTHETIC with banner). Found + fixed: Bonanza null ER (ADR-015), Plotly row order, deprecated use_container_width. Screenshots via a headless-Edge CDP script (scratchpad/shot.py; restart Streamlit after src/ edits). Preliminary real-data findings (snapshot 2026-10-17; reliable, non-promoted videos n=1,845; metric rel_er; BH-adjusted): Wedding/festive median 1.34 (CI 1.21–1.48, adj p 0.001, small effect δ≈0.16), the only campaign clearly above typical. Sale/discount 0.94 (adj p 0.015) and untagged 1.00 (adj p 0.002) are below the rest. 0–15 s videos 1.05 vs the rest (adj p 0.006, negligible effect). 0 hashtags 1.22 (adj p 0.002) vs 6+ hashtags 1.03 (adj p 0.003), both negligible effects. Title script/emoji: insufficient n for non-Latin/emoji groups. Brand median ER: Nishat > Khaadi > Sapphire > Limelight > Bonanza > J. > Alkaram > Gul Ahmed.
 00000000. Phase 7 real run 2026-10-17 (actual): `uv run python scripts/collect.py` → exit 0, channels=8, videos=2,204, comments=781 from 444 videos, quota=655 units. Per-brand video counts match the Phase 2 audit exactly (0.0% diff; Nishat=615 confirms full paging). 0 duplicate videos/comments, 0 author columns, 0 hidden likes. Duration buckets: 0-15s 728, 16-30s 939, 31-60s 444, 61-180s 88, >180s 5. likely_promoted=242 (11%). low_reliability=131. Comment scripts: latin 654, emoji/none 122, **Urdu script only 5** (Urdu-script sentiment benchmark n will be tiny). 781 < ~888 audit commentCount because commentCount includes replies; we fetch top-level only. First run crashed on `RemoteDisconnected`; fixed: client retries network errors (tests added).
 0000000. Owner said "next", treated as Authorize coding. Phase 6 done: installed uv 0.13.1 (`python -m pip install --user uv`; call it as `python -m uv`, since `uv` isn't on PATH), Python 3.12.15 via uv, `uv sync`, generated the SYNTHETIC fixture (8 fictional brands, 357 videos, 239 comments), `uv run pytest` → 5 passed, Streamlit headless health check ok.
 000000. Owner said "next", treated as approval of Phase 3/4 + the uv/3.12 default. Wrote the Phase 5 backlog (F-01..F-26 with acceptance tests) and sprint plan S1–S7.
@@ -65,5 +66,6 @@
 6. Scaffolded all project docs.
 
 ## Next step
-1. Phase 8 / S3: F-11 `src/analytics/compare.py` (median + bootstrap CI + n, Kruskal/Mann-Whitney, Cliff's δ, BH, n≥20) → F-12 dashboard pages (Overview, Brands, Content, Data & Method) reading the latest snapshot, or the synthetic fixture if none → F-13 live mode (Streamlit secrets + 24 h cache). Then demo to the owner (gate).
+1. Owner reviews the MVP demo (`python -m uv run streamlit run app.py`) → approve or request changes.
+2. Phase 9: F-14 language ID, F-15 labeled set (~250 comments; Claude drafts, owner verifies; keep comment text out of git), F-16 sentiment benchmark (HF + VADER + NVIDIA Nemotron), F-17 sentiment page. Note: only 5 Urdu-script comments exist.
 3. Pinned channel IDs: Khaadi UCosHRi7jeBb0JGZfFlOHYUA · Sapphire UCvMjM0BkK7SzlYnPTi5CBUQ · Gul Ahmed UCsAIxl3qvpy1DofpwDEx6Ow · J. UC5xbg6lBACA3HBdN8idiQvQ · Alkaram UCG-I5rH3YEFu3VKUAtmxLIg · Bonanza UCDblU9Vxyi7kXxX0uf-cvyg · Nishat UCVQd-OGmpDTnXGfVR8eRrGQ · Limelight UCbvMxYDdZki0P95gCORO8oA

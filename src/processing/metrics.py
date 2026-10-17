@@ -20,8 +20,10 @@ def add_metrics(videos: pd.DataFrame, channels: pd.DataFrame) -> pd.DataFrame:
 
     df["like_rate"] = _ratio(df["like_count"], df["view_count"])
     df["comment_rate"] = _ratio(df["comment_count"], df["view_count"])
-    # Both components must be present; hidden likes or disabled comments make ER unknown, not smaller.
-    df["er_views"] = _ratio(df["like_count"] + df["comment_count"], df["view_count"])
+    # Disabled comments (API omits commentCount) are a structural zero: nobody *could* comment, so ER = likes/views.
+    # Hidden likes stay unknown, so ER stays null (ADR-015).
+    df["comments_disabled"] = df["comment_count"].isna()
+    df["er_views"] = _ratio(df["like_count"] + df["comment_count"].fillna(0), df["view_count"])
     df["views_per_sub"] = _ratio(df["view_count"], df["subscriber_count_at_snapshot"])
 
     df["low_reliability"] = (df["view_count"].fillna(0) < MIN_VIEWS) | (df["age_days"] < MIN_AGE_DAYS)

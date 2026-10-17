@@ -101,6 +101,16 @@ def test_hidden_likes_and_missing_subs_give_null_not_zero():
     assert m.loc["b1", "comment_rate"] == pytest.approx(0.005)
 
 
+def test_disabled_comments_use_likes_only_and_are_flagged():
+    videos = pd.DataFrame({"brand_id": ["a"], "video_id": ["x"], "view_count": pd.array([1000], dtype="Int64"),
+                           "like_count": pd.array([25], dtype="Int64"), "comment_count": pd.array([None], dtype="Int64"),
+                           "age_days": [30]})
+    channels = pd.DataFrame({"brand_id": ["a"], "subscriber_count": pd.array([10], dtype="Int64")})
+    m = add_metrics(videos, channels).iloc[0]
+    assert bool(m["comments_disabled"]) and m["er_views"] == pytest.approx(0.025)
+    assert pd.isna(m["comment_rate"])          # comment rate itself stays unknown
+
+
 def test_low_reliability_rel_er_and_promoted_flag():
     m = _metric_fixture()
     assert bool(m.loc["a5", "low_reliability"]) and not bool(m.loc["a1", "low_reliability"])

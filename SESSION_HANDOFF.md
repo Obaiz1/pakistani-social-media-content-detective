@@ -14,6 +14,11 @@
 - **Phase 1 gate:** ✅ owner replied "next" to the sign-off request (treated as approval)
 - **Code written:** pipeline, analytics, 8-page dashboard (Overview, What to post next, Brands, Content, Posting time, Sentiment, Report & exports, Data & Method), NLP (`src/nlp/{langid,sentiment,benchmark}.py`, `scripts/{draft_labels_v1,run_sentiment_benchmark,score_sentiment}.py`), 109 tests. NLP deps live in the `nlp` group (`--group nlp`). Snapshot `data/processed/2026-10-17/` (comments now have language + sentiment_label; refresh/delete by 2026-11-16). Labels/predictions/LLM cache in `data/labels/` (git-ignored: real comment text).
 
+## ▶ Owner's open requests (2026-10-18)
+1. ✅ Mixed-effects regression (ADR-026) · ✅ BERTopic (ADR-027) · ⏳ Thumbnail analysis (scripts/analyze_thumbnails.py --vlm-sample 700; spot-check in docs/evaluation/) · ⏳ Final report (scripts/build_final_report.py → docs/FINAL_REPORT.md/.pdf) + final sign-off.
+2. **Stitch UI redesign: do this at the START of a NEW session** (the Stitch MCP was added mid-session 1, so its tools never loaded). First call ToolSearch "stitch" to confirm the tools exist, then design: a custom Streamlit theme (.streamlit/config.toml colours/fonts) + a landing/overview layout; keep the validated chart palette (#2a78d6 / #e34948).
+3. Owner chores: rotate DATA_REPO_TOKEN (pasted in chat several times) and update Streamlit Secrets; verify the 250 sentiment labels.
+
 ## Key confirmed decisions (details in DECISIONS.md)
 | Topic | Decision |
 |---|---|

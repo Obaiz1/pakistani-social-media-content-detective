@@ -1,0 +1,30 @@
+{
+ "person": {
+  "agreement": 0.967,
+  "kappa": 0.651,
+  "manual_positive": 28,
+  "model_positive": 29,
+  "n": 30
+ },
+ "face_visible": {
+  "agreement": 0.933,
+  "kappa": 0.793,
+  "manual_positive": 23,
+  "model_positive": 25,
+  "n": 30
+ },
+ "text_overlay": {
+  "agreement": 0.833,
+  "kappa": 0.38,
+  "manual_positive": 2,
+  "model_positive": 7,
+  "n": 30
+ },
+ "product_closeup": {
+  "agreement": 0.9,
+  "kappa": 0.348,
+  "manual_positive": 2,
+  "model_positive": 3,
+  "n": 30
+ }
+}

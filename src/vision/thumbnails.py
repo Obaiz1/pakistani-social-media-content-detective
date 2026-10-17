@@ -69,6 +69,7 @@ class VisionLabeler:
         self._cache_path = cache_path
         self.cache: dict = json.loads(cache_path.read_text(encoding="utf-8")) if cache_path.exists() else {}
         self._lock, self._last = threading.Lock(), 0.0
+        self.retries = 0
 
     def _wait_turn(self) -> None:
         with self._lock:
@@ -85,7 +86,7 @@ class VisionLabeler:
         for attempt in range(8):
             self._wait_turn()
             try:
-                r = self._post(VLM_URL, timeout=180, headers={"Authorization": f"Bearer {self._key}"}, json={
+                r = self._post(VLM_URL, timeout=60, headers={"Authorization": f"Bearer {self._key}"}, json={
                     "model": VLM_MODEL, "temperature": 0, "max_tokens": 600, "messages": [
                         {"role": "system", "content": "/no_think"},   # Nemotron: skip reasoning, answer directly
                         {"role": "user", "content": [
@@ -98,7 +99,8 @@ class VisionLabeler:
                 result = parse_vlm_json(r.json()["choices"][0]["message"].get("content") or "")
                 break
             if r.status_code in (429, 500, 502, 503, 504):   # shared free endpoint is often saturated (503)
-                time.sleep(min(60, 2 ** attempt * 3))
+                self.retries += 1
+                time.sleep(min(20, 2 ** attempt * 2))
                 continue
             break
         if result is not None:   # failures aren't cached, so a rerun retries them

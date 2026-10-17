@@ -15,9 +15,15 @@ BRAND_NAMES = {b.brand_id: b.display_name for b in load_brands()}
 
 
 def get_data() -> Loaded:
-    if "loaded" not in st.session_state:
-        st.session_state["loaded"] = load_dashboard_data()
-    return st.session_state["loaded"]
+    """Real data is kept for the session; a synthetic fallback is NOT, so fixed secrets take effect on the next click."""
+    cached = st.session_state.get("loaded")
+    if cached is not None and cached.source != "synthetic":
+        return cached
+    if cached is not None and cached.note == "" and cached.source == "synthetic":
+        return cached  # deliberate synthetic (tests / no secrets configured): nothing to retry
+    loaded = load_dashboard_data()
+    st.session_state["loaded"] = loaded
+    return loaded
 
 
 def source_banner(loaded: Loaded) -> None:

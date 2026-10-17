@@ -112,7 +112,7 @@ def load_dashboard_data() -> Loaded:
     repo, token = get_secret("DATA_REPO"), get_secret("DATA_REPO_TOKEN")
     if repo and token:
         try:
-            data, manifest = _remote_cached(repo, token)
+            data, manifest = _remote_cached(repo.strip(), token.strip().strip('"').strip("'"))
             age = (datetime.now(timezone.utc).date() - date.fromisoformat(manifest["snapshot_date"])).days
             if age < MAX_SNAPSHOT_AGE_DAYS:
                 return Loaded(data, "remote", manifest["snapshot_date"], note)
@@ -121,8 +121,12 @@ def load_dashboard_data() -> Loaded:
             status = getattr(getattr(exc, "response", None), "status_code", None)
             hint = {401: "token invalid or expired", 403: "token lacks Contents: read",
                     404: "token can't see the data repo (wrong/old token or repo not selected)"}.get(status, "")
+            # fingerprint only (last 4 chars + length) so a wrong/stale secret can be spotted without exposing it
+            stripped = token.strip().strip('"').strip("'")
+            fingerprint = f"token …{stripped[-4:]}, {len(stripped)} chars" + (
+                ", has surrounding spaces/quotes" if stripped != token else "")
             note += (f"Could not read the published snapshot ({type(exc).__name__}"
-                     f"{f' {status}: {hint}' if status else ''}). ")
+                     f"{f' {status}: {hint}' if status else ''}; {fingerprint}). ")
     key = get_secret("YOUTUBE_API_KEY")
     if key:
         try:

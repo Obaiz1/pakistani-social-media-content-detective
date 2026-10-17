@@ -28,8 +28,10 @@ Answer, only where data supports it:
 TBD (candidates: student, evaluator, marketing analyst, brand owner)
 
 ## In scope
-- Pakistan-related brands' public content (brand list TBD)
-- Data via official APIs: YouTube Data API v3 (primary, PROPOSED); Instagram Graph API Business Discovery (optional, PROPOSED)
+- 6–8 Pakistani clothing brands' official YouTube channels (CONFIRMED; exact list PROPOSED: Khaadi, Sapphire, Gul Ahmed, J., Alkaram Studio, Bonanza Satrangi, Nishat Linen, Limelight)
+- Data via YouTube Data API v3 (CONFIRMED primary source)
+- Instagram Graph API Business Discovery: deferred (Could)
+- Final public deployment (owner wants Vercel; approach TBD)
 
 ## Out of scope (PROPOSED)
 - Web scraping of social platforms (owner's initial suggestion; not adopted, see DECISIONS ADR-002)

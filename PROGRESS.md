@@ -16,8 +16,11 @@
 
 - Owner provided a Google Stitch API key. Saved it to `.env` (git-ignored, verified with `git check-ignore`) and added `.env.example` with empty placeholders. Registered the Stitch MCP server with `claude mcp add -s local`; `claude mcp get stitch` reported **✓ Connected**.
 
+- Batch A closed: YouTube API confirmed, 6–8 clothing brands, public repo confirmed, deadline/skill delegated, Vercel deployment requested.
+- Created the public GitHub repo `Obaiz1/pakistani-social-media-content-detective` and pushed `main`.
+
 ## Blockers
-- Waiting for: acknowledgment of the API-not-scraping decision, Meta account status, brand list, repo name/visibility, deadline.
+- Hosting decision (Vercel vs Streamlit Community Cloud) needed before Phase 3.
 
 ## Next action
-Create the GitHub repo once confirmed, then ask Batch B.
+Get Batch B answers.

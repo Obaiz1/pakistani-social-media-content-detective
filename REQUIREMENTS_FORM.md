@@ -1,0 +1,56 @@
+# REQUIREMENTS_FORM
+
+**Status:** Phase 0 — Discovery | Batch A in progress
+**Statuses:** CONFIRMED / PROPOSED / TBD / REJECTED
+
+## Interview answers
+
+### Batch A — Project foundation
+| # | Question | Answer | Status |
+|---|---|---|---|
+| A1 | Project type (course assignment / semester project / FYP / portfolio / commercial)? Rubric? Deadline? | **Portfolio project.** Rubric: none mentioned. Deadline: TBD | CONFIRMED (deadline TBD) |
+| A2 | Final deliverable (notebook+report / Streamlit / full-stack)? Default: Streamlit + modular Python + report | **Streamlit dashboard + modular Python analytics + project report** (owner accepted default) | CONFIRMED |
+| A3 | Authorized dataset available today? Which platforms? | Owner said: "use Google's YouTube API, or Meta's API." No existing dataset. Proposed: YouTube Data API v3 as primary source; Meta (Instagram Graph API Business Discovery) optional, depending on account setup | PROPOSED (awaiting confirmation) |
+| A4 | One brand / one industry / multiple brands? How to prove/label audience is Pakistani? | Owner said: "data on any Pakistan-related brand, collected by web scraping." Audience is labeled **"Pakistan-related content/brands"**, not "verified Pakistani audience". Web scraping: **not adopted**, because it conflicts with the CLAUDE.md §2 data rules and platform ToS; official APIs are proposed instead. Brand list: TBD | PROPOSED (scraping REJECTED pending owner acknowledgment) |
+| A5 | Team members, skill level, environment (OS, Python, Claude Code, GitHub)? | **Individual** (solo). Windows 11, VS Code + Claude Code, Python 3.14.4, git 2.45, GitHub CLI logged in as `Obaiz1`. Owner wants the work **pushed to a GitHub repository progressively**. Skill level: TBD. Repo name/visibility: TBD | CONFIRMED (partial) |
+
+### Batch A follow-ups
+| # | Question | Answer | Status |
+|---|---|---|---|
+| A3b | Does the owner have an Instagram Business/Creator account + Facebook Page + Meta developer app (needed for Business Discovery)? | — | TBD |
+| A4b | Which brands/industry first? Default: 5–10 Pakistani clothing brands' official YouTube channels | — | TBD |
+| A5b | GitHub repo name + public/private? Default: `pakistani-social-media-content-detective`, public (portfolio) | — | TBD |
+| A1b | Target deadline? | — | TBD |
+
+### Batch B — Business scope
+Not yet asked (Q6–Q11 in CLAUDE.md §4).
+
+### Batch C — Data quality and metrics
+Not yet asked (Q12–Q17).
+
+### Batch D — Analytics and AI
+Not yet asked (Q18–Q24).
+
+### Batch E — Software and delivery
+Not yet asked (Q25–Q30).
+
+### Batch F — Privacy, evaluation, acceptance
+Not yet asked (Q31–Q36).
+
+## Requirements register
+Format: `REQ-ID | Description / user story | Priority | Data dependency | Status | Acceptance criterion | Phase`
+
+| REQ-ID | Description | Priority | Data dependency | Status | Acceptance criterion | Phase |
+|---|---|---|---|---|---|---|
+| REQ-NF-01 | Use only legitimate, permissioned, or officially accessible data | Must | — | PROPOSED | Every source has documented provenance/permission | 2 |
+| REQ-NF-02 | Missing metrics stay null, never defaulted to zero | Must | Post metrics | PROPOSED | Pipeline tests confirm nulls preserved | 7 |
+| REQ-NF-03 | Synthetic data clearly labeled, never presented as real evidence | Must | — | PROPOSED | Synthetic rows/charts carry a visible label | 6 |
+| REQ-NF-04 | No auto-publishing; AI output requires human review | Must | — | PROPOSED | No publish integration exists | 12 |
+| REQ-D-01 | Collect public video metadata/statistics for selected Pakistani brand channels via YouTube Data API v3 | Must | YouTube API key (owner-created, stored in `.env`) | PROPOSED | Ingestion stays within free quota; raw responses saved with provenance | 7 |
+| REQ-D-02 | Optionally collect public post metrics for other IG business accounts via Instagram Graph API Business Discovery | Could | Owner's IG Business account + FB Page + Meta app | PROPOSED | Works only if owner confirms access; otherwise documented as deferred | 7 |
+| REQ-D-03 | Label analysis as "Pakistan-related content"; audience segment views show "Unavailable" without permitted audience data | Must | — | PROPOSED | UI/report never claims a verified Pakistani audience | 10 |
+| REQ-DEL-01 | Streamlit dashboard + modular Python analytics + project report | Must | — | CONFIRMED | All three delivered at Phase 14 | 14 |
+| REQ-DEL-02 | Version-controlled GitHub repository updated as the work progresses; no secrets committed | Must | — | CONFIRMED | Repo exists; `.env` git-ignored | 6 |
+
+## Outstanding questions
+Batch A follow-ups (A1b, A3b, A4b, A5b), then Batches B–F.

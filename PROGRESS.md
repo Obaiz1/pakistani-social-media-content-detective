@@ -21,6 +21,9 @@
 
 - Hosting decided: Streamlit Community Cloud (ADR-007).
 
+- Batch B closed with defaults (owner: "use default").
+- Added `SESSION_HANDOFF.md` per the owner's request so future sessions can resume; `CLAUDE.md` now says to read it first.
+
 ## Blockers
 - YouTube API key not yet in `.env` (owner action; needed for the Phase 2 data audit).
 

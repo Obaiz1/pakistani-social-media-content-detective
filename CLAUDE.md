@@ -1,5 +1,7 @@
 # CLAUDE MASTER PROMPT — Pakistani Social Media Content Detective 🇵🇰
 
+> **⚠️ SESSION CONTINUITY (owner instruction, 2026-10-17):** At the start of every session, **read `SESSION_HANDOFF.md` first**. It records where the previous session stopped. After every meaningful step, update `SESSION_HANDOFF.md` (current state, last actions, next step), then commit and push, so a future agent can resume without losing context.
+
 > **Purpose:** Copy this entire prompt into Claude Code, or save it as `CLAUDE.md` in the root of the project. It tells Claude to interview the project owner, finalize requirements, design the solution, and build the software one approved phase at a time.
 >
 > **Current status:** DISCOVERY / NOT APPROVED FOR CODING.

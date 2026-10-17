@@ -26,10 +26,19 @@
 | A6 | Hosting for the final deployment | Owner first asked for Vercel. Told that Streamlit can't run on Vercel serverless; owner chose **Option A: Streamlit Community Cloud**, free, deployed from the GitHub repo (2026-10-17). Vercel is dropped | CONFIRMED |
 
 ### Batch B — Business scope
-Not yet asked (Q6–Q11 in CLAUDE.md §4).
+Owner instruction for the remaining items: **"use default"** (2026-10-17).
+
+| # | Question | Answer | Status |
+|---|---|---|---|
+| B1 | Main dashboard user | Recruiter/portfolio viewer + brand marketing analyst. Plain-English insights, technical detail in expandable sections | CONFIRMED (default) |
+| B2 | Industries | Clothing (from A4b) | CONFIRMED |
+| B3 | Platforms mandatory vs optional | YouTube mandatory; Instagram optional/deferred | CONFIRMED |
+| B4 | Content types & objectives | Shorts vs long-form videos; campaign tags derived from title/description (Eid/festive, sale, new collection, lawn/summer, winter, etc.). Objective = engagement | CONFIRMED (default) |
+| B5 | Timeframe / volume | Last 24 months of videos for 6–8 brands | CONFIRMED (default) |
+| B6 | Report / demo deliverables | PDF report + README screenshots + short demo GIF; no slides | CONFIRMED (default) |
 
 ### Batch C — Data quality and metrics
-Not yet asked (Q12–Q17).
+Asked 2026-10-17; awaiting answers (see Outstanding questions).
 
 ### Batch D — Analytics and AI
 Not yet asked (Q18–Q24).
@@ -57,4 +66,4 @@ Format: `REQ-ID | Description / user story | Priority | Data dependency | Status
 | REQ-DEL-02 | Version-controlled GitHub repository updated as the work progresses; no secrets committed | Must | — | CONFIRMED | Repo exists; `.env` git-ignored | 6 |
 
 ## Outstanding questions
-Batch B: B1 main user, B2 content types/campaign tags, B3 timeframe, B4 report format. Then Batch C onward.
+Batch C: C1 engagement formula, C2 observation window, C3 comment text/privacy, C4 time zone, C5 data quality rules. Then Batches D–F.

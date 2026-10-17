@@ -4,7 +4,7 @@ import streamlit as st
 
 from src.analytics.compare import MIN_N
 from src.analytics.sentiment_agg import sentiment_by
-from src.ui import MUTED, SERIES, brand_label, get_data, source_banner
+from src.ui import MUTED, SERIES, brand_label, get_data, sidebar_filters, source_banner
 
 TAG_LABELS = {"eid": "Eid", "ramadan": "Ramadan", "sale": "Sale / discount", "new_arrivals": "New arrivals",
               "lawn_summer": "Lawn / summer", "winter": "Winter", "wedding_festive": "Wedding / festive",
@@ -22,8 +22,12 @@ if "sentiment_label" not in comments or comments["sentiment_label"].isna().all()
             "`uv run --group nlp python scripts/score_sentiment.py` on a local snapshot.")
     st.stop()
 
-videos = loaded.data.videos[["video_id", "brand_id", "campaign_tags"]]
-c = comments.merge(videos, on="video_id", how="left").dropna(subset=["sentiment_label"])
+# same sidebar filters as every other page: only comments on the filtered videos count
+videos = sidebar_filters(loaded.data.videos)[["video_id", "brand_id", "campaign_tags"]]
+c = comments.merge(videos, on="video_id", how="inner").dropna(subset=["sentiment_label"])
+if c.empty:
+    st.info("No labelled comments on the videos that match the current filters.")
+    st.stop()
 model = c["sentiment_model"].iloc[0] if "sentiment_model" in c else "unknown"
 
 k1, k2, k3, k4 = st.columns(4)

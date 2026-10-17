@@ -99,7 +99,8 @@ def _strength(f: Finding) -> str:
 
 def _ab_test(f: Finding) -> str:
     if f.kind == "timing":
-        return (f"For 4 weeks, alternate comparable videos between {f.label.replace('posting ', '')} and your usual slot "
+        slot = f.label.replace("posting ", "").removeprefix("on ").removeprefix("in the ")
+        return (f"For 4 weeks, alternate comparable videos between {slot} and your usual slot "
                 "(same campaign, length and hashtags). Compare median engagement after 14 days per video; "
                 "aim for at least 20 videos per arm.")
     return (f"Publish 10–20 {f.label} and 10–20 otherwise-similar videos in the same weeks and time slots. Compare "

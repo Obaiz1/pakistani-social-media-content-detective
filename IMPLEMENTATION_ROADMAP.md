@@ -1,6 +1,6 @@
 # IMPLEMENTATION_ROADMAP
 
-**Current phase:** 12 — Recommendation engine built, awaiting **Review quality** gate
+**Current phase:** 13 — Dashboard + exports done (Stitch mockups pending a new session). Next: Phase 14 test & deliver
 
 | Phase | Name | Concrete output | Gate | Status |
 |---|---|---|---|---|
@@ -16,8 +16,8 @@
 | 9 | Add multilingual NLP | Urdu/Roman Urdu/English, hashtags, topics, evaluated sentiment | NLP tests/evaluation | Built + benchmarked (PROVISIONAL labels); awaiting owner label verification |
 | 10 | Timing & engagement patterns | Weekday/hour heatmaps, authorized segment views | Insight validation | Built (91 tests; rendered + checked); segment views = Unavailable (no audience data) |
 | 11 | Investigate predictive ML | Leakage-safe baseline vs model; defer if infeasible | Model evaluation | Completed: evaluated, DEFERRED (ADR-019; docs/ML_EVALUATION.md) |
-| 12 | AI-assisted recommendation engine | Explainable next-post experiments, optional LLM captions | **Review quality** | Built (102 tests; rendered + checked); awaiting owner review |
-| 13 | Complete dashboard and exports | UX, filters, reports, error states, docs | End-to-end demo | Not started |
+| 12 | AI-assisted recommendation engine | Explainable next-post experiments, optional LLM captions | **Review quality** | Completed (owner: weak cards fixed → "next") |
+| 13 | Complete dashboard and exports | UX, filters, reports, error states, docs | End-to-end demo | Built (109 tests; exports opened + read; mobile + palette checked). Stitch mockups deferred to a new session |
 | 14 | Test and deliver | Unit/integration/acceptance tests, setup, final report/demo | **Final sign-off** | Not started |
 
 ---

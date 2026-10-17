@@ -7,12 +7,12 @@
 ---
 
 ## Current state
-- **Phase:** 12 built, waiting on the owner's **Review quality** gate (page 'What to post next'). After approval → Phase 13 (exports CSV/Excel/PDF, Stitch UI polish, accessibility).
+- **Phase:** 13 done (exports, accessibility). Review-quality gate ✅. Next = Phase 14: README (screenshots/GIF), deployment to Streamlit Community Cloud (needs owner's Streamlit account + secrets), final test pass, final report → **Final sign-off**. Optional: Stitch mockups in a NEW session (MCP tools only load at session start).
 - **Batch A:** ✅ done
 - **Batch B:** ✅ done (owner said "use default" for all remaining items)
 - **Batches C–F:** ✅ filled with documented DEFAULTS. Owner delegated: "abhe procced kro bad mae dekhte" (proceed now, revisit later)
 - **Phase 1 gate:** ✅ owner replied "next" to the sign-off request (treated as approval)
-- **Code written:** pipeline, analytics, 7-page dashboard (Overview, What to post next, Brands, Content, Posting time, Sentiment, Data & Method), NLP (`src/nlp/{langid,sentiment,benchmark}.py`, `scripts/{draft_labels_v1,run_sentiment_benchmark,score_sentiment}.py`), 103 tests. NLP deps live in the `nlp` group (`--group nlp`). Snapshot `data/processed/2026-10-17/` (comments now have language + sentiment_label; refresh/delete by 2026-11-16). Labels/predictions/LLM cache in `data/labels/` (git-ignored: real comment text).
+- **Code written:** pipeline, analytics, 8-page dashboard (Overview, What to post next, Brands, Content, Posting time, Sentiment, Report & exports, Data & Method), NLP (`src/nlp/{langid,sentiment,benchmark}.py`, `scripts/{draft_labels_v1,run_sentiment_benchmark,score_sentiment}.py`), 109 tests. NLP deps live in the `nlp` group (`--group nlp`). Snapshot `data/processed/2026-10-17/` (comments now have language + sentiment_label; refresh/delete by 2026-11-16). Labels/predictions/LLM cache in `data/labels/` (git-ignored: real comment text).
 
 ## Key confirmed decisions (details in DECISIONS.md)
 | Topic | Decision |
@@ -48,7 +48,8 @@
 - [ ] Sign off on Phase 1 requirements (one-page summary).
 
 ## Last actions (newest first)
-00000000000000. Owner asked to fix the weak cards (2026-10-17): findings that are significant but have a NEGLIGIBLE effect (|Cliff's δ| < 0.147) are no longer recommendation cards; they're listed under 'Weak signals: real but too small to act on'. Now 4 actionable cards: Next post = wedding/festive video, any day except Saturday, de-prioritise menswear; plus Try more wedding/festive, Use less menswear, Use less Saturday. 7 weak signals. 103 tests pass.
+000000000000000. Phase 13 (actual, 2026-10-18): new page 'Report & exports': Excel workbook (About+caveats, Recommendations, 7 summary sheets), Recommendations CSV, 3-page PDF (cards, 5 median+CI charts drawn with fpdf2 primitives, sentiment, caveats). Only aggregates are exported (tests assert no video_id/title/text columns). Accessibility: chart colors #2a78d6/#e34948 pass the dataviz validator in light+dark (CVD ΔE 21.6, contrast ≥3:1); phone width 390 px renders cleanly. Fixed while reviewing the real PDF: Sentiment page ignored sidebar filters (now filtered like every page; numbers change accordingly), raw campaign keys in PDF, 'AB/TEST' label, 'between on Saturday' wording; fpdf2 multi_cell cursor bug.
+00000000000000. Owner asked to fix the weak cards (2026-10-17): findings that are significant but have a NEGLIGIBLE effect (|Cliff's δ| < 0.147) are no longer recommendation cards; they're listed under 'Weak signals: real but too small to act on'. Now 4 actionable cards: Next post = wedding/festive video, any day except Saturday, de-prioritise menswear; plus Try more wedding/festive, Use less menswear, Use less Saturday. 7 weak signals. 109 tests pass.
 0000000000000. Phase 12 (actual, real snapshot, reliable non-promoted videos): 11 cards = 1 'Next post' + 10 evidence cards. Next post: wedding/festive video (1.34 [1.18–1.47] vs 1.10 rest, small effect, adj p 0.001) in the morning 06–12 PKT (1.20 vs 1.07, negligible, adj p 0.042); de-prioritise menswear (n=50, small), Saturday (0.93 vs 1.12, small), sale/discount (negligible). Strength labels: 4 modest, 7 weak/negligible. NVIDIA rewrites accepted by the number lock: 4/11 (the rest fell back to templates). Fixed during review: cards compared to 1.0 (misleading 'use less' at +3%) → now vs other videos' median; awkward wording; number lock compared strings (06 vs 6) → now values.
 000000000000. Phase 11 (actual): target log(ER), chronological split, train 1,476 (2024-10-18→2026-04-17), test 369 newest (2026-04-17→2026-10-03), 42 pre-publication features. MAE(log): global median 0.609, brand median 0.699, ridge 0.679, gradient boosting 0.682. vs global median: ridge +0.069 [+0.007, +0.137], GB +0.073 [+0.018, +0.126], i.e. models are significantly WORSE than the simplest baseline → prediction DEFERRED. Global median beating brand medians implies brand ER levels drifted over time. scikit-learn moved to main deps. Fixed my own weak test (baseline-uses-train-only) and a biased verdict (it only compared against the weaker baseline).
 00000000000. Owner chose sentiment Option A (XLM-R). Phase 10 (actual, reliable non-promoted n=1,845, rel_er): time bands: Morning 06–12 median 1.20 (CI 1.10–1.31, adj p 0.042, negligible δ 0.08); Evening 16–20 1.04 (adj p 0.030, negligible, below rest); Night n=27, CI 0.95–2.59 (not significant). Weekday: Saturday 0.93 (CI 0.82–1.02, adj p 0.006, small δ −0.15), the only significant day; Kruskal p 0.016. Heatmap highs (descriptive): Wed morning 1.41 (n=66), Mon afternoon 1.38 (n=119); low: Sat afternoon 0.72 (n=54). Brands rarely post at night or on Sat/Sun mornings.
@@ -71,7 +72,6 @@
 6. Scaffolded all project docs.
 
 ## Next step
-1. Owner reviews the 'What to post next' page → approve/changes.
-2. Phase 13: F-22 exports (filtered CSV + Excel; PDF report with charts + caveats), F-23 Stitch mockups (Stitch MCP tools load in a NEW session) + accessibility check.
+1. Phase 14: (a) README with screenshots (headless-Edge CDP script: scratchpad shot.py pattern) + short GIF; (b) deployment plan for Streamlit Community Cloud: live mode needs YOUTUBE_API_KEY in Streamlit secrets; sentiment needs either precomputed labels or NVIDIA (ADR-017 says local XLM-R; on Cloud torch won't fit, so decide with the owner); (c) final PDF project report; (d) final full test run.
 2. Still open for the owner: verify the 250 labels.
 3. Pinned channel IDs: Khaadi UCosHRi7jeBb0JGZfFlOHYUA · Sapphire UCvMjM0BkK7SzlYnPTi5CBUQ · Gul Ahmed UCsAIxl3qvpy1DofpwDEx6Ow · J. UC5xbg6lBACA3HBdN8idiQvQ · Alkaram UCG-I5rH3YEFu3VKUAtmxLIg · Bonanza UCDblU9Vxyi7kXxX0uf-cvyg · Nishat UCVQd-OGmpDTnXGfVR8eRrGQ · Limelight UCbvMxYDdZki0P95gCORO8oA

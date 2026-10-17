@@ -1,6 +1,6 @@
 # PROGRESS
 
-**Current phase:** 8 — Analytics MVP | Built, awaiting demo approval
+**Current phase:** 9 — Multilingual NLP | Built, awaiting label verification
 
 ## Log
 ### 2026-10-17
@@ -40,8 +40,11 @@
 
 - Phase 8 (actual): `uv run pytest` → **63 passed**. All 4 pages render on the real snapshot (AppTest, no exceptions) and in headless Edge (screenshots checked). Fixes found while verifying: Bonanza 107/109 null ER → ADR-015; Plotly category order; insufficient groups sorted last; deprecated `use_container_width`. Preliminary real-data findings (snapshot 2026-10-17; reliable, non-promoted videos n=1,845; metric rel_er; BH-adjusted): Wedding/festive median 1.34 (CI 1.21–1.48, adj p 0.001, small effect δ≈0.16), the only campaign clearly above typical. Sale/discount 0.94 (adj p 0.015) and untagged 1.00 (adj p 0.002) are below the rest. 0–15 s videos 1.05 vs the rest (adj p 0.006, negligible effect). 0 hashtags 1.22 (adj p 0.002) vs 6+ hashtags 1.03 (adj p 0.003), both negligible effects. Title script/emoji: insufficient n for non-Latin/emoji groups. Brand median ER: Nishat > Khaadi > Sapphire > Limelight > Bonanza > J. > Alkaram > Gul Ahmed.
 
+- MVP approved (owner: "next").
+- Phase 9 (actual): language ID accuracy 0.872 (EN P/R 0.91/0.92, RU 0.94/0.82). Sentiment macro-F1 on 250 PROVISIONAL labels: Nemotron-3-Super 0.869, XLM-R twitter 0.819, routed 0.786, RU-XLM-R 0.763, RoBERTa-EN 0.721, VADER 0.602. Nemotron − XLM-R = +0.051, CI [-0.007, +0.116] → not significant. Scored 781 real comments with XLM-R: 382 pos / 255 neu / 144 neg; language EN 448, RU 158, other 146, mixed 24, Urdu script 5. Net sentiment by brand: Alkaram +0.50, Khaadi +0.45, Nishat +0.43, Limelight +0.40, Sapphire +0.19, Gul Ahmed +0.12, J. +0.05 (n=21, wide CI). `uv run pytest` → 83 passed.
+
 ## Blockers
-- Demo/approve MVP gate (owner).
+- Owner verification of the 250 draft labels; model choice (ADR-017).
 
 ## Next action
-Owner MVP review → Phase 9 NLP.
+Label verification → Phase 10 timing heatmap.

@@ -14,6 +14,7 @@ venv/
 # Data (raw/private data stays local; synthetic demo data may be committed)
 data/raw/
 data/processed/
+data/labels/
 *.parquet
 *.sqlite
 

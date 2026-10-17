@@ -1,5 +1,9 @@
+import json
+
+import pandas as pd
 import streamlit as st
 
+from src.config import ROOT
 from src.ui import get_data, source_banner
 
 loaded = get_data()
@@ -44,6 +48,20 @@ q1.metric("Likely promoted", f"{int(v['likely_promoted'].sum()):,}")
 q2.metric("Low reliability", f"{int(v['low_reliability'].sum()):,}")
 q3.metric("Hidden likes", f"{int(v['like_count'].isna().sum()):,}")
 q4.metric("Videos with comments", f"{int((v['comment_count'].fillna(0) > 0).sum()):,}")
+
+st.subheader("Sentiment model benchmark")
+bench_path = ROOT / "docs" / "nlp_benchmark.json"
+if bench_path.exists():
+    bench = json.loads(bench_path.read_text(encoding="utf-8"))
+    st.caption(f"{bench['status']} · n = {bench['n']} hand-labelled real comments · "
+               f"language-ID accuracy {bench['language_id_accuracy']:.0%}")
+    rows = pd.DataFrame(bench["sentiment"])
+    pivot = rows.pivot_table(index="model", columns="slice", values="macro_f1").reindex(
+        columns=[c for c in ("all", "english", "roman_urdu", "other") if c in set(rows["slice"])])
+    st.dataframe(pivot.sort_values("all", ascending=False).style.format("{:.3f}"), width="stretch")
+    st.caption("Macro-F1 (3 classes). Urdu-script (n=1) and mixed (n=3) slices are too small to score.")
+else:
+    st.caption("Benchmark not run yet.")
 
 st.subheader("Limitations")
 st.markdown(

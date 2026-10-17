@@ -1,0 +1,912 @@
+{
+ "status": "PROVISIONAL: labels are Claude drafts, not yet verified by the owner",
+ "n": 250,
+ "language_id_accuracy": 0.872,
+ "sentiment": [
+  {
+   "model": "vader",
+   "slice": "all",
+   "n": 250,
+   "macro_f1": 0.6019459459459459,
+   "accuracy": 0.672,
+   "sufficient": true,
+   "confusion": [
+    [
+     96,
+     20,
+     3
+    ],
+    [
+     23,
+     59,
+     6
+    ],
+    [
+     12,
+     18,
+     13
+    ]
+   ]
+  },
+  {
+   "model": "vader",
+   "slice": "english",
+   "n": 159,
+   "macro_f1": 0.6427374159970762,
+   "accuracy": 0.7358490566037735,
+   "sufficient": true,
+   "confusion": [
+    [
+     73,
+     10,
+     2
+    ],
+    [
+     12,
+     37,
+     4
+    ],
+    [
+     7,
+     7,
+     7
+    ]
+   ]
+  },
+  {
+   "model": "vader",
+   "slice": "mixed",
+   "n": 3,
+   "macro_f1": 0.16666666666666666,
+   "accuracy": 0.3333333333333333,
+   "sufficient": false,
+   "confusion": [
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     1,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "vader",
+   "slice": "other",
+   "n": 27,
+   "macro_f1": 0.5367965367965368,
+   "accuracy": 0.8148148148148148,
+   "sufficient": true,
+   "confusion": [
+    [
+     14,
+     2,
+     0
+    ],
+    [
+     3,
+     8,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "vader",
+   "slice": "roman_urdu",
+   "n": 60,
+   "macro_f1": 0.4554112554112553,
+   "accuracy": 0.4666666666666667,
+   "sufficient": true,
+   "confusion": [
+    [
+     8,
+     7,
+     1
+    ],
+    [
+     7,
+     14,
+     2
+    ],
+    [
+     4,
+     11,
+     6
+    ]
+   ]
+  },
+  {
+   "model": "vader",
+   "slice": "urdu_script",
+   "n": 1,
+   "macro_f1": 0.0,
+   "accuracy": 0.0,
+   "sufficient": false,
+   "confusion": [
+    [
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "cardiffnlp/twitter-roberta-base-sentiment-latest",
+   "slice": "all",
+   "n": 250,
+   "macro_f1": 0.7209940573394057,
+   "accuracy": 0.8,
+   "sufficient": true,
+   "confusion": [
+    [
+     107,
+     11,
+     1
+    ],
+    [
+     7,
+     78,
+     3
+    ],
+    [
+     2,
+     26,
+     15
+    ]
+   ]
+  },
+  {
+   "model": "cardiffnlp/twitter-roberta-base-sentiment-latest",
+   "slice": "english",
+   "n": 159,
+   "macro_f1": 0.7946357303983541,
+   "accuracy": 0.8616352201257862,
+   "sufficient": true,
+   "confusion": [
+    [
+     80,
+     5,
+     0
+    ],
+    [
+     4,
+     46,
+     3
+    ],
+    [
+     1,
+     9,
+     11
+    ]
+   ]
+  },
+  {
+   "model": "cardiffnlp/twitter-roberta-base-sentiment-latest",
+   "slice": "mixed",
+   "n": 3,
+   "macro_f1": 0.2222222222222222,
+   "accuracy": 0.3333333333333333,
+   "sufficient": false,
+   "confusion": [
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "cardiffnlp/twitter-roberta-base-sentiment-latest",
+   "slice": "other",
+   "n": 27,
+   "macro_f1": 0.6406926406926406,
+   "accuracy": 0.9629629629629629,
+   "sufficient": true,
+   "confusion": [
+    [
+     16,
+     0,
+     0
+    ],
+    [
+     1,
+     10,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "cardiffnlp/twitter-roberta-base-sentiment-latest",
+   "slice": "roman_urdu",
+   "n": 60,
+   "macro_f1": 0.5628815628815629,
+   "accuracy": 0.6,
+   "sufficient": true,
+   "confusion": [
+    [
+     10,
+     5,
+     1
+    ],
+    [
+     1,
+     22,
+     0
+    ],
+    [
+     1,
+     16,
+     4
+    ]
+   ]
+  },
+  {
+   "model": "cardiffnlp/twitter-roberta-base-sentiment-latest",
+   "slice": "urdu_script",
+   "n": 1,
+   "macro_f1": 0.0,
+   "accuracy": 0.0,
+   "sufficient": false,
+   "confusion": [
+    [
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "cardiffnlp/twitter-xlm-roberta-base-sentiment",
+   "slice": "all",
+   "n": 250,
+   "macro_f1": 0.81855754653223,
+   "accuracy": 0.852,
+   "sufficient": true,
+   "confusion": [
+    [
+     110,
+     7,
+     2
+    ],
+    [
+     4,
+     72,
+     12
+    ],
+    [
+     4,
+     8,
+     31
+    ]
+   ]
+  },
+  {
+   "model": "cardiffnlp/twitter-xlm-roberta-base-sentiment",
+   "slice": "english",
+   "n": 159,
+   "macro_f1": 0.8355290355290356,
+   "accuracy": 0.8805031446540881,
+   "sufficient": true,
+   "confusion": [
+    [
+     78,
+     6,
+     1
+    ],
+    [
+     1,
+     47,
+     5
+    ],
+    [
+     1,
+     5,
+     15
+    ]
+   ]
+  },
+  {
+   "model": "cardiffnlp/twitter-xlm-roberta-base-sentiment",
+   "slice": "mixed",
+   "n": 3,
+   "macro_f1": 0.2222222222222222,
+   "accuracy": 0.3333333333333333,
+   "sufficient": false,
+   "confusion": [
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "cardiffnlp/twitter-xlm-roberta-base-sentiment",
+   "slice": "other",
+   "n": 27,
+   "macro_f1": 0.6414212248714353,
+   "accuracy": 0.9629629629629629,
+   "sufficient": true,
+   "confusion": [
+    [
+     15,
+     1,
+     0
+    ],
+    [
+     0,
+     11,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "cardiffnlp/twitter-xlm-roberta-base-sentiment",
+   "slice": "roman_urdu",
+   "n": 60,
+   "macro_f1": 0.7541310541310541,
+   "accuracy": 0.75,
+   "sufficient": true,
+   "confusion": [
+    [
+     15,
+     0,
+     1
+    ],
+    [
+     2,
+     14,
+     7
+    ],
+    [
+     3,
+     2,
+     16
+    ]
+   ]
+  },
+  {
+   "model": "cardiffnlp/twitter-xlm-roberta-base-sentiment",
+   "slice": "urdu_script",
+   "n": 1,
+   "macro_f1": 0.3333333333333333,
+   "accuracy": 1.0,
+   "sufficient": false,
+   "confusion": [
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "Khubaib01/roman-urdu-sentiment-xlm-r",
+   "slice": "all",
+   "n": 250,
+   "macro_f1": 0.7627575358850556,
+   "accuracy": 0.8,
+   "sufficient": true,
+   "confusion": [
+    [
+     105,
+     9,
+     5
+    ],
+    [
+     10,
+     68,
+     10
+    ],
+    [
+     7,
+     9,
+     27
+    ]
+   ]
+  },
+  {
+   "model": "Khubaib01/roman-urdu-sentiment-xlm-r",
+   "slice": "english",
+   "n": 159,
+   "macro_f1": 0.7240546453006047,
+   "accuracy": 0.8050314465408805,
+   "sufficient": true,
+   "confusion": [
+    [
+     74,
+     7,
+     4
+    ],
+    [
+     3,
+     44,
+     6
+    ],
+    [
+     4,
+     7,
+     10
+    ]
+   ]
+  },
+  {
+   "model": "Khubaib01/roman-urdu-sentiment-xlm-r",
+   "slice": "mixed",
+   "n": 3,
+   "macro_f1": 0.2222222222222222,
+   "accuracy": 0.3333333333333333,
+   "sufficient": false,
+   "confusion": [
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "Khubaib01/roman-urdu-sentiment-xlm-r",
+   "slice": "other",
+   "n": 27,
+   "macro_f1": 0.5854636591478696,
+   "accuracy": 0.8888888888888888,
+   "sufficient": true,
+   "confusion": [
+    [
+     16,
+     0,
+     0
+    ],
+    [
+     3,
+     8,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "Khubaib01/roman-urdu-sentiment-xlm-r",
+   "slice": "roman_urdu",
+   "n": 60,
+   "macro_f1": 0.7651531930601698,
+   "accuracy": 0.7666666666666667,
+   "sufficient": true,
+   "confusion": [
+    [
+     13,
+     2,
+     1
+    ],
+    [
+     3,
+     16,
+     4
+    ],
+    [
+     3,
+     1,
+     17
+    ]
+   ]
+  },
+  {
+   "model": "Khubaib01/roman-urdu-sentiment-xlm-r",
+   "slice": "urdu_script",
+   "n": 1,
+   "macro_f1": 0.3333333333333333,
+   "accuracy": 1.0,
+   "sufficient": false,
+   "confusion": [
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "nvidia:nvidia/nemotron-3-super-120b-a12b",
+   "slice": "all",
+   "n": 250,
+   "macro_f1": 0.8694633408919122,
+   "accuracy": 0.892,
+   "sufficient": true,
+   "confusion": [
+    [
+     114,
+     4,
+     1
+    ],
+    [
+     8,
+     79,
+     1
+    ],
+    [
+     4,
+     9,
+     30
+    ]
+   ]
+  },
+  {
+   "model": "nvidia:nvidia/nemotron-3-super-120b-a12b",
+   "slice": "english",
+   "n": 159,
+   "macro_f1": 0.8649759692343348,
+   "accuracy": 0.89937106918239,
+   "sufficient": true,
+   "confusion": [
+    [
+     81,
+     4,
+     0
+    ],
+    [
+     4,
+     48,
+     1
+    ],
+    [
+     3,
+     4,
+     14
+    ]
+   ]
+  },
+  {
+   "model": "nvidia:nvidia/nemotron-3-super-120b-a12b",
+   "slice": "mixed",
+   "n": 3,
+   "macro_f1": 1.0,
+   "accuracy": 1.0,
+   "sufficient": false,
+   "confusion": [
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "model": "nvidia:nvidia/nemotron-3-super-120b-a12b",
+   "slice": "other",
+   "n": 27,
+   "macro_f1": 0.6137254901960785,
+   "accuracy": 0.9259259259259259,
+   "sufficient": true,
+   "confusion": [
+    [
+     16,
+     0,
+     0
+    ],
+    [
+     2,
+     9,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "nvidia:nvidia/nemotron-3-super-120b-a12b",
+   "slice": "roman_urdu",
+   "n": 60,
+   "macro_f1": 0.8501022030433796,
+   "accuracy": 0.85,
+   "sufficient": true,
+   "confusion": [
+    [
+     15,
+     0,
+     1
+    ],
+    [
+     2,
+     21,
+     0
+    ],
+    [
+     1,
+     5,
+     15
+    ]
+   ]
+  },
+  {
+   "model": "nvidia:nvidia/nemotron-3-super-120b-a12b",
+   "slice": "urdu_script",
+   "n": 1,
+   "macro_f1": 0.3333333333333333,
+   "accuracy": 1.0,
+   "sufficient": false,
+   "confusion": [
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "routed: EN\u2192cardiff-roberta, RU/mixed\u2192roman-urdu-xlmr",
+   "slice": "all",
+   "n": 250,
+   "macro_f1": 0.7860648123806019,
+   "accuracy": 0.828,
+   "sufficient": true,
+   "confusion": [
+    [
+     110,
+     8,
+     1
+    ],
+    [
+     9,
+     72,
+     7
+    ],
+    [
+     4,
+     14,
+     25
+    ]
+   ]
+  },
+  {
+   "model": "routed: EN\u2192cardiff-roberta, RU/mixed\u2192roman-urdu-xlmr",
+   "slice": "english",
+   "n": 159,
+   "macro_f1": 0.7788097695218439,
+   "accuracy": 0.8553459119496856,
+   "sufficient": true,
+   "confusion": [
+    [
+     80,
+     5,
+     0
+    ],
+    [
+     4,
+     46,
+     3
+    ],
+    [
+     1,
+     10,
+     10
+    ]
+   ]
+  },
+  {
+   "model": "routed: EN\u2192cardiff-roberta, RU/mixed\u2192roman-urdu-xlmr",
+   "slice": "mixed",
+   "n": 3,
+   "macro_f1": 0.2222222222222222,
+   "accuracy": 0.3333333333333333,
+   "sufficient": false,
+   "confusion": [
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "routed: EN\u2192cardiff-roberta, RU/mixed\u2192roman-urdu-xlmr",
+   "slice": "other",
+   "n": 27,
+   "macro_f1": 0.6406926406926406,
+   "accuracy": 0.9629629629629629,
+   "sufficient": true,
+   "confusion": [
+    [
+     16,
+     0,
+     0
+    ],
+    [
+     1,
+     10,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "model": "routed: EN\u2192cardiff-roberta, RU/mixed\u2192roman-urdu-xlmr",
+   "slice": "roman_urdu",
+   "n": 60,
+   "macro_f1": 0.7339457290676803,
+   "accuracy": 0.7333333333333333,
+   "sufficient": true,
+   "confusion": [
+    [
+     13,
+     2,
+     1
+    ],
+    [
+     3,
+     16,
+     4
+    ],
+    [
+     3,
+     3,
+     15
+    ]
+   ]
+  },
+  {
+   "model": "routed: EN\u2192cardiff-roberta, RU/mixed\u2192roman-urdu-xlmr",
+   "slice": "urdu_script",
+   "n": 1,
+   "macro_f1": 0.0,
+   "accuracy": 0.0,
+   "sufficient": false,
+   "confusion": [
+    [
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  }
+ ],
+ "notes": {
+  "cardiffnlp/twitter-roberta-base-sentiment-latest": "id2label={0: 'negative', 1: 'neutral', 2: 'positive'}",
+  "cardiffnlp/twitter-xlm-roberta-base-sentiment": "id2label={0: 'negative', 1: 'neutral', 2: 'positive'}",
+  "Khubaib01/roman-urdu-sentiment-xlm-r": "id2label={0: 'Positive', 1: 'Negative', 2: 'Neutral'}"
+ }
+}

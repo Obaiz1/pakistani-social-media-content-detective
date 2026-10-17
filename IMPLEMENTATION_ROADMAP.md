@@ -1,6 +1,6 @@
 # IMPLEMENTATION_ROADMAP
 
-**Current phase:** 8 — Analytics MVP built, awaiting **Demo/approve MVP** gate
+**Current phase:** 9 — NLP built; waiting on owner label verification + model choice (ADR-017)
 
 | Phase | Name | Concrete output | Gate | Status |
 |---|---|---|---|---|
@@ -12,8 +12,8 @@
 | 5 | Plan execution | Backlog, acceptance tests, file structure, tasks | **Authorize coding** | Completed (owner: "next", 2026-10-17) |
 | 6 | Build runnable foundation | Environment, skeleton, app entry, tests, demo fixture | Smoke test | Completed (5/5 tests pass; server health ok) |
 | 7 | Implement data pipeline | Import, validation, mapping, cleaning, dedup | Data pipeline tests | Completed (46 tests pass; real run 2,204 videos) |
-| 8 | Build analytics MVP | Engagement, platform/content comparisons, filters, charts | **Demo/approve MVP** | Built (63 tests pass; rendered + visually checked); awaiting owner approval |
-| 9 | Add multilingual NLP | Urdu/Roman Urdu/English, hashtags, topics, evaluated sentiment | NLP tests/evaluation | Not started |
+| 8 | Build analytics MVP | Engagement, platform/content comparisons, filters, charts | **Demo/approve MVP** | Completed (owner: "next") |
+| 9 | Add multilingual NLP | Urdu/Roman Urdu/English, hashtags, topics, evaluated sentiment | NLP tests/evaluation | Built + benchmarked (PROVISIONAL labels); awaiting owner label verification |
 | 10 | Timing & engagement patterns | Weekday/hour heatmaps, authorized segment views | Insight validation | Not started |
 | 11 | Investigate predictive ML | Leakage-safe baseline vs model; defer if infeasible | Model evaluation | Not started |
 | 12 | AI-assisted recommendation engine | Explainable next-post experiments, optional LLM captions | **Review quality** | Not started |

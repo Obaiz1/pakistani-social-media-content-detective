@@ -7,12 +7,12 @@
 ---
 
 ## Current state
-- **Phase:** 8 built (S3), waiting on the **Demo/approve MVP** gate (owner). After approval → Phase 9 NLP (F-14..F-17).
+- **Phase:** 9 built. Waiting on the OWNER: (a) verify labels in `data/labels/labels_v1.csv` (fill owner_sentiment/owner_language only where they disagree, set verified_by_owner=True), then rerun `python -m uv run --group nlp python scripts/run_sentiment_benchmark.py`; (b) choose the sentiment model (ADR-017). MVP gate ✅.
 - **Batch A:** ✅ done
 - **Batch B:** ✅ done (owner said "use default" for all remaining items)
 - **Batches C–F:** ✅ filled with documented DEFAULTS. Owner delegated: "abhe procced kro bad mae dekhte" (proceed now, revisit later)
 - **Phase 1 gate:** ✅ owner replied "next" to the sign-off request (treated as approval)
-- **Code written:** pipeline (`src/` ingestion/processing/validation/pipeline), analytics (`src/analytics/compare.py`), dashboard (`app.py` + `views/{overview,brands,content,method}.py`, `src/ui.py`, `src/app_data.py`), 63 tests. Latest real snapshot: `data/processed/2026-10-17/` (git-ignored; refresh/delete by 2026-11-16). Run: `python -m uv run streamlit run app.py`.
+- **Code written:** pipeline, analytics, 5-page dashboard (Overview, Brands, Content, Sentiment, Data & Method), NLP (`src/nlp/{langid,sentiment,benchmark}.py`, `scripts/{draft_labels_v1,run_sentiment_benchmark,score_sentiment}.py`), 83 tests. NLP deps live in the `nlp` group (`--group nlp`). Snapshot `data/processed/2026-10-17/` (comments now have language + sentiment_label; refresh/delete by 2026-11-16). Labels/predictions/LLM cache in `data/labels/` (git-ignored: real comment text).
 
 ## Key confirmed decisions (details in DECISIONS.md)
 | Topic | Decision |
@@ -48,6 +48,7 @@
 - [ ] Sign off on Phase 1 requirements (one-page summary).
 
 ## Last actions (newest first)
+0000000000. Phase 9 (actual): language ID accuracy 0.872 (EN P/R 0.91/0.92, RU 0.94/0.82). Sentiment macro-F1 on 250 PROVISIONAL labels: Nemotron-3-Super 0.869, XLM-R twitter 0.819, routed 0.786, RU-XLM-R 0.763, RoBERTa-EN 0.721, VADER 0.602. Nemotron − XLM-R = +0.051, CI [-0.007, +0.116] → not significant. Scored 781 real comments with XLM-R: 382 pos / 255 neu / 144 neg; language EN 448, RU 158, other 146, mixed 24, Urdu script 5. Net sentiment by brand: Alkaram +0.50, Khaadi +0.45, Nishat +0.43, Limelight +0.40, Sapphire +0.19, Gul Ahmed +0.12, J. +0.05 (n=21, wide CI). Bugs fixed: NVIDIA client didn't retry ReadTimeout; benchmark tests skip without sklearn.
 000000000. Phase 8 built: compare.py (median + bootstrap CI, Mann-Whitney + Cliff's δ, BH, Kruskal, n≥20), 4 dashboard pages, data-source priority (fresh snapshot → live API with 24 h cache → SYNTHETIC with banner). Found + fixed: Bonanza null ER (ADR-015), Plotly row order, deprecated use_container_width. Screenshots via a headless-Edge CDP script (scratchpad/shot.py; restart Streamlit after src/ edits). Preliminary real-data findings (snapshot 2026-10-17; reliable, non-promoted videos n=1,845; metric rel_er; BH-adjusted): Wedding/festive median 1.34 (CI 1.21–1.48, adj p 0.001, small effect δ≈0.16), the only campaign clearly above typical. Sale/discount 0.94 (adj p 0.015) and untagged 1.00 (adj p 0.002) are below the rest. 0–15 s videos 1.05 vs the rest (adj p 0.006, negligible effect). 0 hashtags 1.22 (adj p 0.002) vs 6+ hashtags 1.03 (adj p 0.003), both negligible effects. Title script/emoji: insufficient n for non-Latin/emoji groups. Brand median ER: Nishat > Khaadi > Sapphire > Limelight > Bonanza > J. > Alkaram > Gul Ahmed.
 00000000. Phase 7 real run 2026-10-17 (actual): `uv run python scripts/collect.py` → exit 0, channels=8, videos=2,204, comments=781 from 444 videos, quota=655 units. Per-brand video counts match the Phase 2 audit exactly (0.0% diff; Nishat=615 confirms full paging). 0 duplicate videos/comments, 0 author columns, 0 hidden likes. Duration buckets: 0-15s 728, 16-30s 939, 31-60s 444, 61-180s 88, >180s 5. likely_promoted=242 (11%). low_reliability=131. Comment scripts: latin 654, emoji/none 122, **Urdu script only 5** (Urdu-script sentiment benchmark n will be tiny). 781 < ~888 audit commentCount because commentCount includes replies; we fetch top-level only. First run crashed on `RemoteDisconnected`; fixed: client retries network errors (tests added).
 0000000. Owner said "next", treated as Authorize coding. Phase 6 done: installed uv 0.13.1 (`python -m pip install --user uv`; call it as `python -m uv`, since `uv` isn't on PATH), Python 3.12.15 via uv, `uv sync`, generated the SYNTHETIC fixture (8 fictional brands, 357 videos, 239 comments), `uv run pytest` → 5 passed, Streamlit headless health check ok.
@@ -66,6 +67,6 @@
 6. Scaffolded all project docs.
 
 ## Next step
-1. Owner reviews the MVP demo (`python -m uv run streamlit run app.py`) → approve or request changes.
-2. Phase 9: F-14 language ID, F-15 labeled set (~250 comments; Claude drafts, owner verifies; keep comment text out of git), F-16 sentiment benchmark (HF + VADER + NVIDIA Nemotron), F-17 sentiment page. Note: only 5 Urdu-script comments exist.
+1. Owner label verification + model choice (see Phase line). If Nemotron is chosen: score comments via NvidiaLLM (cache in data/labels/nvidia_cache.json) and update scripts/score_sentiment.py.
+2. Phase 10: F-18 weekday × hour PKT heatmap on rel_er (within-brand), with n per cell and n≥20 rule.
 3. Pinned channel IDs: Khaadi UCosHRi7jeBb0JGZfFlOHYUA · Sapphire UCvMjM0BkK7SzlYnPTi5CBUQ · Gul Ahmed UCsAIxl3qvpy1DofpwDEx6Ow · J. UC5xbg6lBACA3HBdN8idiQvQ · Alkaram UCG-I5rH3YEFu3VKUAtmxLIg · Bonanza UCDblU9Vxyi7kXxX0uf-cvyg · Nishat UCVQd-OGmpDTnXGfVR8eRrGQ · Limelight UCbvMxYDdZki0P95gCORO8oA

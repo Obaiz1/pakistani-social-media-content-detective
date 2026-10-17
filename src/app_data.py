@@ -57,7 +57,11 @@ def synthetic_dataset() -> Dataset:
     for col in ("view_count", "like_count", "comment_count"):
         v[col] = v[col].astype("Int64")
     channels = raw.channels.assign(subscriber_count=raw.channels["subscriber_count"].astype("Int64"))
-    return process(Dataset(channels=channels, videos=v.drop(columns=["duration_s"]), comments=raw.comments),
+    comments = raw.comments.copy()
+    # deterministic SYNTHETIC sentiment so the Sentiment page can be exercised without NLP models
+    comments["sentiment_label"] = [("positive", "positive", "neutral", "negative")[i % 4] for i in range(len(comments))]
+    comments["sentiment_model"] = "SYNTHETIC"
+    return process(Dataset(channels=channels, videos=v.drop(columns=["duration_s"]), comments=comments),
                    SYNTHETIC_SNAPSHOT, load_campaign_tags())
 
 

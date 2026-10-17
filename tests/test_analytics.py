@@ -68,3 +68,27 @@ def test_default_order_puts_insufficient_groups_last():
 def test_explicit_order_is_kept():
     out = compare_groups(_planted(), "g", "m", order=["c", "b", "a"])
     assert out["group"].tolist() == ["c", "b", "a"]
+
+
+# ---------- sentiment aggregation ----------
+
+from src.analytics.sentiment_agg import sentiment_by  # noqa: E402
+
+
+def test_sentiment_by_hand_computed_and_min_n():
+    df = pd.DataFrame({
+        "brand_id": ["a"] * 20 + ["b"] * 5,
+        "sentiment_label": ["positive"] * 12 + ["neutral"] * 4 + ["negative"] * 4 + ["negative"] * 5,
+    })
+    out = sentiment_by(df, "brand_id").set_index("group")
+    # a: 12/20 pos, 4/20 neg -> net = 0.6 - 0.2 = 0.4
+    assert out.loc["a", "net"] == pytest.approx(0.4) and out.loc["a", "positive"] == pytest.approx(0.6)
+    assert out.loc["a", "net_low"] < 0.4 < out.loc["a", "net_high"]
+    assert not out.loc["b", "sufficient"] and np.isnan(out.loc["b", "net_low"])
+    assert out.index[-1] == "b"        # insufficient groups last
+
+
+def test_sentiment_by_explodes_campaign_lists():
+    df = pd.DataFrame({"campaign_tags": [["eid", "sale"]] * 20, "sentiment_label": ["positive"] * 20})
+    out = sentiment_by(df, "campaign_tags").set_index("group")
+    assert out.loc["eid", "n"] == 20 and out.loc["sale", "net"] == pytest.approx(1.0)

@@ -22,6 +22,14 @@ dependencies = [
 dev = [
     "pytest>=8.3",
 ]
+nlp = [
+    "protobuf>=5",
+    "scikit-learn>=1.5",
+    "sentencepiece>=0.2",
+    "torch>=2.5",
+    "transformers>=4.46",
+    "vadersentiment>=3.3",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

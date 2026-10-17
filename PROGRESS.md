@@ -30,7 +30,7 @@
 - Phase 2 audit run (actual): 8 channels resolved, ~2,190–2,300 videos in 24 m, ~896 comments total, ~1,035 quota units. Results in docs/DATA_AUDIT.md.
 
 ## Blockers
-- None. Waiting for Batch C answers.
+- Phase 2 gate: owner approval needed for data-scope changes P1–P5 (docs/DATA_AUDIT.md §6).
 
 ## Next action
-Get Batch B answers (main user, content types, timeframe, report format).
+Record the Phase 2 decision, then Phase 3 (solution comparison) → Phase 4 (architecture).

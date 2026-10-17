@@ -14,6 +14,8 @@
 - Environment check (actual output): git 2.45.2, gh 2.93.0 (logged in as Obaiz1), Python 3.14.4.
 - Initialized local git repo with `.gitignore` and made the first commit of the docs. No GitHub remote yet.
 
+- Owner provided a Google Stitch API key. Saved it to `.env` (git-ignored, verified with `git check-ignore`) and added `.env.example` with empty placeholders. Registered the Stitch MCP server with `claude mcp add -s local`; `claude mcp get stitch` reported **✓ Connected**.
+
 ## Blockers
 - Waiting for: acknowledgment of the API-not-scraping decision, Meta account status, brand list, repo name/visibility, deadline.
 

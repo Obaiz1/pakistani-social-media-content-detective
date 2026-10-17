@@ -57,6 +57,8 @@
 
 - Phase 14: private data repo Obaiz1/pakistani-smcd-data, SSH deploy key (write) + Actions secrets YOUTUBE_API_KEY/DATA_REPO_DEPLOY_KEY set via gh, weekly workflow, remote loader (+ test), requirements.txt (no torch), product renamed (ADR-024/025). 110 tests pass.
 
+- First refresh-data run (manual, 2026-10-17 19:11 UTC): success in 3m27s → private repo has 1 commit with channels/videos/comments.parquet + manifest {snapshot 2026-10-17, 2,190 videos, 763 comments, comment_text_included: false}. Verified with the app's remote loader: 8 brands, no 'text' column, sentiment 380/244/139. (2,190 vs 2,204 locally: the 24-month window moved by hours, plus deletions.) Annotation: actions on Node 20 are deprecated; still works. Streamlit deploy could NOT be automated: no Streamlit Cloud API, and the 'Claude in Chrome' extension isn't connected; the owner deploys via share.streamlit.io.
+
 ## Blockers
 - Owner: read-only PAT for Streamlit secrets; Streamlit Cloud sign-in. Open: label verification. Open: owner verification of the 250 draft labels.
 

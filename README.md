@@ -4,7 +4,7 @@
 
 An evidence-first analytics app that collects public YouTube data for 8 Pakistani clothing brands, measures engagement honestly, benchmarks multilingual sentiment models (English, Roman Urdu, Urdu), and turns only statistically supported findings into testable "what to post next" recommendations.
 
-**Live app:** _link added after deployment_ · **Data:** YouTube Data API v3, refreshed weekly · **Stack:** Python 3.12, pandas, Streamlit, Plotly, scikit-learn, Hugging Face Transformers, NVIDIA API Catalog
+**Live app:** [https://pakistani-social-media-content-detective-mahmts48mya2xnxwgttip.streamlit.app](https://pakistani-social-media-content-detective-mahmts48mya2xnxwgttip.streamlit.app) · **Data:** YouTube Data API v3, refreshed weekly · **Stack:** Python 3.12, pandas, Streamlit, Plotly, scikit-learn, Hugging Face Transformers, NVIDIA API Catalog
 
 ![Demo](docs/screenshots/demo.gif)
 
@@ -84,7 +84,7 @@ Without a key or snapshot the app runs on a clearly bannered **SYNTHETIC** demo 
 
 ## Project documents
 
-[SESSION_HANDOFF](SESSION_HANDOFF.md) · [PROJECT_SCOPE](PROJECT_SCOPE.md) · [REQUIREMENTS_FORM](REQUIREMENTS_FORM.md) · [ARCHITECTURE_BLUEPRINT](ARCHITECTURE_BLUEPRINT.md) · [IMPLEMENTATION_ROADMAP](IMPLEMENTATION_ROADMAP.md) · [DECISIONS](DECISIONS.md) (25 ADRs) · [PROGRESS](PROGRESS.md) · [DATA_AUDIT](docs/DATA_AUDIT.md)
+[SESSION_HANDOFF](SESSION_HANDOFF.md) · [PROJECT_SCOPE](PROJECT_SCOPE.md) · [REQUIREMENTS_FORM](REQUIREMENTS_FORM.md) · [ARCHITECTURE_BLUEPRINT](ARCHITECTURE_BLUEPRINT.md) · [IMPLEMENTATION_ROADMAP](IMPLEMENTATION_ROADMAP.md) · [DECISIONS](DECISIONS.md) (26 ADRs) · [PROGRESS](PROGRESS.md) · [DATA_AUDIT](docs/DATA_AUDIT.md)
 
 ## AI-use disclosure
 

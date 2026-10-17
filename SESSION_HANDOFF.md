@@ -7,7 +7,7 @@
 ---
 
 ## Current state
-- **Phase:** 14 in progress (deploy). Done: private data repo, deploy key, Actions secrets, workflow, remote loader, requirements.txt, rename (ADR-024/025). Waiting on the OWNER: (1) a fine-grained PAT, read-only Contents on Obaiz1/pakistani-smcd-data, for Streamlit secrets; (2) sign in at share.streamlit.io with GitHub to deploy.
+- **Phase:** 14: app DEPLOYED and showing real data at https://pakistani-social-media-content-detective-mahmts48mya2xnxwgttip.streamlit.app (owner confirmed 'chal gya ha'). Remaining: final project report (PDF), final sign-off, owner label verification, rotate the DATA_REPO_TOKEN (it was pasted in chat several times), optional Stitch polish. Owner is now asking for improvement ideas.
 - **Batch A:** ✅ done
 - **Batch B:** ✅ done (owner said "use default" for all remaining items)
 - **Batches C–F:** ✅ filled with documented DEFAULTS. Owner delegated: "abhe procced kro bad mae dekhte" (proceed now, revisit later)
@@ -49,6 +49,7 @@
 - [ ] Sign off on Phase 1 requirements (one-page summary).
 
 ## Last actions (newest first)
+000000000000000000. Deployed on Streamlit Community Cloud (Python 3.14 in Cloud settings; requirements.txt). Debugged HTTP 401: Secrets held a 32-char truncated token (copied from an illustrative '…' line in chat; screenshots also overwrote the clipboard). Fixes shipped: HTTP status + token fingerprint in the banner, token whitespace/quote stripping, failed loads not pinned in session_state. Live link added to README.
 00000000000000000. First refresh-data run (manual, 2026-10-17 19:11 UTC): success in 3m27s → private repo has 1 commit with channels/videos/comments.parquet + manifest {snapshot 2026-10-17, 2,190 videos, 763 comments, comment_text_included: false}. Verified with the app's remote loader: 8 brands, no 'text' column, sentiment 380/244/139. (2,190 vs 2,204 locally: the 24-month window moved by hours, plus deletions.) Annotation: actions on Node 20 are deprecated; still works. Streamlit deploy could NOT be automated: no Streamlit Cloud API, and the 'Claude in Chrome' extension isn't connected; the owner deploys via share.streamlit.io.
 0000000000000000. Owner chose deployment Option A and the name 'AI Social Media Content Detective'. Built the weekly refresh pipeline (private data repo + deploy key + workflow + remote loader). 110 tests pass.
 000000000000000. Phase 13 (actual, 2026-10-18): new page 'Report & exports': Excel workbook (About+caveats, Recommendations, 7 summary sheets), Recommendations CSV, 3-page PDF (cards, 5 median+CI charts drawn with fpdf2 primitives, sentiment, caveats). Only aggregates are exported (tests assert no video_id/title/text columns). Accessibility: chart colors #2a78d6/#e34948 pass the dataviz validator in light+dark (CVD ΔE 21.6, contrast ≥3:1); phone width 390 px renders cleanly. Fixed while reviewing the real PDF: Sentiment page ignored sidebar filters (now filtered like every page; numbers change accordingly), raw campaign keys in PDF, 'AB/TEST' label, 'between on Saturday' wording; fpdf2 multi_cell cursor bug.

@@ -47,6 +47,9 @@ jobs:
       - name: Score comment sentiment (XLM-R, ADR-017)
         run: uv run --group nlp python scripts/score_sentiment.py
 
+      - name: Title themes (BERTopic)
+        run: uv run --group nlp python scripts/fit_topics.py
+
       - name: Prepare publish folder (comment text removed)
         run: uv run python scripts/publish_snapshot.py publish
 

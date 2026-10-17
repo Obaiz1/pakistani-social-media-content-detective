@@ -39,6 +39,21 @@ section("Video length", "duration_bucket", order=DURATION_ORDER,
 section("Campaign", "campaign_tags", label=lambda g: TAG_LABELS.get(g, g),
         note="Tags come from keywords in the title/description; a video can carry several tags.")
 
+if "topic_label" in videos and videos["topic_label"].notna().any():
+    topic_videos = videos[videos["topic_id"] != -1]
+    st.subheader("Data-driven themes (BERTopic)")
+    st.caption("Themes discovered from the titles themselves (multilingual embeddings + clustering), instead of our "
+               "keyword list. Videos that fit no theme (outliers) are left out.")
+    summary = compare_groups(topic_videos, "topic_label", "rel_er")
+    if not summary.empty:
+        st.plotly_chart(median_ci_chart(summary, "Relative engagement by title theme (median, 95% CI)",
+                                        "Relative engagement (1.0 = brand median)", pct=False, reference=1.0),
+                        width="stretch")
+        with st.expander("Table view & statistics"):
+            st.dataframe(summary_table(summary, pct=False), hide_index=True, width="stretch")
+            st.caption(f"Kruskal-Wallis p = {summary.attrs['kruskal_p']:.3g}. "
+                       f"{int((videos['topic_id'] == -1).sum())} videos had no clear theme.")
+
 videos["hashtag_band"] = pd.cut(videos["hashtag_count"], [-1, 0, 2, 5, 1_000],
                                 labels=["0", "1–2", "3–5", "6+"]).astype(str)
 section("Hashtag count", "hashtag_band", order=["0", "1–2", "3–5", "6+"])

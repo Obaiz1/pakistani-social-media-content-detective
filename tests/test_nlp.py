@@ -45,3 +45,14 @@ def test_benchmark_table_slices_and_flags_small_n():
     by = t.set_index("slice")
     assert by.loc["all", "n"] == 30 and by.loc["english", "accuracy"] == 1.0
     assert not by.loc["roman_urdu", "sufficient"]
+
+
+# ---------- BERTopic preprocessing (fitting itself needs the nlp group + model download) ----------
+
+from src.nlp.topics import clean_title  # noqa: E402
+
+
+def test_clean_title_removes_brands_urls_and_hashtags():
+    t = clean_title("Khaadi | #Eid Collection 2025 – Shop now https://khaadi.com @ Sapphire Official")
+    assert "khaadi" not in t and "sapphire" not in t and "http" not in t and "#" not in t
+    assert "eid" in t and "collection" in t

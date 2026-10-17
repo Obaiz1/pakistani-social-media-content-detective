@@ -26,7 +26,9 @@ dev = [
     "pytest>=8.3",
 ]
 nlp = [
+    "bertopic>=0.16",
     "protobuf>=5",
+    "sentence-transformers>=3.0",
     "sentencepiece>=0.2",
     "torch>=2.5",
     "transformers>=4.46",

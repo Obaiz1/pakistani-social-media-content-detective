@@ -1,6 +1,6 @@
 # PROGRESS
 
-**Current phase:** 11 — Predictive ML | Evaluated, deferred
+**Current phase:** 12 — Recommendations | Built, awaiting review
 
 ## Log
 ### 2026-10-17
@@ -48,8 +48,10 @@
 
 - Phase 11 (actual): target log(ER), chronological split, train 1,476 (2024-10-18→2026-04-17), test 369 newest (2026-04-17→2026-10-03), 42 pre-publication features. MAE(log): global median 0.609, brand median 0.699, ridge 0.679, gradient boosting 0.682. vs global median: ridge +0.069 [+0.007, +0.137], GB +0.073 [+0.018, +0.126], i.e. models are significantly WORSE than the simplest baseline → prediction DEFERRED. Global median beating brand medians implies brand ER levels drifted over time. `uv run pytest` → 96 passed.
 
+- Phase 12 (actual, real snapshot, reliable non-promoted videos): 11 cards = 1 'Next post' + 10 evidence cards. Next post: wedding/festive video (1.34 [1.18–1.47] vs 1.10 rest, small effect, adj p 0.001) in the morning 06–12 PKT (1.20 vs 1.07, negligible, adj p 0.042); de-prioritise menswear (n=50, small), Saturday (0.93 vs 1.12, small), sale/discount (negligible). Strength labels: 4 modest, 7 weak/negligible. NVIDIA rewrites accepted by the number lock: 4/11 (the rest fell back to templates). `uv run pytest` → 102 passed.
+
 ## Blockers
-- None blocking. Open: owner verification of the 250 draft labels.
+- Review quality gate (owner). Open: owner verification of the 250 draft labels.
 
 ## Next action
-Phase 12 recommendation engine (F-20/F-21) → Review quality gate.
+Owner review → Phase 13 exports + UI polish.

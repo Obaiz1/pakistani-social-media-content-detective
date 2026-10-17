@@ -6,6 +6,7 @@ st.set_page_config(page_title="Pakistani Social Media Content Detective", page_i
 
 pages = st.navigation([
     st.Page("views/overview.py", title="Overview", icon="🏠", default=True),
+    st.Page("views/recommendations.py", title="What to post next", icon="🎯"),
     st.Page("views/brands.py", title="Brands", icon="🏷️"),
     st.Page("views/content.py", title="Content", icon="🎬"),
     st.Page("views/timing.py", title="Posting time", icon="🕒"),

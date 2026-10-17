@@ -61,12 +61,13 @@ def compare_groups(df: pd.DataFrame, by: str, metric: str, min_n: int = MIN_N,
     rows = []
     for group, sub in data.groupby(by, sort=False):
         vals = sub[metric].to_numpy()
+        rest = data.loc[data[by] != group, metric].to_numpy()
         row = {"group": group, "n": len(vals), "median": float(np.median(vals)),
+               "rest_median": float(np.median(rest)) if len(rest) else np.nan,
                "ci_low": np.nan, "ci_high": np.nan, "sufficient": len(vals) >= min_n,
                "p_value": np.nan, "cliffs_delta": np.nan}
         if row["sufficient"]:
             row["ci_low"], row["ci_high"] = bootstrap_median_ci(vals)
-            rest = data.loc[data[by] != group, metric].to_numpy()
             if len(rest) >= min_n:
                 row["p_value"] = float(stats.mannwhitneyu(vals, rest, alternative="two-sided").pvalue)
                 row["cliffs_delta"] = cliffs_delta(vals, rest)

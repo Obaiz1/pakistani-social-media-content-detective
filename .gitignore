@@ -24,3 +24,6 @@ data/labels/
 .DS_Store
 Thumbs.db
 .ipynb_checkpoints/
+
+# Streamlit local secrets
+.streamlit/secrets.toml

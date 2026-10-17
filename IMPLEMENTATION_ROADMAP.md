@@ -5,8 +5,8 @@
 | Phase | Name | Concrete output | Gate | Status |
 |---|---|---|---|---|
 | 0 | Understand the real problem | Problem statement, stakeholders, success goals, first questions | Approve problem framing | Completed |
-| 1 | Gather and finalize requirements | Filled requirements form, priorities, acceptance criteria | **Approve requirements** | Awaiting sign-off |
-| 2 | Feasibility & responsible data audit | Authorized source matrix, sample-column audit, quality/risk report | **Approve data scope** | Not started |
+| 1 | Gather and finalize requirements | Filled requirements form, priorities, acceptance criteria | **Approve requirements** | Completed (owner replied "next" to the sign-off request, 2026-10-17) |
+| 2 | Feasibility & responsible data audit | Authorized source matrix, sample-column audit, quality/risk report | **Approve data scope** | Audit done (`docs/DATA_AUDIT.md`); awaiting gate approval |
 | 3 | Compare proposed solutions | Notebook vs Streamlit vs full stack, tradeoffs | Approve solution direction | Not started |
 | 4 | Design complete architecture | Diagram, modules, schema, flows, metrics, evaluation | **Approve architecture** | Not started |
 | 5 | Plan execution | Backlog, acceptance tests, file structure, tasks | **Authorize coding** | Not started |

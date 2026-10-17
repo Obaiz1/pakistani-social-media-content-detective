@@ -1,6 +1,6 @@
 # PROGRESS
 
-**Current phase:** 0 — Understand the real problem | Discovery
+**Current phase:** 2 — Feasibility & data audit | Awaiting gate
 
 ## Log
 ### 2026-10-17
@@ -25,6 +25,9 @@
 - Added `SESSION_HANDOFF.md` per the owner's request so future sessions can resume; `CLAUDE.md` now says to read it first.
 
 - YouTube API key saved to `.env`. Test call (actual result): `channels.list?forHandle=@khaadi` → `UCosHRi7jeBb0JGZfFlOHYUA | Khaadi | subs: 47300 | videos: 819`. Cost: 1 quota unit.
+
+- Phase 1 signed off (owner: "next").
+- Phase 2 audit run (actual): 8 channels resolved, ~2,190–2,300 videos in 24 m, ~896 comments total, ~1,035 quota units. Results in docs/DATA_AUDIT.md.
 
 ## Blockers
 - None. Waiting for Batch C answers.

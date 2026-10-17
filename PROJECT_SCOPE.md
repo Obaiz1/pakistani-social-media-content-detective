@@ -41,10 +41,27 @@ TBD (candidates: student, evaluator, marketing analyst, brand owner)
 - Guaranteeing reach, virality, or business results
 
 ## Assumptions
-None confirmed yet.
+- Most remaining choices are delegated defaults (see REQUIREMENTS_FORM.md); the owner may revise them.
+- Selected brands have active official YouTube channels with enough videos (verified in Phase 2).
 
 ## Success criteria
-TBD
+- Public Streamlit dashboard answers Q1–Q5 + Q7 for YouTube data, showing n and caveats on every insight
+- Sentiment model chosen by a measured benchmark (macro-F1) on a human-verified labeled set
+- Every recommendation states what/where/when/why/n/limitations/A-B test idea
+- Reproducible setup; tests pass; no secrets in the repo
+
+## One-page scope summary (for Phase 1 sign-off)
+| Area | Scope |
+|---|---|
+| Question | Which YouTube content gets Pakistani clothing brand audiences to engage? |
+| Data | YouTube Data API v3: 6–8 brands, last 24 months, videos + up to 100 top comments/video |
+| Not included | Scraping, Instagram (deferred), audience demographics, speech-to-text, auto-posting |
+| Metric | ER = (likes+comments)/views; videos < 14 days old excluded; PKT time analysis |
+| NLP | Language detection → benchmarked sentiment (EN / Urdu / Roman Urdu); keywords/hashtags |
+| Optional | Engagement prediction, BERTopic, LLM captions (Claude Haiku, needs budget) |
+| Product | Streamlit + Plotly dashboard, CSV/Excel/PDF exports, Streamlit Community Cloud |
+| Quality | pytest with hand-checked fixtures; synthetic data only for UI, labeled |
+| Done | Deployed app + PDF report + README (screenshots, GIF) + passing tests |
 
 ## Deliverables
 Streamlit dashboard + modular Python analytics + project report (CONFIRMED 2026-10-17)

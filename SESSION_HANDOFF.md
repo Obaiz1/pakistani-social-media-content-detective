@@ -10,8 +10,8 @@
 - **Phase:** 1 — Gather and finalize requirements (in progress)
 - **Batch A:** ✅ done
 - **Batch B:** ✅ done (owner said "use default" for all remaining items)
-- **Batch C:** ⏳ asked; waiting for owner answers
-- **Batches D, E, F:** not asked yet
+- **Batches C–F:** ✅ filled with documented DEFAULTS. Owner delegated: "abhe procced kro bad mae dekhte" (proceed now, revisit later)
+- **Phase 1 gate:** ⏳ waiting for the owner's explicit sign-off on the one-page scope summary (PROJECT_SCOPE.md)
 - **Code written:** none (by design; coding needs Phase 5 approval)
 
 ## Key confirmed decisions (details in DECISIONS.md)
@@ -43,9 +43,10 @@
 ## Pending owner actions
 - [x] YouTube API key added to `.env` (pasted in chat, then saved by Claude; tested OK).
 - [ ] Optional: rotate the Stitch and YouTube keys (both were pasted in chat), and restrict the YouTube key to "YouTube Data API v3" in Google Cloud Console.
-- [ ] Answer Batch C (C1–C5).
+- [ ] Sign off on Phase 1 requirements (one-page summary).
 
 ## Last actions (newest first)
+00. Owner delegated the pending choices. Filled Batches C–F with defaults, wrote the one-page scope summary, and asked for Phase 1 sign-off.
 0a. Owner asked for sentiment model options. Gave a candidate list (ARCHITECTURE_BLUEPRINT.md → "Sentiment model candidates"). Waiting on the owner's choice: benchmark approach + who labels the eval set.
 0. Saved and tested the YouTube API key; answered the owner's question about other API keys (ADR-008).
 1. Created this handoff file; added a "read SESSION_HANDOFF.md first" note to `CLAUDE.md`.
@@ -56,7 +57,5 @@
 6. Scaffolded all project docs.
 
 ## Next step
-1. Record the owner's Batch C answers in `REQUIREMENTS_FORM.md`.
-2. Ask Batch D (analytics & AI, Q18–Q24), then E and F.
-3. Show the one-page scope summary and get **explicit requirements sign-off** (Phase 1 gate).
-4. Phase 2: once the YouTube key exists, verify brand channel IDs and audit the real API fields/quota.
+1. Get **explicit Phase 1 sign-off** from the owner.
+2. Phase 2 (feasibility & data audit): resolve the 8 candidate brands' channel IDs, count videos in the last 24 months, sample real API fields (likes hidden? comments disabled?), estimate quota, check YouTube API Developer Policies on data storage/refresh. Use a throwaway audit script in the scratchpad, not app code. Write the results to `docs/DATA_AUDIT.md`, then ask for the **Phase 2 gate (data scope) approval**.

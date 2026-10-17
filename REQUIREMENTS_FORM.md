@@ -37,17 +37,49 @@ Owner instruction for the remaining items: **"use default"** (2026-10-17).
 | B5 | Timeframe / volume | Last 24 months of videos for 6–8 brands | CONFIRMED (default) |
 | B6 | Report / demo deliverables | PDF report + README screenshots + short demo GIF; no slides | CONFIRMED (default) |
 
+> **Delegation note (2026-10-17):** For everything still pending, the owner said *"abhe procced kro bad mae dekhte"* (proceed now, we'll revisit later). Every item below marked **DEFAULT** is a documented Claude default under that delegation. The owner can change any of them later; when that happens, update the row and DECISIONS.md.
+
 ### Batch C — Data quality and metrics
-Asked 2026-10-17; awaiting answers (see Outstanding questions).
+| # | Question | Answer | Status |
+|---|---|---|---|
+| C1 | Available columns | YouTube API (to be verified in Phase 2): video_id, channel_id, published_at, title, description, tags, duration, view_count, like_count (can be hidden → null), comment_count (null if comments disabled), channel subscriber_count; public comment text + like count. **Not available:** shares, saves, reach, impressions, audience country/age/gender | DEFAULT |
+| C2 | Engagement definition | Primary: **ER_views = (likes + comments) / views**. Secondary: per-subscriber views. Videos with < 100 views get flagged low-reliability. Formula and coverage are shown in the UI | DEFAULT |
+| C3 | Observation window | Record a snapshot date at collection; exclude videos younger than **14 days**; video age (days) is a control variable | DEFAULT |
+| C4 | Comment text & privacy | Up to **100 top comments per video**. Drop commenter name, channel ID, and profile URL; keep only text, like count, and published time | DEFAULT |
+| C5 | Time zone | Store in UTC, display/analyze in **Asia/Karachi** | DEFAULT |
+| C6 | Audience segments | No permitted audience data, so the segment view shows **"Unavailable"** | DEFAULT |
+| C7 | Validation / duplicates / retention | Deduplicate on video_id (latest snapshot wins); warn when a brand has < 30 videos; missing values stay null; raw API data stays local and out of git. Retention must follow the YouTube API Developer Policies, which get checked in Phase 2 (stored API data may need periodic refresh/deletion) | DEFAULT |
 
 ### Batch D — Analytics and AI
-Not yet asked (Q18–Q24).
+| # | Question | Answer | Status |
+|---|---|---|---|
+| D1 | Must-have charts/filters | KPI tiles; brand comparison; Shorts vs long (distribution plots); campaign-tag comparison; weekday × hour heatmap (PKT); sentiment vs ER scatter; top keywords/hashtags. Filters: brand, date range, format, campaign tag, language. Every chart shows n and caveats | DEFAULT |
+| D2 | Languages | English, Urdu script, Roman Urdu, and mixed, with language detection routing | DEFAULT |
+| D3 | Sentiment level & labels | Comment-level sentiment, aggregated per video. Benchmark the candidate models (ARCHITECTURE_BLUEPRINT) on ~200–300 real comments. **Claude drafts labels, owner verifies.** Metrics: macro-F1 + confusion matrix | DEFAULT |
+| D4 | Topics/hashtags | Frequency + TF-IDF first; BERTopic optional (Could) | DEFAULT |
+| D5 | Engagement prediction | **Could-have.** Target: log(views) or ER at a fixed age; chronological split; median baseline; MAE/RMSE. Deferred if it doesn't beat the baseline | DEFAULT |
+| D6 | AI output scope | Evidence-based recommendations first (what/where/when/why/n/limitations/A-B idea). LLM captions are optional later. Human approval is always required; no auto-posting | DEFAULT |
+| D7 | AI provider / budget | No paid AI for now (free local models). Claude Haiku is reconsidered in Phase 9/12 with budget approval. Internet is needed only for data collection; the dashboard runs on stored data | DEFAULT |
 
 ### Batch E — Software and delivery
-Not yet asked (Q25–Q30).
+| # | Question | Answer | Status |
+|---|---|---|---|
+| E1 | Stack | Python + Pandas + Plotly + Streamlit, modular `src/` services, Parquet storage, Pandera validation, pytest | DEFAULT |
+| E2 | Hosting | Streamlit Community Cloud (A6) | CONFIRMED |
+| E3 | Login | None. Public, read-only, single-user app | DEFAULT |
+| E4 | Exports | CSV + Excel (filtered data) + PDF report | DEFAULT |
+| E5 | Visual / accessibility | Clean professional theme, colorblind-safe palette, readable on mobile; mockups via Stitch MCP | DEFAULT |
+| E6 | Hardware / budget / deadline | Personal laptop, **free tiers only**, no fixed deadline | DEFAULT |
 
 ### Batch F — Privacy, evaluation, acceptance
-Not yet asked (Q31–Q36).
+| # | Question | Answer | Status |
+|---|---|---|---|
+| F1 | Ethics / licensing / AI-use | No university constraints (portfolio). Must follow the YouTube API ToS + Developer Policies and Hugging Face model licenses; AI assistance is disclosed in the README | DEFAULT |
+| F2 | Evaluation metrics | Pipeline: tests pass on fixtures. Sentiment: macro-F1 per language. ML: MAE vs baseline. Recommendations: each one cites evidence + n | DEFAULT |
+| F3 | How results are verified | Small fixture CSV with hand-computed expected values in pytest; the README documents how to reproduce | DEFAULT |
+| F4 | Synthetic data | Allowed **for UI/tests only**, always labeled "SYNTHETIC" | DEFAULT |
+| F5 | Approver | Owner (Obaiz1) approves every gate | CONFIRMED |
+| F6 | Completion / deferrable | Done = deployed dashboard + PDF report + README + passing tests. Deferrable: Instagram, ML prediction, LLM captions, BERTopic | DEFAULT |
 
 ## Requirements register
 Format: `REQ-ID | Description / user story | Priority | Data dependency | Status | Acceptance criterion | Phase`
@@ -66,4 +98,4 @@ Format: `REQ-ID | Description / user story | Priority | Data dependency | Status
 | REQ-DEL-02 | Version-controlled GitHub repository updated as the work progresses; no secrets committed | Must | — | CONFIRMED | Repo exists; `.env` git-ignored | 6 |
 
 ## Outstanding questions
-Batch C: C1 engagement formula, C2 observation window, C3 comment text/privacy, C4 time zone, C5 data quality rules. Then Batches D–F.
+None blocking. **Phase 1 gate: waiting for the owner's explicit requirements sign-off** (see PROJECT_SCOPE.md → "One-page scope summary").

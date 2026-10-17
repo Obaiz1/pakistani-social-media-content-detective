@@ -4,8 +4,8 @@
 
 | Phase | Name | Concrete output | Gate | Status |
 |---|---|---|---|---|
-| 0 | Understand the real problem | Problem statement, stakeholders, success goals, first questions | Approve problem framing | In progress |
-| 1 | Gather and finalize requirements | Filled requirements form, priorities, acceptance criteria | **Approve requirements** | Not started |
+| 0 | Understand the real problem | Problem statement, stakeholders, success goals, first questions | Approve problem framing | Completed |
+| 1 | Gather and finalize requirements | Filled requirements form, priorities, acceptance criteria | **Approve requirements** | Awaiting sign-off |
 | 2 | Feasibility & responsible data audit | Authorized source matrix, sample-column audit, quality/risk report | **Approve data scope** | Not started |
 | 3 | Compare proposed solutions | Notebook vs Streamlit vs full stack, tradeoffs | Approve solution direction | Not started |
 | 4 | Design complete architecture | Diagram, modules, schema, flows, metrics, evaluation | **Approve architecture** | Not started |

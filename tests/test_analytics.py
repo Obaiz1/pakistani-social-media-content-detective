@@ -92,3 +92,27 @@ def test_sentiment_by_explodes_campaign_lists():
     df = pd.DataFrame({"campaign_tags": [["eid", "sale"]] * 20, "sentiment_label": ["positive"] * 20})
     out = sentiment_by(df, "campaign_tags").set_index("group")
     assert out.loc["eid", "n"] == 20 and out.loc["sale", "net"] == pytest.approx(1.0)
+
+
+# ---------- timing ----------
+
+from src.analytics.timing import hour_band, heatmap_table  # noqa: E402
+
+
+@pytest.mark.parametrize("hour,band", [(0, "Night (00–06)"), (5, "Night (00–06)"), (6, "Morning (06–12)"),
+                                       (15, "Afternoon (12–16)"), (19, "Evening (16–20)"), (23, "Prime time (20–24)")])
+def test_hour_band_edges(hour, band):
+    assert hour_band(hour) == band
+
+
+def test_heatmap_cells_match_hand_totals_and_hide_small_n():
+    df = pd.DataFrame({
+        "weekday_pkt": ["Friday"] * 21 + ["Monday"] * 3,
+        "hour_pkt": [21] * 21 + [9] * 3,
+        "rel_er": [1.0] * 10 + [2.0] * 11 + [5.0] * 3,
+    })
+    median, n = heatmap_table(df)
+    assert n.loc["Friday", "Prime time (20–24)"] == 21 and n.loc["Monday", "Morning (06–12)"] == 3
+    assert median.loc["Friday", "Prime time (20–24)"] == 2.0          # median of 10×1.0 + 11×2.0
+    assert np.isnan(median.loc["Monday", "Morning (06–12)"])           # n=3 < 20 -> hidden
+    assert n.loc["Sunday"].sum() == 0

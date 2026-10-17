@@ -1,6 +1,6 @@
 # PROGRESS
 
-**Current phase:** 9 — Multilingual NLP | Built, awaiting label verification
+**Current phase:** 10 — Timing | Built
 
 ## Log
 ### 2026-10-17
@@ -43,8 +43,11 @@
 - MVP approved (owner: "next").
 - Phase 9 (actual): language ID accuracy 0.872 (EN P/R 0.91/0.92, RU 0.94/0.82). Sentiment macro-F1 on 250 PROVISIONAL labels: Nemotron-3-Super 0.869, XLM-R twitter 0.819, routed 0.786, RU-XLM-R 0.763, RoBERTa-EN 0.721, VADER 0.602. Nemotron − XLM-R = +0.051, CI [-0.007, +0.116] → not significant. Scored 781 real comments with XLM-R: 382 pos / 255 neu / 144 neg; language EN 448, RU 158, other 146, mixed 24, Urdu script 5. Net sentiment by brand: Alkaram +0.50, Khaadi +0.45, Nishat +0.43, Limelight +0.40, Sapphire +0.19, Gul Ahmed +0.12, J. +0.05 (n=21, wide CI). `uv run pytest` → 83 passed.
 
+- Owner chose sentiment Option A (XLM-R), ADR-017 confirmed.
+- Phase 10 (actual, reliable non-promoted n=1,845, rel_er): time bands: Morning 06–12 median 1.20 (CI 1.10–1.31, adj p 0.042, negligible δ 0.08); Evening 16–20 1.04 (adj p 0.030, negligible, below rest); Night n=27, CI 0.95–2.59 (not significant). Weekday: Saturday 0.93 (CI 0.82–1.02, adj p 0.006, small δ −0.15), the only significant day; Kruskal p 0.016. Heatmap highs (descriptive): Wed morning 1.41 (n=66), Mon afternoon 1.38 (n=119); low: Sat afternoon 0.72 (n=54). Brands rarely post at night or on Sat/Sun mornings. Heatmap text overlap + grid artifacts found in a screenshot and fixed. `uv run pytest` → 91 passed.
+
 ## Blockers
-- Owner verification of the 250 draft labels; model choice (ADR-017).
+- None blocking. Open: owner verification of the 250 draft labels.
 
 ## Next action
-Label verification → Phase 10 timing heatmap.
+Phase 11 optional ML (F-19).

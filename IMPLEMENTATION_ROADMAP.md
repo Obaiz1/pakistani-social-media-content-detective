@@ -1,6 +1,6 @@
 # IMPLEMENTATION_ROADMAP
 
-**Current phase:** 9 — NLP built; waiting on owner label verification + model choice (ADR-017)
+**Current phase:** 10 — Timing analysis built, awaiting insight validation. Next: Phase 11 (optional ML)
 
 | Phase | Name | Concrete output | Gate | Status |
 |---|---|---|---|---|
@@ -14,7 +14,7 @@
 | 7 | Implement data pipeline | Import, validation, mapping, cleaning, dedup | Data pipeline tests | Completed (46 tests pass; real run 2,204 videos) |
 | 8 | Build analytics MVP | Engagement, platform/content comparisons, filters, charts | **Demo/approve MVP** | Completed (owner: "next") |
 | 9 | Add multilingual NLP | Urdu/Roman Urdu/English, hashtags, topics, evaluated sentiment | NLP tests/evaluation | Built + benchmarked (PROVISIONAL labels); awaiting owner label verification |
-| 10 | Timing & engagement patterns | Weekday/hour heatmaps, authorized segment views | Insight validation | Not started |
+| 10 | Timing & engagement patterns | Weekday/hour heatmaps, authorized segment views | Insight validation | Built (91 tests; rendered + checked); segment views = Unavailable (no audience data) |
 | 11 | Investigate predictive ML | Leakage-safe baseline vs model; defer if infeasible | Model evaluation | Not started |
 | 12 | AI-assisted recommendation engine | Explainable next-post experiments, optional LLM captions | **Review quality** | Not started |
 | 13 | Complete dashboard and exports | UX, filters, reports, error states, docs | End-to-end demo | Not started |

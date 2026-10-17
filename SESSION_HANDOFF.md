@@ -34,16 +34,19 @@
 ## Environment facts (not visible in the repo)
 - Windows 11, VS Code + Claude Code, Python 3.14.4, git 2.45, gh CLI logged in as `Obaiz1`.
 - Repo-local git identity: `Obaiz1` / `196679709+Obaiz1@users.noreply.github.com` (keeps the owner's personal email off the public repo).
-- `.env` (git-ignored) holds `STITCH_API_KEY` (set) and `YOUTUBE_API_KEY` (empty; the owner fills it in).
+- `.env` (git-ignored) holds `STITCH_API_KEY` (set) and `YOUTUBE_API_KEY` (set, tested 2026-10-17: `channels.list forHandle=@khaadi` returned `UCosHRi7jeBb0JGZfFlOHYUA`, 47.3K subs, 819 videos).
 - Stitch MCP registered with `claude mcp add stitch -s local` (stored in `~/.claude.json`). Check it with `claude mcp get stitch`.
-- **Before every push**, scan for secrets: `git diff --cached | grep -c "AQ\.Ab8"` should print 0.
+- **Before every push**, scan for secrets: `git diff --cached | grep -cE "AQ\.Ab8|AIza"` should print 0.
+- No other API keys needed for now. A Claude (Anthropic) API key is only optional, for Phase 12, and only after the owner approves a budget (see ADR-008).
 - Communicate with the owner in simple Roman Urdu + English technical terms, 3–5 questions per batch.
 
 ## Pending owner actions
-- [ ] Create a YouTube Data API v3 key in Google Cloud Console and write it **directly** into `.env` as `YOUTUBE_API_KEY=` (not in chat).
-- [ ] Optional: rotate the Stitch key (it was pasted in chat once).
+- [x] YouTube API key added to `.env` (pasted in chat, then saved by Claude; tested OK).
+- [ ] Optional: rotate the Stitch and YouTube keys (both were pasted in chat), and restrict the YouTube key to "YouTube Data API v3" in Google Cloud Console.
+- [ ] Answer Batch C (C1–C5).
 
 ## Last actions (newest first)
+0. Saved and tested the YouTube API key; answered the owner's question about other API keys (ADR-008).
 1. Created this handoff file; added a "read SESSION_HANDOFF.md first" note to `CLAUDE.md`.
 2. Recorded Batch B defaults (B1–B4) and asked Batch C.
 3. Hosting set to Streamlit Community Cloud (ADR-007).

@@ -16,11 +16,10 @@ if videos.empty:
     st.info("No videos match the current filters.")
     st.stop()
 
-cards = build_cards(videos)
+cards, weak = build_cards(videos)
 if not cards:
-    st.info("No statistically supported findings for this selection, so there's no recommendation. That's an honest "
-            "answer: try a wider selection (more brands or dates).")
-    st.stop()
+    st.info("No finding here is both statistically supported **and** large enough to act on, so there's no "
+            "recommendation. That's an honest answer: try a wider selection (more brands or dates).")
 
 nvidia_key = get_secret("NVIDIA_API_KEY")
 use_llm = st.toggle("Plain-language rewrite with NVIDIA Nemotron (numbers locked to the evidence)", value=False,
@@ -49,5 +48,12 @@ for i, card in enumerate(cards):
         with st.expander("A/B test & limitations"):
             st.markdown(f"**Test it:** {card.ab_test}")
             st.markdown("\n".join(f"- {lim}" for lim in card.limitations))
+
+if weak:
+    with st.expander(f"Weak signals: real but too small to act on ({len(weak)})"):
+        st.caption("These differences are statistically detectable (adj. p < 0.05) but the effect size is negligible "
+                   "(|Cliff's δ| < 0.147). Don't change your plan because of them; just keep an eye on them.")
+        for card in weak:
+            st.markdown(f"- **{card.title.split(': ', 1)[1]}** (n = {card.n:,}): {card.why}")
 
 st.caption("Human review required: these cards never post anything automatically.")

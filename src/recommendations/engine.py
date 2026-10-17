@@ -139,14 +139,23 @@ def next_post_card(findings: list[Finding]) -> Card | None:
     timing = next((f for f in pos if f.kind == "timing"), None)
     if content is None and timing is None:
         return None
-    avoid = ", ".join(f.label for f in neg[:3]) or "nothing significant"
+    avoid = ", ".join(f.label for f in neg if f.kind == "content") or "nothing significant"
+    avoid_slots = [f.label.replace("posting ", "").removeprefix("on ").removeprefix("in the ")
+                   for f in neg if f.kind == "timing"]
+    if timing:
+        when = timing.label.replace("posting ", "").capitalize() + " (PKT)."
+    elif avoid_slots:
+        unit = "day" if all(s in WEEKDAYS for s in avoid_slots) else "slot"
+        when = f"Any {unit} except {' / '.join(avoid_slots)} (PKT); no reliable best-time signal."
+    else:
+        when = "No reliable timing signal; keep your usual schedule."
     used = [f for f in (content, timing) if f]
     return Card(
         title="Next post to test",
         what=(f"A {content.label.replace(' content', '')} video" if content else "Your usual content")
              + f". De-prioritise: {avoid}.",
         where="YouTube, short-form.",
-        when=(timing.label.replace("posting ", "").capitalize() + " (PKT)") if timing else "No reliable timing signal; keep schedule.",
+        when=when,
         why=" ".join(card_from_finding(f).why for f in used),
         n=min(f.n for f in used),
         limitations=BASE_LIMITATIONS + ["Combining two signals assumes their effects add up; this is untested."],
@@ -158,8 +167,14 @@ def next_post_card(findings: list[Finding]) -> Card | None:
     )
 
 
-def build_cards(videos: pd.DataFrame) -> list[Card]:
-    findings = collect_findings(videos)
-    cards = [c for c in [next_post_card(findings)] if c]
-    cards += [card_from_finding(f) for f in sorted(findings, key=lambda f: -abs(f.cliffs_delta))]
-    return cards
+ACTIONABLE_EFFECTS = {"small", "medium", "large"}   # |Cliff's δ| >= 0.147; negligible effects aren't worth acting on
+
+
+def build_cards(videos: pd.DataFrame) -> tuple[list[Card], list[Card]]:
+    """(actionable cards, weak signals). Weak = significant but negligible effect size: shown, never recommended."""
+    findings = sorted(collect_findings(videos), key=lambda f: -abs(f.cliffs_delta))
+    actionable = [f for f in findings if f.effect in ACTIONABLE_EFFECTS]
+    cards = [c for c in [next_post_card(actionable)] if c]
+    cards += [card_from_finding(f) for f in actionable]
+    weak = [card_from_finding(f) for f in findings if f.effect not in ACTIONABLE_EFFECTS]
+    return cards, weak

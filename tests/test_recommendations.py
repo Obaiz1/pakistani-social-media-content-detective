@@ -22,7 +22,7 @@ def _videos(effect: float = 1.0, seed: int = 3) -> pd.DataFrame:
 
 
 def test_planted_effect_produces_cards_with_all_fields():
-    cards = build_cards(_videos())
+    cards, _ = build_cards(_videos())
     assert cards[0].kind == "next_post" and "wedding/festive" in cards[0].what
     titles = [c.title for c in cards]
     assert "Try more: wedding/festive content" in titles
@@ -60,3 +60,22 @@ def test_number_lock_accepts_only_card_numbers():
 def test_rewrite_falls_back_without_key():
     text, used = rewrite_card(_card(), api_key="")
     assert not used and "1.34" in text
+
+
+def test_negligible_effects_are_weak_signals_not_cards():
+    def f(group, delta, effect, kind="content"):
+        return Finding("campaign_tags", group, f"{group} content", kind, 100, 1.2, 1.0, 1.1, 1.3, delta, effect, 0.01)
+    from src.recommendations import engine
+    findings = [f("big", 0.30, "small"), f("tiny", 0.05, "negligible"),
+                Finding("weekday_pkt", "Saturday", "posting on Saturday", "timing", 100, 0.9, 1.1, 0.8, 1.0,
+                        -0.2, "small", 0.01)]
+    original = engine.collect_findings
+    engine.collect_findings = lambda videos: findings
+    try:
+        cards, weak = build_cards(pd.DataFrame())
+    finally:
+        engine.collect_findings = original
+    titles = [c.title for c in cards]
+    assert "Try more: big content" in titles and not any("tiny" in t for t in titles)
+    assert [w.title for w in weak] == ["Try more: tiny content"]
+    assert cards[0].kind == "next_post" and "except Saturday" in cards[0].when

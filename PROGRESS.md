@@ -50,6 +50,8 @@
 
 - Phase 12 (actual, real snapshot, reliable non-promoted videos): 11 cards = 1 'Next post' + 10 evidence cards. Next post: wedding/festive video (1.34 [1.18–1.47] vs 1.10 rest, small effect, adj p 0.001) in the morning 06–12 PKT (1.20 vs 1.07, negligible, adj p 0.042); de-prioritise menswear (n=50, small), Saturday (0.93 vs 1.12, small), sale/discount (negligible). Strength labels: 4 modest, 7 weak/negligible. NVIDIA rewrites accepted by the number lock: 4/11 (the rest fell back to templates). `uv run pytest` → 102 passed.
 
+- Owner asked to fix the weak cards (2026-10-17): findings that are significant but have a NEGLIGIBLE effect (|Cliff's δ| < 0.147) are no longer recommendation cards; they're listed under 'Weak signals: real but too small to act on'. Now 4 actionable cards: Next post = wedding/festive video, any day except Saturday, de-prioritise menswear; plus Try more wedding/festive, Use less menswear, Use less Saturday. 7 weak signals. `uv run pytest` → 103 passed.
+
 ## Blockers
 - Review quality gate (owner). Open: owner verification of the 250 draft labels.
 

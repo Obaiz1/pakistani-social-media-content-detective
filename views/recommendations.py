@@ -45,6 +45,8 @@ for i, card in enumerate(cards):
         c1, c2 = st.columns(2)
         c1.markdown(f"**What:** {card.what}\n\n**Where:** {card.where}\n\n**When:** {card.when}")
         c2.markdown(f"**Why:** {card.why}")
+        if card.adjusted:
+            (st.success if "NOT confirmed" not in card.adjusted else st.warning)(f"**Adjusted check:** {card.adjusted}")
         with st.expander("A/B test & limitations"):
             st.markdown(f"**Test it:** {card.ab_test}")
             st.markdown("\n".join(f"- {lim}" for lim in card.limitations))

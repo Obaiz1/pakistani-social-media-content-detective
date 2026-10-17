@@ -11,7 +11,7 @@ from scripts.make_synthetic_fixture import build
 from src.app_data import Loaded, synthetic_dataset
 from src.data_sources import load_synthetic_fixture
 
-PAGES = ["overview", "recommendations", "brands", "content", "timing", "sentiment", "exports", "method"]
+PAGES = ["overview", "recommendations", "brands", "content", "timing", "adjusted", "sentiment", "exports", "method"]
 
 
 def test_fixture_is_fully_labeled_synthetic():

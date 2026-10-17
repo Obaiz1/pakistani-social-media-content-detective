@@ -61,6 +61,8 @@
 
 - Deployed and confirmed working with real data: https://pakistani-social-media-content-detective-mahmts48mya2xnxwgttip.streamlit.app
 
+- Mixed-effects regression (statsmodels 0.15; log ER ~ weekday + time band + length + hashtags + campaign tags + emoji; random intercept brand + month variance component; robustness: OLS brand+month FE HC3). n=1,830, 8 brands, 25 months. After BH correction NO term is significant in both models. Wedding/festive +12% [−3%, +30%] (was +34% one-at-a-time), Saturday −13% [−27%, +4%], menswear −31% [−47%, −9%] adj p 0.10, sale −19% adj p 0.15. Interpretation: one-at-a-time effects are largely explained by season/brand mix. All 4 recommendation cards are now marked 'tentative (not confirmed by the adjusted model)'. 115 tests pass.
+
 ## Blockers
 - (resolved) Owner: read-only PAT for Streamlit secrets; Streamlit Cloud sign-in. Open: label verification. Open: owner verification of the 250 draft labels.
 

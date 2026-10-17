@@ -10,6 +10,7 @@ pages = st.navigation([
     st.Page("views/brands.py", title="Brands", icon="🏷️"),
     st.Page("views/content.py", title="Content", icon="🎬"),
     st.Page("views/timing.py", title="Posting time", icon="🕒"),
+    st.Page("views/adjusted.py", title="Adjusted effects", icon="🧮"),
     st.Page("views/sentiment.py", title="Sentiment", icon="💬"),
     st.Page("views/exports.py", title="Report & exports", icon="⬇️"),
     st.Page("views/method.py", title="Data & Method", icon="📐"),

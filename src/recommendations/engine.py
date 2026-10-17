@@ -68,6 +68,7 @@ class Card:
     strength: str
     kind: str                     # "do_more" | "do_less" | "next_post"
     numbers: dict = field(default_factory=dict)
+    adjusted: str = ""            # what the mixed-effects model says after controlling for brand, month, other features
 
     def as_dict(self) -> dict:
         return asdict(self)
@@ -171,11 +172,57 @@ def next_post_card(findings: list[Finding]) -> Card | None:
 ACTIONABLE_EFFECTS = {"small", "medium", "large"}   # |Cliff's δ| >= 0.147; negligible effects aren't worth acting on
 
 
-def build_cards(videos: pd.DataFrame) -> tuple[list[Card], list[Card]]:
-    """(actionable cards, weak signals). Weak = significant but negligible effect size: shown, never recommended."""
+def _regression_term(f: Finding) -> str | None:
+    """Map a one-at-a-time finding to the matching term of the adjusted model (None if no comparable term)."""
+    if f.dimension == "campaign_tags" and f.group != "other":
+        return f"tag_{f.group}"
+    if f.dimension == "weekday_pkt":
+        return f"C(weekday, Treatment(reference='Monday'))[T.{f.group}]"
+    if f.dimension == "hour_band_pkt":
+        return f"C(band, Treatment(reference='Afternoon (12–16)'))[T.{f.group}]"
+    if f.dimension == "duration_bucket":
+        return f"C(length, Treatment(reference='16-30s'))[T.{f.group}]"
+    return None
+
+
+def apply_adjusted_check(cards: list[Card], findings: list[Finding], table: pd.DataFrame | None) -> None:
+    """Annotate cards with the adjusted-model verdict; downgrade strength when the adjusted model doesn't confirm."""
+    if table is None or table.empty:
+        return
+    by_term = table.set_index("term")
+    by_title = {card_from_finding(f).title: f for f in findings}
+    for card in cards:
+        parts = [by_title.get(card.title)] if card.kind != "next_post" else [
+            f for f in findings if card_from_finding(f).why in card.why]
+        verdicts = []
+        for f in filter(None, parts):
+            term = _regression_term(f)
+            if term is None or term not in by_term.index:
+                continue
+            r = by_term.loc[term]
+            ok = bool(r["robust"]) and (r["effect_pct"] > 0) == (f.direction == "higher")
+            verdicts.append(ok)
+            card.adjusted += (f"{r['label']}: {r['effect_pct']:+.0f}% (95% CI {r['effect_ci_low']:+.0f}% to "
+                              f"{r['effect_ci_high']:+.0f}%), BH-adjusted p = {r['p_adj']:.2f} → "
+                              + ("confirmed. " if ok else "NOT confirmed after adjusting for brand, month and other features. "))
+        if verdicts and not all(verdicts):
+            card.strength = "tentative (not confirmed by the adjusted model)"
+            card.limitations = card.limitations + [
+                "The mixed-effects model (brand, month, all features together) does not confirm this effect."]
+
+
+def build_cards(videos: pd.DataFrame, adjust: bool = True) -> tuple[list[Card], list[Card]]:
+    """(actionable cards, weak signals). Weak = significant but negligible effect size: shown, never recommended.
+    With adjust=True each card is also checked against the mixed-effects model (src/analytics/regression.py)."""
     findings = sorted(collect_findings(videos), key=lambda f: -abs(f.cliffs_delta))
     actionable = [f for f in findings if f.effect in ACTIONABLE_EFFECTS]
     cards = [c for c in [next_post_card(actionable)] if c]
     cards += [card_from_finding(f) for f in actionable]
     weak = [card_from_finding(f) for f in findings if f.effect not in ACTIONABLE_EFFECTS]
+    if adjust and cards and len(videos) >= 200:
+        try:
+            from src.analytics.regression import fit_models
+            apply_adjusted_check(cards, actionable, fit_models(videos)["table"])
+        except Exception:  # model can fail on tiny/singular selections; cards stay unadjusted
+            pass
     return cards, weak

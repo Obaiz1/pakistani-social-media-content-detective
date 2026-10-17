@@ -7,12 +7,12 @@
 ---
 
 ## Current state
-- **Phase:** 5 — Execution plan DRAFTED (IMPLEMENTATION_ROADMAP.md → "Phase 5"). Waiting on the **Authorize coding** gate. Phases 3+4 approved; Python 3.12 via uv approved (ADR-014).
+- **Phase:** 6 ✅ done (S1). Next = Phase 7 / Sprint S2 (data pipeline F-03..F-10). Coding authorized.
 - **Batch A:** ✅ done
 - **Batch B:** ✅ done (owner said "use default" for all remaining items)
 - **Batches C–F:** ✅ filled with documented DEFAULTS. Owner delegated: "abhe procced kro bad mae dekhte" (proceed now, revisit later)
 - **Phase 1 gate:** ✅ owner replied "next" to the sign-off request (treated as approval)
-- **Code written:** none (by design; coding needs Phase 5 approval)
+- **Code written:** foundation only: `app.py` (placeholder page on SYNTHETIC data), `src/data_sources.py`, `scripts/make_synthetic_fixture.py`, `tests/test_smoke.py` (5 tests)
 
 ## Key confirmed decisions (details in DECISIONS.md)
 | Topic | Decision |
@@ -32,7 +32,7 @@
 | UI design tool | Google Stitch MCP (for mockups in Phase 4/13) |
 
 ## Environment facts (not visible in the repo)
-- Windows 11, VS Code + Claude Code, Python 3.14.4, git 2.45, gh CLI logged in as `Obaiz1`.
+- Run everything with `python -m uv run ...` (venv = `.venv`, Python 3.12.15). Windows 11, VS Code + Claude Code, system Python 3.14.4, git 2.45, gh CLI logged in as `Obaiz1`.
 - Repo-local git identity: `Obaiz1` / `196679709+Obaiz1@users.noreply.github.com` (keeps the owner's personal email off the public repo).
 - `.env` (git-ignored) holds `STITCH_API_KEY` (set) and `YOUTUBE_API_KEY` (set, tested 2026-10-17: `channels.list forHandle=@khaadi` returned `UCosHRi7jeBb0JGZfFlOHYUA`, 47.3K subs, 819 videos).
 - Stitch MCP registered with `claude mcp add stitch -s local` (stored in `~/.claude.json`). Check it with `claude mcp get stitch`.
@@ -48,6 +48,7 @@
 - [ ] Sign off on Phase 1 requirements (one-page summary).
 
 ## Last actions (newest first)
+0000000. Owner said "next", treated as Authorize coding. Phase 6 done: installed uv 0.13.1 (`python -m pip install --user uv`; call it as `python -m uv`, since `uv` isn't on PATH), Python 3.12.15 via uv, `uv sync`, generated the SYNTHETIC fixture (8 fictional brands, 357 videos, 239 comments), `uv run pytest` → 5 passed, Streamlit headless health check ok.
 000000. Owner said "next", treated as approval of Phase 3/4 + the uv/3.12 default. Wrote the Phase 5 backlog (F-01..F-26 with acceptance tests) and sprint plan S1–S7.
 00000. Owner said "next", treated as approval of P1–P5. Wrote the Phase 3 options doc and the full Phase 4 architecture draft (modules, schema, metrics incl. rel_er/likely_promoted, stats rules, NLP benchmark, recommendation cards, live-collect + 24 h cache deployment for the 30-day policy).
 0000. Ran the Phase 2 audit (~1,035 quota units). Found: J. search result was a fan channel (official = @jjunaidjamshedpk, UC5xbg6lBACA3HBdN8idiQvQ); ~99% of videos ≤180 s; only ~896 comments total (~20% of videos have any); ad-boosted views likely. Wrote docs/DATA_AUDIT.md with proposals P1–P5.
@@ -63,6 +64,5 @@
 6. Scaffolded all project docs.
 
 ## Next step
-1. Get **Authorize coding** from the owner.
-2. Sprint S1 / Phase 6: install `uv`, `uv python install 3.12`, create pyproject + venv, skeleton per ARCHITECTURE_BLUEPRINT §2, synthetic fixture (F-02), smoke test.
+1. Phase 7 / S2: F-03 brands.yaml (pinned IDs below) → F-04 YouTube client (full paging!) → F-05 comments → F-06 Pandera → F-07 features → F-08 campaign tags → F-09 metrics → F-10 collector CLI + real run. Each one gets tests with hand-computed expectations.
 3. Pinned channel IDs: Khaadi UCosHRi7jeBb0JGZfFlOHYUA · Sapphire UCvMjM0BkK7SzlYnPTi5CBUQ · Gul Ahmed UCsAIxl3qvpy1DofpwDEx6Ow · J. UC5xbg6lBACA3HBdN8idiQvQ · Alkaram UCG-I5rH3YEFu3VKUAtmxLIg · Bonanza UCDblU9Vxyi7kXxX0uf-cvyg · Nishat UCVQd-OGmpDTnXGfVR8eRrGQ · Limelight UCbvMxYDdZki0P95gCORO8oA

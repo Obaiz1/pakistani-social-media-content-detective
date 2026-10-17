@@ -1,6 +1,6 @@
 # PROGRESS
 
-**Current phase:** 5 — Plan execution | Awaiting Authorize coding
+**Current phase:** 6 — Runnable foundation | Completed
 
 ## Log
 ### 2026-10-17
@@ -33,8 +33,11 @@
 
 - Phase 3/4 approved (owner: "next"); Phase 5 plan drafted.
 
+- Coding authorized (owner: "next").
+- Phase 6 (actual results): `python -m pip install --user uv` → uv 0.13.1; `uv python install 3.12` → cpython-3.12.15; `uv sync` OK; fixture: channels 8, videos 357, comments 239 rows; `uv run pytest -q` → **5 passed in 3.97s** (first run 1 failed: AppTest path is relative to the test file, fixed to `../app.py`); `streamlit run` headless → `/_stcore/health` = ok, page HTTP 200.
+
 ## Blockers
-- Authorize coding gate.
+- None.
 
 ## Next action
-Phase 5 planning → Authorize coding gate.
+Phase 7 data pipeline (F-03..F-10).

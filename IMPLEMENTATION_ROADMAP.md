@@ -1,6 +1,6 @@
 # IMPLEMENTATION_ROADMAP
 
-**Current phase:** 5 — Plan execution (draft awaiting **Authorize coding**)
+**Current phase:** 6 — Build runnable foundation (S1 done, smoke test passed)
 
 | Phase | Name | Concrete output | Gate | Status |
 |---|---|---|---|---|
@@ -9,8 +9,8 @@
 | 2 | Feasibility & responsible data audit | Authorized source matrix, sample-column audit, quality/risk report | **Approve data scope** | Completed (P1–P5 approved, ADR-011) |
 | 3 | Compare proposed solutions | Notebook vs Streamlit vs full stack, tradeoffs | Approve solution direction | Completed (owner: "next") |
 | 4 | Design complete architecture | Diagram, modules, schema, flows, metrics, evaluation | **Approve architecture** | Completed (owner: "next") |
-| 5 | Plan execution | Backlog, acceptance tests, file structure, tasks | **Authorize coding** | Drafted below, awaiting authorization |
-| 6 | Build runnable foundation | Environment, skeleton, app entry, tests, demo fixture | Smoke test | Not started |
+| 5 | Plan execution | Backlog, acceptance tests, file structure, tasks | **Authorize coding** | Completed (owner: "next", 2026-10-17) |
+| 6 | Build runnable foundation | Environment, skeleton, app entry, tests, demo fixture | Smoke test | Completed (5/5 tests pass; server health ok) |
 | 7 | Implement data pipeline | Import, validation, mapping, cleaning, dedup | Data pipeline tests | Not started |
 | 8 | Build analytics MVP | Engagement, platform/content comparisons, filters, charts | **Demo/approve MVP** | Not started |
 | 9 | Add multilingual NLP | Urdu/Roman Urdu/English, hashtags, topics, evaluated sentiment | NLP tests/evaluation | Not started |

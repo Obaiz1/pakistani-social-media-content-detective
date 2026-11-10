@@ -3,13 +3,17 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from src.analytics.regression import fit_models
-from src.ui import MUTED, SERIES, get_data, sidebar_filters, source_banner
+from src.ui import (
+    MUTED, SERIES, get_data, page_header, plotly_chart, section_header,
+    sidebar_filters, source_banner,
+)
 
 loaded = get_data()
-st.title("Adjusted effects (mixed-effects model)")
-st.caption("The other pages compare one feature at a time. Here every feature is estimated **while holding all the "
-           "others constant**, with a random intercept per brand and a month-level variance component "
-           "(seasonality and drift). Bars show the % change in engagement rate vs the reference level.")
+page_header("Adjusted effects (mixed-effects model)",
+            "The other pages compare one feature at a time. Here every feature is estimated **while holding all the "
+            "others constant**, with a random intercept per brand and a month-level variance component "
+            "(seasonality and drift). Points show the % change in engagement rate vs the reference level.",
+            eyebrow="Evidence / Adjusted analysis")
 source_banner(loaded)
 videos = sidebar_filters(loaded.data.videos)
 if len(videos) < 200:
@@ -23,6 +27,7 @@ with st.spinner("Fitting models…"):
         st.info(f"The model could not be fitted for this selection ({type(exc).__name__}). Widen the filters.")
         st.stop()
 t = res["table"].iloc[::-1]
+section_header("Controlled feature estimates", "Points show model estimates; lines show 95% confidence intervals.")
 
 fig = go.Figure()
 for robust, color, name in ((True, SERIES, "significant in both models"), (False, MUTED, "not significant (BH-adjusted)")):
@@ -39,15 +44,17 @@ fig.update_layout(height=max(380, 30 * len(t) + 120), margin=dict(l=10, r=10, t=
                   xaxis=dict(title="% change in engagement rate (95% CI)", ticksuffix="%", zeroline=False),
                   yaxis=dict(showgrid=False, categoryorder="array", categoryarray=list(t["label"])),
                   legend=dict(orientation="h", y=-0.12))
-st.plotly_chart(fig, width="stretch")
+plotly_chart(fig, width="stretch")
 
 n_sig = int(res["table"]["robust"].sum())
-st.markdown(
-    f"**{n_sig} of {len(res['table'])} effects** survive multiple-comparison correction in both the mixed model and "
-    "the fixed-effects robustness check. " + (
-        "Once brand, month and the other features are controlled for, **no single content or timing feature has a "
-        "reliable effect** in this data. The one-at-a-time differences on other pages are partly explained by season "
-        "and brand mix (e.g. wedding/festive videos cluster in the strong wedding season)." if n_sig == 0 else ""))
+with st.container(border=True):
+    section_header("Reading the adjusted evidence")
+    st.markdown(
+        f"**{n_sig} of {len(res['table'])} effects** survive multiple-comparison correction in both the mixed model and "
+        "the fixed-effects robustness check. " + (
+            "Once brand, month and the other features are controlled for, **no single content or timing feature has a "
+            "reliable effect** in this data. The one-at-a-time differences on other pages are partly explained by season "
+            "and brand mix (e.g. wedding/festive videos cluster in the strong wedding season)." if n_sig == 0 else ""))
 
 with st.expander("Table view & model details"):
     show = res["table"][["label", "effect_pct", "effect_ci_low", "effect_ci_high", "p_adj", "effect_pct_fe", "p_adj_fe", "robust"]]

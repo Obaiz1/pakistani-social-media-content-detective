@@ -4,16 +4,20 @@ import streamlit as st
 
 from src.analytics.compare import MIN_N
 from src.analytics.sentiment_agg import sentiment_by
-from src.ui import MUTED, SERIES, brand_label, get_data, sidebar_filters, source_banner
+from src.ui import (
+    MUTED, SERIES, brand_label, get_data, page_header, plotly_chart,
+    section_header, sidebar_filters, source_banner,
+)
 
 TAG_LABELS = {"eid": "Eid", "ramadan": "Ramadan", "sale": "Sale / discount", "new_arrivals": "New arrivals",
               "lawn_summer": "Lawn / summer", "winter": "Winter", "wedding_festive": "Wedding / festive",
               "independence": "Independence (Azadi)", "kids": "Kids", "men": "Men", "other": "No campaign tag"}
 
 loaded = get_data()
-st.title("Audience sentiment")
-st.caption("What tone do public comments take? Reported only at brand and campaign level: about 80% of "
-           "videos have no comments, so per-video sentiment isn't meaningful.")
+page_header("Audience sentiment",
+            "What tone do public comments take? Reported only at brand and campaign level: about 80% of "
+            "videos have no comments, so per-video sentiment isn't meaningful.",
+            eyebrow="Explore / Comment sentiment")
 source_banner(loaded)
 
 comments = loaded.data.comments
@@ -30,11 +34,12 @@ if c.empty:
     st.stop()
 model = c["sentiment_model"].iloc[0] if "sentiment_model" in c else "unknown"
 
+section_header("Comment mix", "Labelled comments on videos matching the sidebar filters.")
 k1, k2, k3, k4 = st.columns(4)
-k1.metric("Comments labelled", f"{len(c):,}")
-k2.metric("Positive", f"{(c['sentiment_label'] == 'positive').mean():.0%}")
-k3.metric("Neutral", f"{(c['sentiment_label'] == 'neutral').mean():.0%}")
-k4.metric("Negative", f"{(c['sentiment_label'] == 'negative').mean():.0%}")
+k1.metric("Comments labelled", f"{len(c):,}", border=True)
+k2.metric("Positive", f"{(c['sentiment_label'] == 'positive').mean():.0%}", border=True)
+k3.metric("Neutral", f"{(c['sentiment_label'] == 'neutral').mean():.0%}", border=True)
+k4.metric("Negative", f"{(c['sentiment_label'] == 'negative').mean():.0%}", border=True)
 
 
 def net_chart(summary: pd.DataFrame, title: str, label) -> go.Figure:
@@ -74,9 +79,9 @@ def table(summary: pd.DataFrame, label) -> pd.DataFrame:
 
 for title, by, label in (("By brand", "brand_id", brand_label),
                          ("By campaign", "campaign_tags", lambda g: TAG_LABELS.get(g, g))):
-    st.subheader(title)
+    section_header(title)
     summary = sentiment_by(c, by)
-    st.plotly_chart(net_chart(summary, f"Net comment sentiment {title.lower()} (95% CI)", label), width="stretch")
+    plotly_chart(net_chart(summary, f"Net comment sentiment {title.lower()} (95% CI)", label), width="stretch")
     with st.expander("Table view"):
         st.dataframe(table(summary, label), hide_index=True, width="stretch")
 

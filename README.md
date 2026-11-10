@@ -43,7 +43,7 @@ config/brands.yaml (8 pinned channel IDs)
     campaign tags) → metrics (ER, rel_er, likely_promoted)
   → analytics (CIs, tests) · NLP (lang-ID, sentiment) · ML      src/analytics/, src/nlp/, src/ml/
   → recommendation cards (+ number-locked LLM wording)          src/recommendations/
-  → Streamlit dashboard (8 pages) + Excel/CSV/PDF exports       app.py, views/, src/reporting/
+  → Streamlit dashboard (9 pages) + Excel/CSV/PDF exports       app.py, views/, src/reporting/
 ```
 
 Deployment: a weekly GitHub Action (`.github/workflows/refresh-data.yml`) collects, scores sentiment and publishes the latest snapshot (no comment text) to a **private** data repo; the Streamlit app reads it with a read-only token.
@@ -60,10 +60,12 @@ uv run python scripts/collect.py             # real snapshot → data/processed/
 uv sync --group nlp                          # torch/transformers for sentiment
 uv run --group nlp python scripts/score_sentiment.py
 uv run streamlit run app.py                  # http://localhost:8501
-uv run pytest                                # 110 tests
+uv run pytest                                # unit, integration and UI smoke tests
 ```
 
 Without a key or snapshot the app runs on a clearly bannered **SYNTHETIC** demo dataset.
+
+The dashboard has a native navy/teal theme, grouped navigation and shared filters that persist across pages. See [Frontend redesign](docs/FRONTEND_REDESIGN.md) for the presentation audit and verification.
 
 | Script | Purpose |
 |---|---|

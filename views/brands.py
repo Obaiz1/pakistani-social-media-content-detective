@@ -2,7 +2,10 @@ import pandas as pd
 import streamlit as st
 
 from src.analytics.compare import compare_groups
-from src.ui import brand_label, get_data, median_ci_chart, sidebar_filters, source_banner, summary_table
+from src.ui import (
+    brand_label, get_data, median_ci_chart, page_header, plotly_chart,
+    section_header, sidebar_filters, source_banner, summary_table,
+)
 
 METRICS = {
     "Engagement rate: (likes + comments) ÷ views": ("er_views", True),
@@ -11,7 +14,8 @@ METRICS = {
 }
 
 loaded = get_data()
-st.title("Brands")
+page_header("Brands", "Compare brand-level engagement, then inspect the coverage behind each result.",
+            eyebrow="Explore / Brand benchmarks")
 source_banner(loaded)
 all_videos = loaded.data.videos
 videos = sidebar_filters(all_videos)
@@ -19,17 +23,19 @@ if videos.empty:
     st.info("No videos match the current filters.")
     st.stop()
 
-choice = st.radio("Metric", list(METRICS), horizontal=True)
+section_header("Brand comparison", "Medians and uncertainty across the current selection.")
+with st.container(border=True):
+    choice = st.radio("Metric", list(METRICS), horizontal=True)
 metric, pct = METRICS[choice]
 summary = compare_groups(videos, "brand_id", metric)
-st.plotly_chart(median_ci_chart(summary, f"{choice}: median by brand (95% CI)", choice.split(":")[0],
-                                pct=pct, label=brand_label, reference=videos[metric].median()),
-                width="stretch")
+plotly_chart(median_ci_chart(summary, f"{choice}: median by brand (95% CI)", choice.split(":")[0],
+                             pct=pct, label=brand_label, reference=videos[metric].median()),
+             width="stretch")
 st.dataframe(summary_table(summary, label=brand_label, pct=pct), hide_index=True, width="stretch")
 st.caption(f"Kruskal-Wallis across brands: p = {summary.attrs['kruskal_p']:.3g}. "
            "Each brand is compared with all other filtered videos (Mann-Whitney U, Benjamini-Hochberg adjusted).")
 
-st.subheader("Data coverage per brand")
+section_header("Data coverage per brand", "Full dataset before sidebar filters; exclusions remain visible here.")
 g = all_videos.groupby("brand_id")
 coverage = pd.DataFrame({
     "Brand": [brand_label(b) for b in g.size().index],

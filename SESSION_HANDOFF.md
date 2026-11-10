@@ -4,6 +4,14 @@
 
 **Last updated:** 2026-10-17 (session 1)
 
+## Frontend update — 2026-11-10
+
+- Presentation redesign on `codex/frontend-redesign`; see `docs/FRONTEND_REDESIGN.md` for the current UI audit and validation. There are nine actual pages, including Adjusted effects; historical eight-page references below predate that addition.
+- Native navy/teal theme, local branding, grouped navigation, shared headers/chart surfaces, bordered metrics/evidence/export cards, and explicit synthetic provenance. Original analytics, datasets, models, exports and scientific caveats remain intact.
+- Shared filters now persist across navigation through the documented Streamlit entrypoint state pattern. Six focused interaction tests were added; the pre-edit suite had 122 passing tests.
+- This cloud checkout has no YouTube/NVIDIA API keys or private snapshots. UI checks use the existing synthetic demo. Historical credential/tool claims below describe the previous owner's machine, not this environment.
+- Published the tested redesign (`1d40dee`, 128 tests passed) to `ali-ahmad-ai/pakistani-social-media-content-detective`, branch `codex/frontend-redesign`. The authorized account lacks upstream write access, so a fork is used; original `origin` remains unchanged. [Upstream PR #1](https://github.com/Obaiz1/pakistani-social-media-content-detective/pull/1) is open for review. See the redesign document for the branch and ZIP download links. No merge or production deployment was performed.
+
 ---
 
 ## Current state

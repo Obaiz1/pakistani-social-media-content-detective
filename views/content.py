@@ -3,16 +3,19 @@ import streamlit as st
 
 from src.analytics.compare import compare_groups
 from src.processing.features import DURATION_ORDER
-from src.ui import get_data, median_ci_chart, sidebar_filters, source_banner, summary_table
+from src.ui import (
+    get_data, median_ci_chart, page_header, plotly_chart, section_header,
+    sidebar_filters, source_banner, summary_table,
+)
 
 TAG_LABELS = {"eid": "Eid", "ramadan": "Ramadan", "sale": "Sale / discount", "new_arrivals": "New arrivals",
               "lawn_summer": "Lawn / summer", "winter": "Winter", "wedding_festive": "Wedding / festive",
               "independence": "Independence (Azadi)", "kids": "Kids", "men": "Men", "other": "No campaign tag"}
 
 loaded = get_data()
-st.title("Content")
-st.caption("Which content features go with higher engagement **within** a brand? Metric: relative engagement "
-           "= video's engagement rate ÷ its brand's median (1.0 = typical for that brand).")
+page_header("Content", "Which content features go with higher engagement **within** a brand? Metric: relative engagement "
+            "= video's engagement rate ÷ its brand's median (1.0 = typical for that brand).",
+            eyebrow="Explore / Content signals")
 source_banner(loaded)
 videos = sidebar_filters(loaded.data.videos).copy()
 if videos.empty:
@@ -21,17 +24,17 @@ if videos.empty:
 
 
 def section(title: str, by: str, label=lambda g: g, order=None, note: str = "") -> None:
-    st.subheader(title)
+    section_header(title, note)
     summary = compare_groups(videos, by, "rel_er", order=order)
     if summary.empty:
         st.info("No data for this view under the current filters.")
         return
-    st.plotly_chart(median_ci_chart(summary, f"Relative engagement by {title.lower()} (median, 95% CI)",
-                                    "Relative engagement (1.0 = brand median)", pct=False, label=label,
-                                    reference=1.0), width="stretch")
+    plotly_chart(median_ci_chart(summary, f"Relative engagement by {title.lower()} (median, 95% CI)",
+                                 "Relative engagement (1.0 = brand median)", pct=False, label=label,
+                                 reference=1.0), width="stretch")
     with st.expander("Table view & statistics"):
         st.dataframe(summary_table(summary, label=label, pct=False), hide_index=True, width="stretch")
-        st.caption(f"Kruskal-Wallis p = {summary.attrs['kruskal_p']:.3g}. {note}")
+        st.caption(f"Kruskal-Wallis p = {summary.attrs['kruskal_p']:.3g}.")
 
 
 section("Video length", "duration_bucket", order=DURATION_ORDER,
@@ -41,23 +44,23 @@ section("Campaign", "campaign_tags", label=lambda g: TAG_LABELS.get(g, g),
 
 if "topic_label" in videos and videos["topic_label"].notna().any():
     topic_videos = videos[videos["topic_id"] != -1]
-    st.subheader("Data-driven themes (BERTopic)")
-    st.caption("Themes discovered from the titles themselves (multilingual embeddings + clustering), instead of our "
-               "keyword list. Videos that fit no theme (outliers) are left out.")
+    section_header("Data-driven themes (BERTopic)",
+                   "Themes discovered from the titles themselves (multilingual embeddings + clustering), instead of our "
+                   "keyword list. Videos that fit no theme (outliers) are left out.")
     summary = compare_groups(topic_videos, "topic_label", "rel_er")
     if not summary.empty:
-        st.plotly_chart(median_ci_chart(summary, "Relative engagement by title theme (median, 95% CI)",
-                                        "Relative engagement (1.0 = brand median)", pct=False, reference=1.0),
-                        width="stretch")
+        plotly_chart(median_ci_chart(summary, "Relative engagement by title theme (median, 95% CI)",
+                                     "Relative engagement (1.0 = brand median)", pct=False, reference=1.0),
+                     width="stretch")
         with st.expander("Table view & statistics"):
             st.dataframe(summary_table(summary, pct=False), hide_index=True, width="stretch")
             st.caption(f"Kruskal-Wallis p = {summary.attrs['kruskal_p']:.3g}. "
                        f"{int((videos['topic_id'] == -1).sum())} videos had no clear theme.")
 
 if "thumb_person" in videos and videos["thumb_person"].notna().sum() >= 100:
-    st.subheader("Thumbnails")
-    st.caption("Vision-LLM labels (NVIDIA Nemotron, spot-checked against manual labels; see Data & Method) and colour "
-               "statistics computed from the public thumbnail. Images are analysed in memory and never stored.")
+    section_header("Thumbnails",
+                   "Vision-LLM labels (NVIDIA Nemotron, spot-checked against manual labels; see Data & Method) and colour "
+                   "statistics computed from the public thumbnail. Images are analysed in memory and never stored.")
     tv = videos[videos["thumb_person"].notna()].copy()
     yes_no = lambda col, yes, no: tv[col].map({True: yes, False: no})  # noqa: E731
     tv["t_face"] = yes_no("thumb_face_visible", "Face visible", "No face visible")
@@ -68,9 +71,9 @@ if "thumb_person" in videos and videos["thumb_person"].notna().sum() >= 100:
                        ("Colourfulness (tertiles)", "t_color")):
         summary = compare_groups(tv, col, "rel_er")
         if not summary.empty:
-            st.plotly_chart(median_ci_chart(summary, f"Relative engagement: {title.lower()} (median, 95% CI)",
-                                            "Relative engagement (1.0 = brand median)", pct=False, reference=1.0),
-                            width="stretch")
+            plotly_chart(median_ci_chart(summary, f"Relative engagement: {title.lower()} (median, 95% CI)",
+                                         "Relative engagement (1.0 = brand median)", pct=False, reference=1.0),
+                         width="stretch")
 
 videos["hashtag_band"] = pd.cut(videos["hashtag_count"], [-1, 0, 2, 5, 1_000],
                                 labels=["0", "1–2", "3–5", "6+"]).astype(str)

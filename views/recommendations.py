@@ -3,13 +3,16 @@ import streamlit as st
 from src.config import get_secret
 from src.recommendations.engine import build_cards
 from src.recommendations.llm_wording import rewrite_card
-from src.ui import get_data, sidebar_filters, source_banner
+from src.ui import get_data, page_header, section_header, sidebar_filters, source_banner
 
 loaded = get_data()
-st.title("What to post next")
-st.caption("Evidence cards built **only** from statistically supported findings (n ≥ 20, Benjamini-Hochberg "
-           "adjusted p < 0.05). Each one is a hypothesis to A/B test, not a guarantee. Use the sidebar to focus on "
-           "one brand; fewer videos means fewer supported findings.")
+page_header(
+    "What to post next",
+    "Evidence cards built **only** from statistically supported findings (n ≥ 20, Benjamini-Hochberg "
+    "adjusted p < 0.05). Each one is a hypothesis to A/B test, not a guarantee. Use the sidebar to focus on "
+    "one brand; fewer videos means fewer supported findings.",
+    eyebrow="Workspace / Recommendations",
+)
 source_banner(loaded)
 videos = sidebar_filters(loaded.data.videos)
 if videos.empty:
@@ -22,17 +25,22 @@ if not cards:
             "recommendation. That's an honest answer: try a wider selection (more brands or dates).")
 
 nvidia_key = get_secret("NVIDIA_API_KEY")
-use_llm = st.toggle("Plain-language rewrite with NVIDIA Nemotron (numbers locked to the evidence)", value=False,
-                    disabled=not nvidia_key, help="Sends only the card text (no personal data) to the NVIDIA API. "
-                    "If the rewrite changes or adds any number, the template text is shown instead.")
+with st.container(border=True):
+    section_header("Evidence wording", "Optional AI wording keeps every number tied to the original evidence.")
+    use_llm = st.toggle("Plain-language rewrite with NVIDIA Nemotron (numbers locked to the evidence)", value=False,
+                        disabled=not nvidia_key, help="Sends only the card text (no personal data) to the NVIDIA API. "
+                        "If the rewrite changes or adds any number, the template text is shown instead.")
 if "rewrites" not in st.session_state:
     st.session_state["rewrites"] = {}
 
-ICON = {"next_post": "🎯", "do_more": "📈", "do_less": "📉"}
+if cards:
+    section_header("Experiments to consider", "Read the adjusted-model check and limitations before choosing a test.")
+
+CARD_LABEL = {"next_post": "NEXT POST", "do_more": "TRY MORE", "do_less": "TRY LESS"}
 for i, card in enumerate(cards):
     with st.container(border=True):
-        st.subheader(f"{ICON[card.kind]} {card.title}")
-        st.caption(f"Evidence strength: **{card.strength}** · n = {card.n:,}")
+        st.caption(f"{CARD_LABEL[card.kind]} · Evidence strength: **{card.strength}** · n = {card.n:,}")
+        st.subheader(card.title)
         if use_llm:
             key = card.title + card.why
             if key not in st.session_state["rewrites"]:
@@ -52,6 +60,7 @@ for i, card in enumerate(cards):
             st.markdown("\n".join(f"- {lim}" for lim in card.limitations))
 
 if weak:
+    section_header("Supporting signals", "Statistical significance alone does not make a finding actionable.")
     with st.expander(f"Weak signals: real but too small to act on ({len(weak)})"):
         st.caption("These differences are statistically detectable (adj. p < 0.05) but the effect size is negligible "
                    "(|Cliff's δ| < 0.147). Don't change your plan because of them; just keep an eye on them.")

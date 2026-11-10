@@ -1,4 +1,6 @@
-"""Shared dashboard pieces: data banner, sidebar filters, the median-with-CI chart."""
+"""Presentation helpers only: native controls, scoped branding and chart styling."""
+
+from html import escape
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -6,12 +8,80 @@ import streamlit as st
 
 from src.analytics.compare import MIN_N
 from src.app_data import Loaded, load_dashboard_data
-from src.config import load_brands
+from src.config import ROOT, load_brands
 from src.processing.features import DURATION_ORDER
 
 SERIES = "#2a78d6"        # categorical slot 1 (reference palette), one series per chart
 MUTED = "#a3a29c"         # insufficient-n groups
 BRAND_NAMES = {b.brand_id: b.display_name for b in load_brands()}
+
+# Theme colors live in .streamlit/config.toml; keep analytical colors independent.
+GRID = "rgba(135, 155, 183, 0.18)"
+
+
+def _eyebrow(text: str) -> None:
+    """Small, wrapping label; CSS targets only markup owned by this module."""
+    st.html(
+        '<style>.detective-eyebrow {font:600 .75rem/1.5 sans-serif;'
+        'letter-spacing:.12em;text-transform:uppercase;margin:0 0 .5rem;opacity:.75;}'
+        '</style>'
+        f'<p class="detective-eyebrow">{escape(text)}</p>'
+    )
+
+
+def page_header(title: str, description: str = "", *, eyebrow: str = "Workspace") -> None:
+    _eyebrow(eyebrow)
+    st.title(title)
+    if description:
+        st.caption(description)
+
+
+def section_header(title: str, description: str = "") -> None:
+    st.subheader(title)
+    if description:
+        st.caption(description)
+
+
+def sidebar_brand() -> None:
+    st.logo(str(ROOT / ".streamlit" / "brand.svg"), size="large",
+            icon_image=str(ROOT / ".streamlit" / "icon.svg"))
+
+
+def style_chart(fig: go.Figure) -> go.Figure:
+    """Style a copy, leaving trace data, axes semantics and the source figure intact."""
+    styled = go.Figure(fig)
+    styled.update_layout(
+        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(family="Arial, sans-serif", size=12),
+        hoverlabel=dict(bgcolor="#17243a", bordercolor="#40536d", font=dict(color="#f0f5fc", size=13)),
+        hovermode="closest",
+    )
+    styled.update_xaxes(automargin=True, gridcolor=GRID)
+    styled.update_yaxes(automargin=True, gridcolor=GRID)
+    return styled
+
+
+def plotly_chart(fig: go.Figure, **kwargs):
+    """A consistent native chart surface with a heading that wraps on phones."""
+    styled = style_chart(fig)
+    title = styled.layout.title.text
+    axis_caption = styled.layout.xaxis.title.text
+    if axis_caption and len(axis_caption) > 28:
+        # Native captions wrap to the available width; Plotly axis titles do not.
+        styled.update_xaxes(title_text=None)
+    else:
+        axis_caption = None
+    if title:
+        styled.update_layout(title_text=None, margin_t=20)
+    with st.container(border=True):
+        if title:
+            st.markdown(f"**{title}**")
+        kwargs.setdefault("width", "stretch")
+        kwargs.setdefault("theme", "streamlit")
+        chart = st.plotly_chart(styled, **kwargs)
+        if axis_caption:
+            st.caption(f"Horizontal axis · {axis_caption}")
+        return chart
 
 
 def get_data() -> Loaded:
@@ -27,6 +97,13 @@ def get_data() -> Loaded:
 
 
 def source_banner(loaded: Loaded) -> None:
+    with st.sidebar.container(border=True):
+        labels = {"synthetic": "SYNTHETIC DEMO", "snapshot": "LOCAL SNAPSHOT",
+                  "remote": "PUBLISHED SNAPSHOT", "live": "LIVE API · CACHED 24 H"}
+        st.caption(f"DATASET · {labels.get(loaded.source, loaded.source)}")
+        detail = ("Fictional brands · testing only" if loaded.source == "synthetic"
+                  else "Public metrics · 30-day retention")
+        st.caption(f"Snapshot · {loaded.snapshot_date}  \n{detail}")
     if loaded.source == "synthetic":
         st.warning("**SYNTHETIC DEMO DATA.** Generated for testing with fictional brands. "
                    "These are **not** real measurements. " + loaded.note)
@@ -43,7 +120,7 @@ def brand_label(brand_id: str) -> str:
 
 def sidebar_filters(videos: pd.DataFrame) -> pd.DataFrame:
     """Apply the shared filters. Low-reliability videos (<100 views or <14 days old) are always excluded."""
-    st.sidebar.header("Filters")
+    st.sidebar.subheader("Filters")
     brands = sorted(videos["brand_id"].unique(), key=brand_label)
     chosen = st.sidebar.multiselect("Brands", brands, default=brands, format_func=brand_label, key="f_brands")
     dates = videos["published_at_pkt"].dt.date

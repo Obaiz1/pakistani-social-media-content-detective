@@ -30,15 +30,11 @@ No `.env`, dataset, processing, scientific model, statistical threshold, recomme
 
 ## Publishing
 
-Feature branch: `codex/frontend-redesign`. Origin remains `https://github.com/Obaiz1/pakistani-social-media-content-detective.git`. `gh auth status` reports an invalid `GH_TOKEN`; the push preflight fails with `could not read Username for 'https://github.com': terminal prompts disabled`. No branch or PR is published without a successful push. Historical handoff credentials describe a different machine.
+Published on 2026-11-10 to [`ali-ahmad-ai/pakistani-social-media-content-detective`, branch `codex/frontend-redesign`](https://github.com/ali-ahmad-ai/pakistani-social-media-content-detective/tree/codex/frontend-redesign). The original UI implementation commit is `1d40dee`.
 
-From this checkout, the owner can authenticate and finish publishing:
+The authorized account can read the original repository but has no upstream push permission, so publication uses a GitHub fork. `origin` still points to `Obaiz1/pakistani-social-media-content-detective`; the local `fork` remote points to the authorized account. Existing branches and upstream `main` were not overwritten.
 
-```bash
-# Replace the invalid token in environment settings, or use an interactive login:
-unset GH_TOKEN
-gh auth login --hostname github.com --git-protocol https
-gh auth setup-git
-git push -u origin codex/frontend-redesign
-gh pr create --base main --head codex/frontend-redesign --fill
-```
+- [Pull request #1 against the original repository](https://github.com/Obaiz1/pakistani-social-media-content-detective/pull/1)
+- [Download the finished source as a ZIP](https://github.com/ali-ahmad-ai/pakistani-social-media-content-detective/archive/refs/heads/codex/frontend-redesign.zip)
+
+The pull request is open for review; the redesign has not been merged or deployed to the existing hosted app. Historical handoff credentials describe a different machine, and no authentication tokens are included in the repository or download.
